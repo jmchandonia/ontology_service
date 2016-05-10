@@ -31,7 +31,7 @@ parameters :
         ui-name : |
             SEED/KBase annotated Genome Name
         short-hint : |
-            The Genome
+            SEED/KBase annotated Genome Name
     ontology_translation :
         ui-name : |
             SEED/KBase to GO translational table
