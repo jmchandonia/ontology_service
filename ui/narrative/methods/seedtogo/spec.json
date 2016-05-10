@@ -71,6 +71,10 @@
             ],
             "output_mapping": [
                 {
+                  "constant_value": "KBaseGenomes.Genome",
+                  "target_property": "type"
+                },
+                {
                   "input_parameter": "output_genome",
                   "target_property": "id"
                 },
