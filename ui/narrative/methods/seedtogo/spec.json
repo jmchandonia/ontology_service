@@ -54,33 +54,29 @@
             "input_mapping": [
                 {
                     "narrative_system_variable": "workspace",
-                    "target_argument_position": "workspace"
+                    "target_property": "workspace"
                 },
                 {
                     "input_parameter": "input_genome",
-                    "target_argument_position": "input_genome"
+                    "target_property": "input_genome"
                 },
                 {
                     "input_parameter": "ontology_translation",
-                    "target_argument_position": "ontology_translation"
+                    "target_property": "ontology_translation"
                 },
                 {
                     "input_parameter": "output_genome",
-                    "target_argument_position": "output_genome"
+                    "target_property": "output_genome"
                 }
             ],
             "output_mapping": [
                 {
-                  "constant_value": "KbaseGenomes.Genome",
-                  "target_property": "type"
-                },
-                {
-                  "input_parameter": "output_genome",
-                  "target_property": "obj"
+                  "service_method_output_path": [0],
+                  "target_property": "electronic_annotation_result"
                 },
                 {
                   "narrative_system_variable": "workspace",
-                  "target_property": "ws"
+                  "target_property": "workspace_name"
                 }
               ]
         }
