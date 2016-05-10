@@ -71,12 +71,12 @@
             ],
             "output_mapping": [
                 {
-                  "service_method_output_path": [0],
-                  "target_property": "electronic_annotation_result"
+                  "constant_value": "KBaseGenomes.Genome",
+                  "target_property": "type"
                 },
                 {
-                  "input_parameter": "output_genome",
-                  "target_property": "obj"
+                  "service_method_output_path": [0],
+                  "target_property": "electronic_annotation_result"
                 },
                 {
                   "narrative_system_variable": "workspace",
