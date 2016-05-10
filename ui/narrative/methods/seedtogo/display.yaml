@@ -1,0 +1,48 @@
+#
+# define display information
+#
+name: SEED to GO terms translation of genome annotation
+tooltip: |
+    This method translate SEED/KBase annotations into GO terms in the genome
+screenshots: []
+
+icon: icon.png
+
+#
+# define a set of similar methods that might be useful to the user
+#
+suggestions:
+    apps:
+        related:
+            []
+        next:
+            []
+    methods:
+        related:
+            []
+        next:
+            []
+
+#
+# Configure the display and description of parameters
+#
+parameters :
+    input_genome :
+        ui-name : |
+            SEED/KBase annotated Genome Name
+        short-hint : |
+            The Genome
+    ontology_translation :
+        ui-name : |
+            SEED/KBase to GO translational table
+        short-hint : |
+            This conversion table will be used for the translaion of annotations
+    output_genome :
+        ui-name : |
+            Resulting Output Genome name
+        short-hint : |
+            Resulting Output Genome name
+        long-hint  : |
+            changed annotations will be stored in this genome object.
+description : |
+    <p>This method translate SEED/KBase gene annotations into GO terms.</p>
