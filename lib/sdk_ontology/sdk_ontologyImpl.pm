@@ -262,7 +262,7 @@ sub seedtogo
             'objects'=>[{
                 'type'=>'KBaseGenomes.Genome',
                 'data'=>$genome,
-                'name'=>$outGenome."_fakeSeedtoGO",
+                'name'=>$outGenome",
                 'provenance'=>$provenance
             }]
         });
