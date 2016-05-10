@@ -75,6 +75,10 @@
                   "target_property": "electronic_annotation_result"
                 },
                 {
+                  "input_parameter": "output_genome",
+                  "target_property": "obj"
+                },
+                {
                   "narrative_system_variable": "workspace",
                   "target_property": "workspace_name"
                 }
