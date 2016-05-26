@@ -173,9 +173,11 @@ sub seedtogo
     my $wsClient=Bio::KBase::workspace::Client->new($self->{'workspace-url'},token=>$token);
     my $genome=undef;
     my $ontTr=undef;
+    my $ontWs = "KBaseOntology";
+
     eval {
         $genome=$wsClient->get_objects([{workspace=>$workspace_name,name=>$input_gen}])->[0]{data};
-        $ontTr=$wsClient->get_objects([{workspace=>$workspace_name,name=>$ont_tr}])->[0]{data}{translation};
+        $ontTr=$wsClient->get_objects([{workspace=>$ontWs,name=>$ont_tr}])->[0]{data}{translation};
     };
     if ($@) {
         die "Error loading ontology translation object from workspace:\n".$@;
@@ -198,7 +200,7 @@ sub seedtogo
         my $eq = $ontTr->{$k}->{equiv_terms};
 
         my $mRole = searchname ($r);
-        print "$mRole\n";
+        #print "$mRole\n";
         #if (exists $roles{$mRole}){
             my @tempMR;
             for (my $i=0; $i<@$eq; $i++){
@@ -215,6 +217,7 @@ sub seedtogo
 
 
     #print &Dumper (\%selectedRoles);
+    print "Following annotations are translated in the genome"
     my $changeRoles =0;
     for (my $j =0; $j< @$func_list; $j++){
         my $func = $func_list->[$j]->{function};
@@ -227,6 +230,7 @@ sub seedtogo
 
                 }
             my $joinStr = join ("|", @tempA);
+            print "func\t-\t$joinStr\n";
             $func_list->[$j]->{function} = $joinStr;
 
             $changeRoles++;
@@ -234,8 +238,8 @@ sub seedtogo
 
     }
 
-    print "number of roles changed $changeRoles\n";
-    die;
+    print "\n$changeRoles annotations were translated \n";
+    #die;
     # save the new object to the workspace
     my $obj_info_list = undef;
     eval {
