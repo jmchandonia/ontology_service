@@ -218,7 +218,7 @@ sub annotationtogo
         }
     }
 
-    print "\nTotal of $changeRoles annotations were translated \n";
+    print "\nTotal of $changeRoles feature annotations were translated \n";
     my $obj_info_list = undef;
     eval {
         $obj_info_list = $wsClient->save_objects({
@@ -236,8 +236,7 @@ sub annotationtogo
     }
     my $info = $obj_info_list->[0];
 
-    print "$changeRoles annotations have been replaced to GO terms\n";
-    print "Method sucuessfully completed\n";
+    print "\nMethod sucuessfully completed\n";
     print("saved:".Dumper($info)."\n");
     $output = { 'SEEDtoGO' => $obj_info_list};
 

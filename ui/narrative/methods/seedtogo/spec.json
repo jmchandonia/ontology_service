@@ -32,9 +32,9 @@
             "dropdown_options": {
                 "options": [
                     {
-                      "value": "seedtogo",
+                      "value": "sso2go",
                       "display": "SEED to GO",
-                      "id": "seedtogo",
+                      "id": "sso2go",
                       "ui_name": "SEED to GO"
                     },
                     {
