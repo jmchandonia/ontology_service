@@ -31,7 +31,7 @@ output_genome => "outGenome"
 
 eval {
 #my $ret =$impl->seedtogo($ws,$geno,$trt,$out);
-my $ret =$impl->seedtogo($parms);
+my $ret =$impl->annotationtogo($parms);
 
 };
 

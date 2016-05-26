@@ -140,7 +140,7 @@ public class SdkOntologyClient {
     }
 
     /**
-     * <p>Original spec-file function name: seedtogo</p>
+     * <p>Original spec-file function name: annotationtogo</p>
      * <pre>
      * </pre>
      * @param   params   instance of type {@link us.kbase.sdkontology.ElectronicAnnotationParams ElectronicAnnotationParams}
@@ -148,11 +148,11 @@ public class SdkOntologyClient {
      * @throws IOException if an IO exception occurs
      * @throws JsonClientException if a JSON RPC exception occurs
      */
-    public ElectronicAnnotationResults seedtogo(ElectronicAnnotationParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+    public ElectronicAnnotationResults annotationtogo(ElectronicAnnotationParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
         List<Object> args = new ArrayList<Object>();
         args.add(params);
         TypeReference<List<ElectronicAnnotationResults>> retType = new TypeReference<List<ElectronicAnnotationResults>>() {};
-        List<ElectronicAnnotationResults> res = caller.jsonrpcCall("sdk_ontology.seedtogo", args, retType, true, true, jsonRpcContext);
+        List<ElectronicAnnotationResults> res = caller.jsonrpcCall("sdk_ontology.annotationtogo", args, retType, true, true, jsonRpcContext);
         return res.get(0);
     }
 }

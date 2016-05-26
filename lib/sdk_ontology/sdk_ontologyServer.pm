@@ -28,37 +28,37 @@ has 'local_headers' => (is => 'ro', isa => 'HashRef');
 our $CallContext;
 
 our %return_counts = (
-        'seedtogo' => 1,
-        'seedtogo_async' => 1,
-        'seedtogo_check' => 1,
+        'annotationtogo' => 1,
+        'annotationtogo_async' => 1,
+        'annotationtogo_check' => 1,
         'version' => 1,
 );
 
 our %method_authentication = (
-        'seedtogo' => 'required',
-        'seedtogo_async' => 'required',
-        'seedtogo_check' => 'required',
+        'annotationtogo' => 'required',
+        'annotationtogo_async' => 'required',
+        'annotationtogo_check' => 'required',
 );
 
 our %sync_methods = (
-        'seedtogo' => 1,
+        'annotationtogo' => 1,
 );
 
 our %async_run_methods = (
-        'seedtogo_async' => 'sdk_ontology.seedtogo',
+        'annotationtogo_async' => 'sdk_ontology.annotationtogo',
 );
 
 our %async_check_methods = (
-        'seedtogo_check' => 'sdk_ontology.seedtogo',
+        'annotationtogo_check' => 'sdk_ontology.annotationtogo',
 );
 
 sub _build_valid_methods
 {
     my($self) = @_;
     my $methods = {
-        'seedtogo' => 1,
-        'seedtogo_async' => 1,
-        'seedtogo_check' => 1,
+        'annotationtogo' => 1,
+        'annotationtogo_async' => 1,
+        'annotationtogo_check' => 1,
         'version' => 1,
     };
     return $methods;

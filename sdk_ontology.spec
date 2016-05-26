@@ -29,6 +29,6 @@ module sdk_ontology {
     } ElectronicAnnotationResults;
 
 
-    funcdef seedtogo(ElectronicAnnotationParams params) returns (ElectronicAnnotationResults output)
+    funcdef annotationtogo(ElectronicAnnotationParams params) returns (ElectronicAnnotationResults output)
         authentication required;
 };

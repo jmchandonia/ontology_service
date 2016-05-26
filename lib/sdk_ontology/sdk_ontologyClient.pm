@@ -110,9 +110,9 @@ sub new
 
 
 
-=head2 seedtogo
+=head2 annotationtogo
 
-  $output = $obj->seedtogo($params)
+  $output = $obj->annotationtogo($params)
 
 =over 4
 
@@ -166,7 +166,7 @@ ElectronicAnnotationResults is a reference to a hash where the following keys ar
 
 =cut
 
- sub seedtogo
+ sub annotationtogo
 {
     my($self, @args) = @_;
 
@@ -175,7 +175,7 @@ ElectronicAnnotationResults is a reference to a hash where the following keys ar
     if ((my $n = @args) != 1)
     {
 	Bio::KBase::Exceptions::ArgumentValidationError->throw(error =>
-							       "Invalid argument count for function seedtogo (received $n, expecting 1)");
+							       "Invalid argument count for function annotationtogo (received $n, expecting 1)");
     }
     {
 	my($params) = @args;
@@ -183,30 +183,30 @@ ElectronicAnnotationResults is a reference to a hash where the following keys ar
 	my @_bad_arguments;
         (ref($params) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument 1 \"params\" (value was \"$params\")");
         if (@_bad_arguments) {
-	    my $msg = "Invalid arguments passed to seedtogo:\n" . join("", map { "\t$_\n" } @_bad_arguments);
+	    my $msg = "Invalid arguments passed to annotationtogo:\n" . join("", map { "\t$_\n" } @_bad_arguments);
 	    Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
-								   method_name => 'seedtogo');
+								   method_name => 'annotationtogo');
 	}
     }
 
     my $result = $self->{client}->call($self->{url}, $self->{headers}, {
-	method => "sdk_ontology.seedtogo",
+	method => "sdk_ontology.annotationtogo",
 	params => \@args,
     });
     if ($result) {
 	if ($result->is_error) {
 	    Bio::KBase::Exceptions::JSONRPC->throw(error => $result->error_message,
 					       code => $result->content->{error}->{code},
-					       method_name => 'seedtogo',
+					       method_name => 'annotationtogo',
 					       data => $result->content->{error}->{error} # JSON::RPC::ReturnObject only supports JSONRPC 1.1 or 1.O
 					      );
 	} else {
 	    return wantarray ? @{$result->result} : $result->result->[0];
 	}
     } else {
-        Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method seedtogo",
+        Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method annotationtogo",
 					    status_line => $self->{client}->status_line,
-					    method_name => 'seedtogo',
+					    method_name => 'annotationtogo',
 				       );
     }
 }
@@ -224,16 +224,16 @@ sub version {
             Bio::KBase::Exceptions::JSONRPC->throw(
                 error => $result->error_message,
                 code => $result->content->{code},
-                method_name => 'seedtogo',
+                method_name => 'annotationtogo',
             );
         } else {
             return wantarray ? @{$result->result} : $result->result->[0];
         }
     } else {
         Bio::KBase::Exceptions::HTTP->throw(
-            error => "Error invoking method seedtogo",
+            error => "Error invoking method annotationtogo",
             status_line => $self->{client}->status_line,
-            method_name => 'seedtogo',
+            method_name => 'annotationtogo',
         );
     }
 }

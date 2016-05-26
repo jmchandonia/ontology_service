@@ -1,7 +1,7 @@
 {
     "ver": "0.0.1",
     "authors": [
-        "janakakbase"
+        "janaka"
     ],
     "contact": "janakaed@anl.gov",
     "visible": true,
@@ -76,7 +76,7 @@
         "service-mapping": {
             "url": "",
             "name": "sdk_ontology",
-            "method": "seedtogo",
+            "method": "annotationtogo",
             "input_mapping": [
                 {
                     "narrative_system_variable": "workspace",

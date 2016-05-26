@@ -39,7 +39,7 @@ parameters :
             This conversion type will be used to translate annotations
     output_genome :
         ui-name : |
-            Resulting Output Genome name
+            Output Genome name
         short-hint : |
             Resulting Output Genome name
         long-hint  : |

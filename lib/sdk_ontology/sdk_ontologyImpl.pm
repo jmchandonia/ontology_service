@@ -63,13 +63,13 @@ sub new
     return $self;
 }
 
-
 =head1 METHODS
 
 
-=head2 seedtogo
 
-  $output = $obj->seedtogo($params)
+=head2 annotationtogo
+
+  $output = $obj->annotationtogo($params)
 
 =over 4
 
@@ -125,7 +125,7 @@ ElectronicAnnotationResults is a reference to a hash where the following keys ar
 
 =cut
 
-sub seedtogo
+sub annotationtogo
 {
     my $self = shift;
     my($params) = @_;
@@ -133,18 +133,16 @@ sub seedtogo
     my @_bad_arguments;
     (ref($params) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument \"params\" (value was \"$params\")");
     if (@_bad_arguments) {
-	my $msg = "Invalid arguments passed to seedtogo:\n" . join("", map { "\t$_\n" } @_bad_arguments);
+	my $msg = "Invalid arguments passed to annotationtogo:\n" . join("", map { "\t$_\n" } @_bad_arguments);
 	Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
-							       method_name => 'seedtogo');
+							       method_name => 'annotationtogo');
     }
 
     my $ctx = $sdk_ontology::sdk_ontologyServer::CallContext;
     my($output);
-    #BEGIN seedtogo
+    #BEGIN annotationtogo
 
-    print &Dumper ($params);
-
-    print("Starting sdk_ontology method.\n");
+    print("Starting sdk_ontology method...\n\n");
 
     if (!exists $params->{'workspace'}) {
         die "Parameter workspace is not set in input arguments";
@@ -183,41 +181,26 @@ sub seedtogo
         die "Error loading ontology translation object from workspace:\n".$@;
     }
     my $func_list = $genome->{features};
-    #print &Dumper ($ontTr);
-    #die;
     my %roles;
     my @rolesArr;
-
-
     my $role_match_count=1;
     my %selectedRoles;
 
-
     foreach my $k (keys $ontTr){
-        #print "$k\n";
-
         my $r = $ontTr->{$k}->{name};
         my $eq = $ontTr->{$k}->{equiv_terms};
 
         my $mRole = searchname ($r);
-        #print "$mRole\n";
-        #if (exists $roles{$mRole}){
             my @tempMR;
             for (my $i=0; $i<@$eq; $i++){
-
                 my $e_name = $eq->[$i]->{equiv_name};
                 my $e_term = $eq->[$i]->{equiv_term};
-                #print "$e_name\n";
                 push (@tempMR, $e_name);
             }
             $selectedRoles{$mRole} = \@tempMR;
-            #$role_match_count++;
-        #}
     }
 
-
-    #print &Dumper (\%selectedRoles);
-    print "Following annotations are translated in the genome"
+    print "Following annotations were translated in the genome\n";
     my $changeRoles =0;
     for (my $j =0; $j< @$func_list; $j++){
         my $func = $func_list->[$j]->{function};
@@ -227,20 +210,15 @@ sub seedtogo
                 my @tempA;
                 for (my $i=0; $i< @$nrL; $i++){
                     push(@tempA, $nrL->[$i]);
-
                 }
             my $joinStr = join ("|", @tempA);
-            print "func\t-\t$joinStr\n";
+            print "$func\t-\t$joinStr\n";
             $func_list->[$j]->{function} = $joinStr;
-
             $changeRoles++;
         }
-
     }
 
-    print "\n$changeRoles annotations were translated \n";
-    #die;
-    # save the new object to the workspace
+    print "\nTotal of $changeRoles annotations were translated \n";
     my $obj_info_list = undef;
     eval {
         $obj_info_list = $wsClient->save_objects({
@@ -263,14 +241,13 @@ sub seedtogo
     print("saved:".Dumper($info)."\n");
     $output = { 'SEEDtoGO' => $obj_info_list};
 
-
-    #END seedtogo
+    #END annotationtogo
     my @_bad_returns;
     (ref($output) eq 'HASH') or push(@_bad_returns, "Invalid type for return variable \"output\" (value was \"$output\")");
     if (@_bad_returns) {
-	my $msg = "Invalid returns passed to seedtogo:\n" . join("", map { "\t$_\n" } @_bad_returns);
+	my $msg = "Invalid returns passed to annotationtogo:\n" . join("", map { "\t$_\n" } @_bad_returns);
 	Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
-							       method_name => 'seedtogo');
+							       method_name => 'annotationtogo');
     }
     return($output);
 }
