@@ -26,15 +26,15 @@ use Data::Dumper;
 
 sub searchname
 {
-     my $roleArray = $_[0];
-     $roleArray =~ s/^\s+//;
-        $roleArray =~ tr/A-Z/a-z/;
-        $roleArray =~ s/[\s]//g;
-        $roleArray =~ s/(?<=\(ec)[^)]+[^(]+(?=\))//g;
+    my $sn = $_[0];
+    $sn =~ s/^\s+//;
+    $sn =~ s/_//g;
+    $sn =~ tr/A-Z/a-z/;
+    $sn =~ s/[\s]//g;
+    $sn =~ s/(?<=\(ec)[^)]+[^(]+(?=\))//g;
+    $sn =~ s/(?<=\(tc)[^)]+[^(]+(?=\))//g;
 
-    return $roleArray;
-
-    # print "The result was: $roleArray\n";
+    return $sn;
 
 }
 #END_HEADER
@@ -178,59 +178,39 @@ sub seedtogo
         $ontTr=$wsClient->get_objects([{workspace=>$workspace_name,name=>$ont_tr}])->[0]{data}{translation};
     };
     if ($@) {
-        die "Error loading original ContigSet object from workspace:\n".$@;
+        die "Error loading ontology translation object from workspace:\n".$@;
     }
     my $func_list = $genome->{features};
-    #print &Dumper ($func_list);
+    #print &Dumper ($ontTr);
     #die;
     my %roles;
     my @rolesArr;
-    for (my $i =0; $i< @$func_list; $i++){
-        my $func = $func_list->[$i]->{function};
-
-        my $sn = searchname($func);
-         push(@rolesArr, $sn);
-        #print "$sn\n";
-        $roles{$sn} = $func;
-    }
-
-=head
-     my $count=0;
-    #my @keys = keys %hash ;
-    foreach my $key ( keys $ontTr ) {
 
 
-         (my $newkey = $key ) =~ s/^EC/$rolesArr[$count]/ ;
-        $ontTr->{$newkey} = $ontTr->{$key} ;
-        delete $ontTr->{$key};
-    }
-=cut
-    my $count=1;
+    my $role_match_count=1;
     my %selectedRoles;
 
+
     foreach my $k (keys $ontTr){
-        #print "$rolesArr[$count]\n";
-        #my $eff = $ontTr->{$k}->{equiv_terms};
-        my $mRole = searchname ($k);
-        #temperory assigning functional roles
-        $mRole = $rolesArr[$count];
-        $roles{$mRole} = $k;
-        $count++;
+        #print "$k\n";
 
-        if (exists $roles{$mRole}){
+        my $r = $ontTr->{$k}->{name};
+        my $eq = $ontTr->{$k}->{equiv_terms};
 
-            my $ef = $ontTr->{$k}->{equiv_terms};
+        my $mRole = searchname ($r);
+        print "$mRole\n";
+        #if (exists $roles{$mRole}){
             my @tempMR;
-            for (my $i=0; $i< @$ef; $i++){
-                my $srole = $ef->[$i]->{equiv_name};
-                my $sterm = $ef->[$i]->{equiv_term};
-                push (@tempMR, $srole);
-               #print "$srole\n";
-            }
-            #change mRole back to k
-            $selectedRoles{$mRole} = \@tempMR;
-        }
+            for (my $i=0; $i<@$eq; $i++){
 
+                my $e_name = $eq->[$i]->{equiv_name};
+                my $e_term = $eq->[$i]->{equiv_term};
+                #print "$e_name\n";
+                push (@tempMR, $e_name);
+            }
+            $selectedRoles{$mRole} = \@tempMR;
+            #$role_match_count++;
+        #}
     }
 
 
@@ -254,6 +234,8 @@ sub seedtogo
 
     }
 
+    print "number of roles changed $changeRoles\n";
+    die;
     # save the new object to the workspace
     my $obj_info_list = undef;
     eval {

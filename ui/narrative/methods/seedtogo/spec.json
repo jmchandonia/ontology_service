@@ -27,10 +27,36 @@
             "optional": false,
             "advanced": false,
             "allow_multiple": false,
-            "default_values": [ "" ],
-            "field_type": "text",
-            "text_options": {
-                "valid_ws_types": [ "KBaseOntology.OntologyTranslation" ]
+            "default_values": [ "SEED to GO" ],
+            "field_type": "dropdown",
+            "dropdown_options": {
+                "options": [
+                    {
+                      "value": "seedtogo",
+                      "display": "SEED to GO",
+                      "id": "seedtogo",
+                      "ui_name": "SEED to GO"
+                    },
+                    {
+                      "value": "pfam2go",
+                      "display": "PFAM to GO",
+                      "id": "pfam2go",
+                      "ui_name": "PFAM to GO"
+                    },
+                    {
+                      "value": "interpro2go",
+                      "display": "Interpro to GO",
+                      "id": "interpro2go",
+                      "ui_name": "Interpro to GO"
+                    },
+                    {
+                      "value": "ec2go",
+                      "display": "EC to GO",
+                      "id": "ec2go",
+                      "ui_name": "EC to GO"
+                    }
+                ]
+
             }
         },
         {
