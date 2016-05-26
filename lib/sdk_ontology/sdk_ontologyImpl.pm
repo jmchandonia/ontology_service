@@ -211,7 +211,7 @@ sub annotationtogo
                 for (my $i=0; $i< @$nrL; $i++){
                     push(@tempA, $nrL->[$i]);
                 }
-            my $joinStr = join ("|", @tempA);
+            my $joinStr = join (" | ", @tempA);
             print "$func\t-\t$joinStr\n";
             $func_list->[$j]->{function} = $joinStr;
             $changeRoles++;
