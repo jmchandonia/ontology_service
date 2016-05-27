@@ -1,7 +1,7 @@
 #
 # define display information
 #
-name: Translate Genome Annotations to GO (Generic)
+name: Remap annotations based on Ontology translation table
 tooltip: |
     This method translate existing genome annotations into GO terms for a given genome
 screenshots: []
