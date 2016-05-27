@@ -1,7 +1,7 @@
 #
 # define display information
 #
-name: Remap annotations based on Ontology translation table
+name:
 tooltip: |
     This method translate existing genome annotations into GO terms for a given genome
 screenshots: []
@@ -39,9 +39,9 @@ parameters :
             This conversion type will be used to translate annotations
     custom_translation :
         ui-name : |
-            Custom Tranlation table
+            Optional Custom Tranlational table
         short-hint : |
-            Select Custom Translation option above, then select the table
+            Select Custom Translation option above in Translation type field, then select the table
     output_genome :
         ui-name : |
             Output Genome name
