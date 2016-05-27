@@ -2,7 +2,7 @@ package sdk_ontology::sdk_ontologyImpl;
 use strict;
 use Bio::KBase::Exceptions;
 # Use Semantic Versioning (2.0.0-rc.1)
-# http://semver.org 
+# http://semver.org
 our $VERSION = "0.1.0";
 
 =head1 NAME
@@ -172,6 +172,7 @@ sub annotationtogo
     }
     else{
         $cus_tr=$params->{'custom_translation'};
+        print "Using the custom translational table.."
     }
 
 
@@ -191,6 +192,10 @@ sub annotationtogo
     if (defined $cus_tr && $ont_tr eq "custom"){
         $ontWs=$workspace_name;
         $ont_tr=$cus_tr;
+    }
+    else{
+
+        die "Custome translationial table is not provided\n\n";
     }
 
     eval {
@@ -274,7 +279,7 @@ sub annotationtogo
 
 
 
-=head2 version 
+=head2 version
 
   $return = $obj->version()
 
