@@ -28,6 +28,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "workspace",
     "input_genome",
     "ontology_translation",
+    "custom_translation",
     "output_genome"
 })
 public class ElectronicAnnotationParams {
@@ -38,6 +39,8 @@ public class ElectronicAnnotationParams {
     private String inputGenome;
     @JsonProperty("ontology_translation")
     private String ontologyTranslation;
+    @JsonProperty("custom_translation")
+    private String customTranslation;
     @JsonProperty("output_genome")
     private String outputGenome;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -87,6 +90,21 @@ public class ElectronicAnnotationParams {
         return this;
     }
 
+    @JsonProperty("custom_translation")
+    public String getCustomTranslation() {
+        return customTranslation;
+    }
+
+    @JsonProperty("custom_translation")
+    public void setCustomTranslation(String customTranslation) {
+        this.customTranslation = customTranslation;
+    }
+
+    public ElectronicAnnotationParams withCustomTranslation(String customTranslation) {
+        this.customTranslation = customTranslation;
+        return this;
+    }
+
     @JsonProperty("output_genome")
     public String getOutputGenome() {
         return outputGenome;
@@ -114,7 +132,7 @@ public class ElectronicAnnotationParams {
 
     @Override
     public String toString() {
-        return ((((((((((("ElectronicAnnotationParams"+" [workspace=")+ workspace)+", inputGenome=")+ inputGenome)+", ontologyTranslation=")+ ontologyTranslation)+", outputGenome=")+ outputGenome)+", additionalProperties=")+ additionalProperties)+"]");
+        return ((((((((((((("ElectronicAnnotationParams"+" [workspace=")+ workspace)+", inputGenome=")+ inputGenome)+", ontologyTranslation=")+ ontologyTranslation)+", customTranslation=")+ customTranslation)+", outputGenome=")+ outputGenome)+", additionalProperties=")+ additionalProperties)+"]");
     }
 
 }

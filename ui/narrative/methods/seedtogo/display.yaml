@@ -37,6 +37,11 @@ parameters :
             Tranlation type
         short-hint : |
             This conversion type will be used to translate annotations
+    custom_translation :
+        ui-name : |
+            Custom Tranlation table
+        short-hint : |
+            Select Custom Translation option above, then select the table
     output_genome :
         ui-name : |
             Output Genome name

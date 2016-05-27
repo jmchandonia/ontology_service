@@ -25,7 +25,8 @@ my $impl = new sdk_ontology::sdk_ontologyImpl();
 my $parms = {
 input_genome => "ecoli",
 workspace => "janakakbase:1455821214132",
-ontology_translation => "pfam2go",
+ontology_translation => "sso2go",
+custom_translation => "custom",
 output_genome => "outGenome"
 };
 

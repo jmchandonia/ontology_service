@@ -84,6 +84,7 @@ ElectronicAnnotationParams is a reference to a hash where the following keys are
 	workspace has a value which is a string
 	input_genome has a value which is a string
 	ontology_translation has a value which is a string
+	custom_translation has a value which is a string
 	output_genome has a value which is a string
 ElectronicAnnotationResults is a reference to a hash where the following keys are defined:
 	report_name has a value which is a string
@@ -104,6 +105,7 @@ ElectronicAnnotationParams is a reference to a hash where the following keys are
 	workspace has a value which is a string
 	input_genome has a value which is a string
 	ontology_translation has a value which is a string
+	custom_translation has a value which is a string
 	output_genome has a value which is a string
 ElectronicAnnotationResults is a reference to a hash where the following keys are defined:
 	report_name has a value which is a string
@@ -161,6 +163,18 @@ sub annotationtogo
     }
     my $ont_tr=$params->{'ontology_translation'};
 
+    my $cus_tr;
+    if (!exists $params->{'custom_translation'} && $ont_tr eq "custom") {
+        die "Provide the custom translation table as an input\n\n";
+    }
+    elsif (exists $params->{'custom_translation'} && $ont_tr ne "custom"){
+        print "Using the selected translational table from the dropdown..\n\n"
+    }
+    else{
+        $cus_tr=$params->{'custom_translation'};
+    }
+
+
     if (!exists $params->{'output_genome'}) {
         die "Parameter output_genome is not set in input arguments";
     }
@@ -171,7 +185,13 @@ sub annotationtogo
     my $wsClient=Bio::KBase::workspace::Client->new($self->{'workspace-url'},token=>$token);
     my $genome=undef;
     my $ontTr=undef;
+    my $cusTr=undef;
     my $ontWs = "KBaseOntology";
+
+    if (defined $cus_tr && $ont_tr eq "custom"){
+        $ontWs=$workspace_name;
+        $ont_tr=$cus_tr;
+    }
 
     eval {
         $genome=$wsClient->get_objects([{workspace=>$workspace_name,name=>$input_gen}])->[0]{data};
@@ -317,6 +337,7 @@ a reference to a hash where the following keys are defined:
 workspace has a value which is a string
 input_genome has a value which is a string
 ontology_translation has a value which is a string
+custom_translation has a value which is a string
 output_genome has a value which is a string
 
 </pre>
@@ -329,6 +350,7 @@ a reference to a hash where the following keys are defined:
 workspace has a value which is a string
 input_genome has a value which is a string
 ontology_translation has a value which is a string
+custom_translation has a value which is a string
 output_genome has a value which is a string
 
 

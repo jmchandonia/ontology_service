@@ -54,9 +54,33 @@
                       "display": "EC to GO",
                       "id": "ec2go",
                       "ui_name": "EC to GO"
+                    },
+                    {
+                      "value": "uniprotkb_kw2go",
+                      "display": "Uniprot to GO",
+                      "id": "uniprotkb_kw2go",
+                      "ui_name": "Uniprot to GO"
+                    },
+                    {
+                      "value": "custom",
+                      "display": "Custom Translation",
+                      "id": "custom",
+                      "ui_name": "Custom Translation"
                     }
+
                 ]
 
+            }
+        },
+        {
+            "id" : "custom_translation",
+            "optional" : true,
+            "advanced" : false,
+            "allow_multiple" : false,
+            "default_values" : [ "" ],
+            "field_type" : "text",
+            "text_options" : {
+            "valid_ws_types" : [ "KBaseOntology.OntologyTranslation" ]
             }
         },
         {
@@ -89,6 +113,10 @@
                 {
                     "input_parameter": "ontology_translation",
                     "target_property": "ontology_translation"
+                },
+                {
+                    "input_parameter": "custom_translation",
+                    "target_property": "custom_translation"
                 },
                 {
                     "input_parameter": "output_genome",
