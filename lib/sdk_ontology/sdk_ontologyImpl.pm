@@ -2,7 +2,7 @@ package sdk_ontology::sdk_ontologyImpl;
 use strict;
 use Bio::KBase::Exceptions;
 # Use Semantic Versioning (2.0.0-rc.1)
-# http://semver.org
+# http://semver.org 
 our $VERSION = "0.1.0";
 
 =head1 NAME
@@ -274,7 +274,7 @@ sub annotationtogo
 
 
 
-=head2 version
+=head2 version 
 
   $return = $obj->version()
 
