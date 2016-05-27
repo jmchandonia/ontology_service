@@ -193,11 +193,12 @@ sub annotationtogo
         $ontWs=$workspace_name;
         $ont_tr=$cus_tr;
     }
+=head
     else{
 
         die "Custome translationial table is not provided\n\n";
     }
-
+=cut
     eval {
         $genome=$wsClient->get_objects([{workspace=>$workspace_name,name=>$input_gen}])->[0]{data};
         $ontTr=$wsClient->get_objects([{workspace=>$ontWs,name=>$ont_tr}])->[0]{data}{translation};
