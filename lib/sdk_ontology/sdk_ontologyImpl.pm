@@ -172,7 +172,7 @@ sub annotationtogo
     }
     else{
         $cus_tr=$params->{'custom_translation'};
-        print "Using the custom translational table.."
+        print "Using the custom translational table..\n\n"
     }
 
 
