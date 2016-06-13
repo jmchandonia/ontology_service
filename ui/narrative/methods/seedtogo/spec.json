@@ -73,6 +73,55 @@
             }
         },
         {
+            "id": "translation_behavior",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "translate from feature annotations only" ],
+            "field_type": "dropdown",
+            "dropdown_options": {
+                "options": [
+                    {
+                      "value": "featureOnly",
+                      "display": "translate from feature annotations only",
+                      "id": "featureOnly",
+                      "ui_name": "translate from feature annotations only"
+                    },
+                    {
+                      "value": "ontologyOnly",
+                      "display": "translate from feature Ontology",
+                      "id": "ontologyOnly",
+                      "ui_name": "translate from feature Ontology"
+                    },
+                    {
+                      "value": "annoandOnt",
+                      "display": "translate from both feature annotations and Ontology",
+                      "id": "annoandOnt",
+                      "ui_name": "translate from both feature annotations and Ontology"
+                    }
+
+                ]
+
+            }
+        },
+        {
+         "field_type" : "checkbox",
+         "allow_multiple" : false,
+         "optional" : false,
+         "id" : "clear_existing",
+         "advanced" : false,
+         "default_values" : [
+            "0"
+         ],
+          "checkbox_options" : {
+            "unchecked_value" : 0,
+            "checked_value" : 1
+          },
+          "text_options" : {
+            "valid_ws_types" : []
+          }
+        },
+        {
             "id" : "custom_translation",
             "optional" : true,
             "advanced" : false,
@@ -85,16 +134,17 @@
         },
         {
             "id" : "output_genome",
-            "optional" : false,
+            "optional" : true,
             "advanced" : false,
             "allow_multiple" : false,
             "default_values" : [ "" ],
             "field_type" : "text",
             "text_options" : {
-            "valid_ws_types" : [ "KBaseGenomes.Genome" ],
+            "valid_ws_types" : [ ],
             "is_output_name":true
             }
          }
+
     ],
     "behavior": {
         "service-mapping": {

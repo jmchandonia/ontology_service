@@ -37,6 +37,16 @@ parameters :
             Tranlation type
         short-hint : |
             This conversion type will be used to translate annotations
+    translation_behavior :
+        ui-name : |
+            Tranlational behavior
+        short-hint : |
+            Translational behavior
+    clear_existing :
+        ui-name : |
+            Clear existing terms
+        short-hint : |
+            Clear existing terms
     custom_translation :
         ui-name : |
             Optional Custom Tranlational table
