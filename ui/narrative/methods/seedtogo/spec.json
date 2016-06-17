@@ -27,7 +27,7 @@
             "optional": false,
             "advanced": false,
             "allow_multiple": false,
-            "default_values": [ "SEED to GO" ],
+            "default_values": [ "sso2go" ],
             "field_type": "dropdown",
             "dropdown_options": {
                 "options": [
@@ -71,7 +71,7 @@
             "optional": false,
             "advanced": false,
             "allow_multiple": false,
-            "default_values": [ "translate from feature annotations only" ],
+            "default_values": [ "featureOnly" ],
             "field_type": "dropdown",
             "dropdown_options": {
                 "options": [
