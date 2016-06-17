@@ -127,6 +127,7 @@ ElectronicAnnotationParams is a reference to a hash where the following keys are
 	workspace has a value which is a string
 	input_genome has a value which is a string
 	ontology_translation has a value which is a string
+	translation_behavior has a value which is a string
 	custom_translation has a value which is a string
 	output_genome has a value which is a string
 ElectronicAnnotationResults is a reference to a hash where the following keys are defined:
@@ -148,6 +149,7 @@ ElectronicAnnotationParams is a reference to a hash where the following keys are
 	workspace has a value which is a string
 	input_genome has a value which is a string
 	ontology_translation has a value which is a string
+	translation_behavior has a value which is a string
 	custom_translation has a value which is a string
 	output_genome has a value which is a string
 ElectronicAnnotationResults is a reference to a hash where the following keys are defined:
@@ -297,6 +299,7 @@ a reference to a hash where the following keys are defined:
 workspace has a value which is a string
 input_genome has a value which is a string
 ontology_translation has a value which is a string
+translation_behavior has a value which is a string
 custom_translation has a value which is a string
 output_genome has a value which is a string
 
@@ -310,6 +313,7 @@ a reference to a hash where the following keys are defined:
 workspace has a value which is a string
 input_genome has a value which is a string
 ontology_translation has a value which is a string
+translation_behavior has a value which is a string
 custom_translation has a value which is a string
 output_genome has a value which is a string
 

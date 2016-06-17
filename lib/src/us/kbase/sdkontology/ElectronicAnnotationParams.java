@@ -28,6 +28,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "workspace",
     "input_genome",
     "ontology_translation",
+    "translation_behavior",
     "custom_translation",
     "output_genome"
 })
@@ -39,6 +40,8 @@ public class ElectronicAnnotationParams {
     private String inputGenome;
     @JsonProperty("ontology_translation")
     private String ontologyTranslation;
+    @JsonProperty("translation_behavior")
+    private String translationBehavior;
     @JsonProperty("custom_translation")
     private String customTranslation;
     @JsonProperty("output_genome")
@@ -90,6 +93,21 @@ public class ElectronicAnnotationParams {
         return this;
     }
 
+    @JsonProperty("translation_behavior")
+    public String getTranslationBehavior() {
+        return translationBehavior;
+    }
+
+    @JsonProperty("translation_behavior")
+    public void setTranslationBehavior(String translationBehavior) {
+        this.translationBehavior = translationBehavior;
+    }
+
+    public ElectronicAnnotationParams withTranslationBehavior(String translationBehavior) {
+        this.translationBehavior = translationBehavior;
+        return this;
+    }
+
     @JsonProperty("custom_translation")
     public String getCustomTranslation() {
         return customTranslation;
@@ -132,7 +150,7 @@ public class ElectronicAnnotationParams {
 
     @Override
     public String toString() {
-        return ((((((((((((("ElectronicAnnotationParams"+" [workspace=")+ workspace)+", inputGenome=")+ inputGenome)+", ontologyTranslation=")+ ontologyTranslation)+", customTranslation=")+ customTranslation)+", outputGenome=")+ outputGenome)+", additionalProperties=")+ additionalProperties)+"]");
+        return ((((((((((((((("ElectronicAnnotationParams"+" [workspace=")+ workspace)+", inputGenome=")+ inputGenome)+", ontologyTranslation=")+ ontologyTranslation)+", translationBehavior=")+ translationBehavior)+", customTranslation=")+ customTranslation)+", outputGenome=")+ outputGenome)+", additionalProperties=")+ additionalProperties)+"]");
     }
 
 }

@@ -38,12 +38,6 @@
                       "ui_name": "SEED to GO"
                     },
                     {
-                      "value": "pfam2go",
-                      "display": "PFAM to GO",
-                      "id": "pfam2go",
-                      "ui_name": "PFAM to GO"
-                    },
-                    {
                       "value": "interpro2go",
                       "display": "Interpro to GO",
                       "id": "interpro2go",
@@ -163,6 +157,10 @@
                 {
                     "input_parameter": "ontology_translation",
                     "target_property": "ontology_translation"
+                },
+                {
+                    "input_parameter": "translation_behavior",
+                    "target_property": "translation_behavior"
                 },
                 {
                     "input_parameter": "custom_translation",

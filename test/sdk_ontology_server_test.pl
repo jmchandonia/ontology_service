@@ -23,17 +23,27 @@ my $impl = new sdk_ontology::sdk_ontologyImpl();
 #my $exp = "Shew_proper_data";
 #my $geno = "Shew_GenBank_RAST_tk_reannotation";
 
-my $parms = {
+my $params = {
 input_genome => "ecoli",
 workspace => "janakakbase:1455821214132",
-ontology_translation => "custom",
-custom_translation => "sso2go",
-output_genome => "outGenome"
+ontology_translation => "sso2go",
+translation_behavior => "tFO",
+custom_translation => "",
+output_genome => "ecoliModified"
+};
+
+my $shew = {
+input_genome => "she_sso2go",
+workspace => "janakakbase:1455821214132",
+ontology_translation => "interpro2go",
+translation_behavior => "featureOnly",
+custom_translation => "",
+output_genome => "defined_sso2go"
 };
 
 eval {
 	#my $ret =$impl->seedtogo($ws,$geno,$trt,$out);
-  	my $ret =$impl->annotationtogo($parms);
+  	my $ret =$impl->annotationtogo($shew);
 };
 
 my $err = undef;

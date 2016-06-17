@@ -17,7 +17,8 @@ module sdk_ontology {
         string workspace;
         string input_genome;
         string ontology_translation;
- 	 string custom_translation;
+        string translation_behavior;
+ 	    string custom_translation;
         string output_genome;
     } ElectronicAnnotationParams;
 

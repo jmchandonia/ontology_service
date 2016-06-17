@@ -33,8 +33,137 @@ sub searchname
     $sn =~ s/[\s]//g;
     $sn =~ s/(?<=\(ec)[^)]+[^(]+(?=\))//g;
     $sn =~ s/(?<=\(tc)[^)]+[^(]+(?=\))//g;
-
     return $sn;
+
+}
+
+sub featureTranslate{
+    my ($genome, $ontTr, $ontRef, $ont_tr) = @_;
+
+    my $func_list = $genome->{features};
+    my %roles;
+    my @rolesArr;
+    my $role_match_count=1;
+    my %selectedRoles;
+    my %termName;
+    my %termId;
+
+    foreach my $k (keys $ontTr){
+        my $r = $ontTr->{$k}->{name};
+        my $eq = $ontTr->{$k}->{equiv_terms};
+
+        my $mRole = searchname ($r);
+            my @tempMR;
+            for (my $i=0; $i<@$eq; $i++){
+                my $e_name = $eq->[$i]->{equiv_name};
+                my $e_term = $eq->[$i]->{equiv_term};
+                $termName{$e_name} = $e_term;
+                $termId{$mRole} = [$r,$k];
+                push (@tempMR, $e_name);
+            }
+            $selectedRoles{$mRole} = \@tempMR;
+    }
+
+    print "Following annotations were translated in the genome\n";
+    my $retval = time();
+    my $local_time = gmtime( $retval);
+    my $vs = version ();
+
+
+    my $changeRoles =0;
+    for (my $j =0; $j< @$func_list; $j++){
+        my $func = $func_list->[$j]->{function};
+        my $sn = searchname($func);
+        if (exists $selectedRoles{$sn} && !defined ($func_list->[$j]->{ontology_terms}) ){
+             my $onD ={
+                term_id => {}
+            };
+
+            my $ontEvi = {
+                method => $ont_tr,
+                method_version => $vs,
+                timestamp => $local_time,
+                translation_provenance => [],
+                alignment_evidence => []
+            };
+
+            my $ontData ={
+
+                id => "",
+                ontology_ref =>"",
+                term_lineage => [],
+                term_name => "",
+                evidence => []
+            };
+            $func_list->[$j]->{ontology_terms} = {
+                     GO => $onD
+            };
+
+            my $nrL = $selectedRoles{$sn};
+                my @tempA;
+                for (my $i=0; $i< @$nrL; $i++){
+                    push(@tempA, $nrL->[$i]);
+                    $ontData->{id} = $termId{$sn}->[1]; #$termName{$nrL->[$i]};
+                    $ontData->{ontology_ref} = "dictionary ref";
+                    $ontData->{term_name} = $termId{$sn}->[0];#$nrL->[$i];
+                    $ontEvi->{translation_provenance} = [$ontRef, $nrL->[$i], $func];
+                    push (@{$ontData->{evidence}},$ontEvi);
+                    $onD->{term_id} = $ontData;
+                    #$onD->{$ont_tr} = $ontData;
+                    $ontEvi = {
+                        method => $ont_tr,
+                        method_version => $vs,
+                        timestamp => $local_time,
+                        translation_provenance => [],
+                        alignment_evidence => []
+                    };
+
+
+                }
+                #print &Dumper ($func_list->[$j]->{ontology_terms});
+                #print &Dumper ($onhash);
+                #die;
+            my $joinStr = join (" | ", @tempA);
+            print "$func\t-\t$joinStr\n";
+            #$func_list->[$j]->{function} = $joinStr;
+            $changeRoles++;
+            print "\nTotal of $changeRoles feature annotations were translated \n";
+        }
+        elsif (exists $selectedRoles{$sn} && defined ($func_list->[$j]->{ontology_terms}) ) {
+
+            my $nrL = $selectedRoles{$sn};
+                my @tempA;
+                for (my $i=0; $i< @$nrL; $i++){
+                     push(@tempA, $nrL->[$i]);
+                     my $new_term = $func_list->[$j]->{ontology_terms}->{GO}->{term_id};
+
+                     $new_term->{id} = $termId{$sn}->[1]; #$termName{$nrL->[$i]};
+                     $new_term->{ontology_ref} = "dictionary ref";
+                     $new_term->{term_name} = $termId{$sn}->[0];#$nrL->[$i];
+
+                     my $ontEvi = {
+                                method => $ont_tr,
+                                method_version => $vs,
+                                timestamp => $local_time,
+                                translation_provenance => [],
+                                alignment_evidence => []
+                     };
+                     $ontEvi->{translation_provenance} = [$ontRef, $nrL->[$i], $func];
+                     push (@{$new_term->{evidence}},$ontEvi);
+                }
+                my $joinStr = join (" | ", @tempA);
+                print "$func\t-\t$joinStr\n";
+                #$func_list->[$j]->{function} = $joinStr;
+                $changeRoles++;
+              #print &Dumper ( $func_list->[$j]->{ontology_terms}->{GO}->{term_id});
+              print "\nTotal of $changeRoles feature annotations were translated \n";
+
+        }
+        else{
+            next;
+        }
+    }
+
 
 }
 #END_HEADER
@@ -84,6 +213,7 @@ ElectronicAnnotationParams is a reference to a hash where the following keys are
 	workspace has a value which is a string
 	input_genome has a value which is a string
 	ontology_translation has a value which is a string
+	translation_behavior has a value which is a string
 	custom_translation has a value which is a string
 	output_genome has a value which is a string
 ElectronicAnnotationResults is a reference to a hash where the following keys are defined:
@@ -105,6 +235,7 @@ ElectronicAnnotationParams is a reference to a hash where the following keys are
 	workspace has a value which is a string
 	input_genome has a value which is a string
 	ontology_translation has a value which is a string
+	translation_behavior has a value which is a string
 	custom_translation has a value which is a string
 	output_genome has a value which is a string
 ElectronicAnnotationResults is a reference to a hash where the following keys are defined:
@@ -163,6 +294,11 @@ sub annotationtogo
     }
     my $ont_tr=$params->{'ontology_translation'};
 
+    if (!exists $params->{'translation_behavior'}) {
+        die "Parameter translation_behavior is not set in input arguments";
+    }
+    my $trns_bh=$params->{'translation_behavior'};
+
     my $cus_tr;
     if (!exists $params->{'custom_translation'} && $ont_tr eq "custom") {
         die "Provide the custom translation table as an input\n\n";
@@ -174,7 +310,6 @@ sub annotationtogo
         $cus_tr=$params->{'custom_translation'};
         print "Using the custom translational table..\n\n"
     }
-
 
     if (!exists $params->{'output_genome'}) {
         die "Parameter output_genome is not set in input arguments";
@@ -201,50 +336,18 @@ sub annotationtogo
 =cut
     eval {
         $genome=$wsClient->get_objects([{workspace=>$workspace_name,name=>$input_gen}])->[0]{data};
-        $ontTr=$wsClient->get_objects([{workspace=>$ontWs,name=>$ont_tr}])->[0]{data}{translation};
+        $ontTr=$wsClient->get_objects([{workspace=>$ontWs,name=>$ont_tr}])->[0];#{data}{translation};
     };
     if ($@) {
         die "Error loading ontology translation object from workspace:\n".$@;
     }
-    my $func_list = $genome->{features};
-    my %roles;
-    my @rolesArr;
-    my $role_match_count=1;
-    my %selectedRoles;
+    my $ontRef = $ontTr->{info}->[6]."/".$ontTr->{info}->[0]."/".$ontTr->{info}->[4];
 
-    foreach my $k (keys $ontTr){
-        my $r = $ontTr->{$k}->{name};
-        my $eq = $ontTr->{$k}->{equiv_terms};
-
-        my $mRole = searchname ($r);
-            my @tempMR;
-            for (my $i=0; $i<@$eq; $i++){
-                my $e_name = $eq->[$i]->{equiv_name};
-                my $e_term = $eq->[$i]->{equiv_term};
-                push (@tempMR, $e_name);
-            }
-            $selectedRoles{$mRole} = \@tempMR;
+    if ( ($ont_tr eq "sso2go" || $ont_tr eq "interpro2go" || $ont_tr eq "custom")  && ($trns_bh eq "featureOnly") ){
+    featureTranslate($genome, $ontTr->{data}->{translation}, $ontRef, $ont_tr);
     }
-
-    print "Following annotations were translated in the genome\n";
-    my $changeRoles =0;
-    for (my $j =0; $j< @$func_list; $j++){
-        my $func = $func_list->[$j]->{function};
-        my $sn = searchname($func);
-        if (exists $selectedRoles{$sn}){
-            my $nrL = $selectedRoles{$sn};
-                my @tempA;
-                for (my $i=0; $i< @$nrL; $i++){
-                    push(@tempA, $nrL->[$i]);
-                }
-            my $joinStr = join (" | ", @tempA);
-            print "$func\t-\t$joinStr\n";
-            $func_list->[$j]->{function} = $joinStr;
-            $changeRoles++;
-        }
-    }
-
-    print "\nTotal of $changeRoles feature annotations were translated \n";
+    #print &Dumper ($ontTr->{data}->{translation});
+    #die;
     my $obj_info_list = undef;
     eval {
         $obj_info_list = $wsClient->save_objects({
@@ -260,11 +363,13 @@ sub annotationtogo
     if ($@) {
         die "Error saving modified genome object to workspace:\n".$@;
     }
+    #print &Dumper ($genome);
+
     my $info = $obj_info_list->[0];
 
     print "\nMethod sucuessfully completed\n";
     print("saved:".Dumper($info)."\n");
-    $output = { 'SEEDtoGO' => $obj_info_list};
+    $output = { 'Ontology Translator' => $obj_info_list};
 
     #END annotationtogo
     my @_bad_returns;
@@ -343,6 +448,7 @@ a reference to a hash where the following keys are defined:
 workspace has a value which is a string
 input_genome has a value which is a string
 ontology_translation has a value which is a string
+translation_behavior has a value which is a string
 custom_translation has a value which is a string
 output_genome has a value which is a string
 
@@ -356,6 +462,7 @@ a reference to a hash where the following keys are defined:
 workspace has a value which is a string
 input_genome has a value which is a string
 ontology_translation has a value which is a string
+translation_behavior has a value which is a string
 custom_translation has a value which is a string
 output_genome has a value which is a string
 
