@@ -2,7 +2,7 @@ package sdk_ontology::sdk_ontologyImpl;
 use strict;
 use Bio::KBase::Exceptions;
 # Use Semantic Versioning (2.0.0-rc.1)
-# http://semver.org 
+# http://semver.org
 our $VERSION = "0.1.0";
 
 =head1 NAME
@@ -129,7 +129,7 @@ sub featureTranslate{
             print "$func\t-\t$joinStr\n";
             #$func_list->[$j]->{function} = $joinStr;
             $changeRoles++;
-            print "\nTotal of $changeRoles feature annotations were translated \n";
+
         }
         elsif (exists $selectedRoles{$sn} && defined ($func_list->[$j]->{ontology_terms}) ) {
 
@@ -158,7 +158,7 @@ sub featureTranslate{
                 #$func_list->[$j]->{function} = $joinStr;
                 $changeRoles++;
               #print &Dumper ( $func_list->[$j]->{ontology_terms}->{GO}->{term_id});
-              print "\nTotal of $changeRoles feature annotations were translated \n";
+
 
         }
         else{
@@ -166,7 +166,7 @@ sub featureTranslate{
         }
     }
 
-
+    print "\nTotal of $changeRoles feature annotations were translated \n";
 }
 #END_HEADER
 
@@ -387,7 +387,7 @@ sub annotationtogo
 
 
 
-=head2 version 
+=head2 version
 
   $return = $obj->version()
 
