@@ -163,6 +163,10 @@
                     "target_property": "translation_behavior"
                 },
                 {
+                    "input_parameter": "clear_existing",
+                    "target_property": "clear_existing"
+                },
+                {
                     "input_parameter": "custom_translation",
                     "target_property": "custom_translation"
                 },
