@@ -129,6 +129,7 @@ ElectronicAnnotationParams is a reference to a hash where the following keys are
 	ontology_translation has a value which is a string
 	translation_behavior has a value which is a string
 	custom_translation has a value which is a string
+	clear_existing has a value which is a string
 	output_genome has a value which is a string
 ElectronicAnnotationResults is a reference to a hash where the following keys are defined:
 	report_name has a value which is a string
@@ -151,6 +152,7 @@ ElectronicAnnotationParams is a reference to a hash where the following keys are
 	ontology_translation has a value which is a string
 	translation_behavior has a value which is a string
 	custom_translation has a value which is a string
+	clear_existing has a value which is a string
 	output_genome has a value which is a string
 ElectronicAnnotationResults is a reference to a hash where the following keys are defined:
 	report_name has a value which is a string
@@ -301,6 +303,7 @@ input_genome has a value which is a string
 ontology_translation has a value which is a string
 translation_behavior has a value which is a string
 custom_translation has a value which is a string
+clear_existing has a value which is a string
 output_genome has a value which is a string
 
 </pre>
@@ -315,6 +318,7 @@ input_genome has a value which is a string
 ontology_translation has a value which is a string
 translation_behavior has a value which is a string
 custom_translation has a value which is a string
+clear_existing has a value which is a string
 output_genome has a value which is a string
 
 

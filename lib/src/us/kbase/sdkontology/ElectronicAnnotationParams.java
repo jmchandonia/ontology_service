@@ -30,6 +30,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "ontology_translation",
     "translation_behavior",
     "custom_translation",
+    "clear_existing",
     "output_genome"
 })
 public class ElectronicAnnotationParams {
@@ -44,6 +45,8 @@ public class ElectronicAnnotationParams {
     private String translationBehavior;
     @JsonProperty("custom_translation")
     private String customTranslation;
+    @JsonProperty("clear_existing")
+    private String clearExisting;
     @JsonProperty("output_genome")
     private String outputGenome;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
@@ -123,6 +126,21 @@ public class ElectronicAnnotationParams {
         return this;
     }
 
+    @JsonProperty("clear_existing")
+    public String getClearExisting() {
+        return clearExisting;
+    }
+
+    @JsonProperty("clear_existing")
+    public void setClearExisting(String clearExisting) {
+        this.clearExisting = clearExisting;
+    }
+
+    public ElectronicAnnotationParams withClearExisting(String clearExisting) {
+        this.clearExisting = clearExisting;
+        return this;
+    }
+
     @JsonProperty("output_genome")
     public String getOutputGenome() {
         return outputGenome;
@@ -150,7 +168,7 @@ public class ElectronicAnnotationParams {
 
     @Override
     public String toString() {
-        return ((((((((((((((("ElectronicAnnotationParams"+" [workspace=")+ workspace)+", inputGenome=")+ inputGenome)+", ontologyTranslation=")+ ontologyTranslation)+", translationBehavior=")+ translationBehavior)+", customTranslation=")+ customTranslation)+", outputGenome=")+ outputGenome)+", additionalProperties=")+ additionalProperties)+"]");
+        return ((((((((((((((((("ElectronicAnnotationParams"+" [workspace=")+ workspace)+", inputGenome=")+ inputGenome)+", ontologyTranslation=")+ ontologyTranslation)+", translationBehavior=")+ translationBehavior)+", customTranslation=")+ customTranslation)+", clearExisting=")+ clearExisting)+", outputGenome=")+ outputGenome)+", additionalProperties=")+ additionalProperties)+"]");
     }
 
 }

@@ -39,7 +39,6 @@ sub searchname
     $sn =~ s/(?<=\(ec)[^)]+[^(]+(?=\))//g;
     $sn =~ s/(?<=\(tc)[^)]+[^(]+(?=\))//g;
     return $sn;
-
 }
 
 sub splitFunc
@@ -67,7 +66,7 @@ sub searchec
 }
 
 sub featureTranslate{
-    my ($genome, $ontTr, $ontRef, $ont_tr) = @_;
+    my ($genome, $ontTr, $ontRef, $ont_tr, $clear) = @_;
     my $func_list = $genome->{features};
     my %selectedRoles;
     my %termName;
@@ -92,12 +91,16 @@ sub featureTranslate{
             }
             $selectedRoles{$mRole} = \@tempMR;
     }
-    print "Following annotations were translated in the genome\n";
-    my $retval = time();
-    my $local_time = gmtime( $retval);
+    print "Following feature annotations were translated in the genome\n";
+    my $local_time = localtime ();
     my $vs = version ();
     my $changeRoles =0;
     for (my $j =0; $j< @$func_list; $j++){
+
+        if ($clear == 1){
+            $func_list->[$j]->{ontology_terms} = {};
+
+        }
         my $func = $func_list->[$j]->{function};
         my $funcId = $func_list->[$j]->{id};
         my $splitArr = splitFunc($func);
@@ -121,7 +124,7 @@ sub featureTranslate{
                     if (-1 != index($sn, $key)) {
                         $sn =$key;
 
-                        if ( exists $selectedRoles{$sn}  && !defined ($func_list->[$j]->{ontology_terms}) ){
+                        if ( exists $selectedRoles{$sn}  && !defined ($func_list->[$j]->{ontology_terms}->{GO}) ){
                             my $nrL = $selectedRoles{$sn};
                             my @tempA;
                             for (my $i=0; $i< @$nrL; $i++){
@@ -152,7 +155,7 @@ sub featureTranslate{
                             #print &Dumper ($func_list->[$j]->{ontology_terms});
                             $changeRoles++;
                         }
-                        elsif ( exists $selectedRoles{$sn} && defined ($func_list->[$j]->{ontology_terms}) && $count_flag <= 1 ) {
+                        elsif ( exists $selectedRoles{$sn} && defined ($func_list->[$j]->{ontology_terms}->{GO}) && $count_flag <= 1 ) {
                                 my $new_term = $func_list->[$j]->{ontology_terms}->{GO};
 
                                 my $nrL = $selectedRoles{$sn};
@@ -202,7 +205,7 @@ sub featureTranslate{
             }
             else{
 
-                if ( exists $selectedRoles{$sn}  && !defined ($func_list->[$j]->{ontology_terms}) ){
+                if ( exists $selectedRoles{$sn}  && !defined ($func_list->[$j]->{ontology_terms}->{GO}) ){
                     my $nrL = $selectedRoles{$sn};
                         my @tempA;
                         for (my $i=0; $i< @$nrL; $i++){
@@ -233,7 +236,7 @@ sub featureTranslate{
                         #print &Dumper ($func_list->[$j]->{ontology_terms});
                         $changeRoles++;
                 }
-                elsif ( exists $selectedRoles{$sn} && defined ($func_list->[$j]->{ontology_terms}) && $count_flag <= 1 ) {
+                elsif ( exists $selectedRoles{$sn} && defined ($func_list->[$j]->{ontology_terms}->{GO}) && $count_flag <= 1 ) {
                         my $new_term = $func_list->[$j]->{ontology_terms};
                         my $nrL = $selectedRoles{$sn};
                         my @tempA;
@@ -332,6 +335,7 @@ ElectronicAnnotationParams is a reference to a hash where the following keys are
 	ontology_translation has a value which is a string
 	translation_behavior has a value which is a string
 	custom_translation has a value which is a string
+	clear_existing has a value which is a string
 	output_genome has a value which is a string
 ElectronicAnnotationResults is a reference to a hash where the following keys are defined:
 	report_name has a value which is a string
@@ -354,6 +358,7 @@ ElectronicAnnotationParams is a reference to a hash where the following keys are
 	ontology_translation has a value which is a string
 	translation_behavior has a value which is a string
 	custom_translation has a value which is a string
+	clear_existing has a value which is a string
 	output_genome has a value which is a string
 ElectronicAnnotationResults is a reference to a hash where the following keys are defined:
 	report_name has a value which is a string
@@ -416,6 +421,11 @@ sub annotationtogo
     }
     my $trns_bh=$params->{'translation_behavior'};
 
+    if (!exists $params->{'clear_existing'}) {
+        die "Parameter clear_existing is not set in input arguments";
+    }
+    my $cl_ex=$params->{'clear_existing'};
+
     my $cus_tr;
     if (!exists $params->{'custom_translation'} && $ont_tr eq "custom") {
         die "Provide the custom translation table as an input\n\n";
@@ -461,7 +471,7 @@ sub annotationtogo
     my $ontRef = $ontTr->{info}->[6]."/".$ontTr->{info}->[0]."/".$ontTr->{info}->[4];
 
     if ( ($ont_tr eq "sso2go" || $ont_tr eq "interpro2go" || $ont_tr eq "custom" || $ont_tr eq "uniprotkb_kw2go" || $ont_tr eq "ec2go" )  && ($trns_bh eq "featureOnly") ){
-    featureTranslate($genome, $ontTr->{data}->{translation}, $ontRef, $ont_tr);
+    featureTranslate($genome, $ontTr->{data}->{translation}, $ontRef, $ont_tr, $cl_ex);
     }
     my $obj_info_list = undef;
     eval {
@@ -562,6 +572,7 @@ input_genome has a value which is a string
 ontology_translation has a value which is a string
 translation_behavior has a value which is a string
 custom_translation has a value which is a string
+clear_existing has a value which is a string
 output_genome has a value which is a string
 
 </pre>
@@ -576,6 +587,7 @@ input_genome has a value which is a string
 ontology_translation has a value which is a string
 translation_behavior has a value which is a string
 custom_translation has a value which is a string
+clear_existing has a value which is a string
 output_genome has a value which is a string
 
 
