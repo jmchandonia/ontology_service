@@ -179,7 +179,6 @@ sub featureTranslate{
                                         push (@{$new_term->{$termName{$nrL->[$i]}}->{evidence}}, $ontEvi);
                                     }
                                     else{
-                                        print "$termName{$nrL->[$i]}\n";
                                         $ontData->{id} = $termName{$nrL->[$i]}; #$termName{$nrL->[$i]};
                                         $ontData->{ontology_ref} = "dictionary ref";
                                         $ontData->{term_name} = $nrL->[$i];#$nrL->[$i];
@@ -260,7 +259,6 @@ sub featureTranslate{
                                 push (@{$new_term->{$termName{$nrL->[$i]}}->{evidence}}, $ontEvi);
                             }
                             else{
-
                                 $ontData->{id} = $termName{$nrL->[$i]}; #$termName{$nrL->[$i]};
                                 $ontData->{ontology_ref} = "dictionary ref";
                                 $ontData->{term_name} = $nrL->[$i];#$nrL->[$i];
