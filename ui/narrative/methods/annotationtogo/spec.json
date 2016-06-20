@@ -1,0 +1,195 @@
+{
+    "ver": "0.0.1",
+    "authors": [
+        "janaka"
+    ],
+    "contact": "janakaed@anl.gov",
+    "visible": true,
+    "categories": ["active"],
+    "widgets": {
+        "input": null,
+        "output": "kbaseGenomeView"
+    },
+    "parameters": [
+        {
+            "id": "input_genome",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "" ],
+            "field_type": "text",
+            "text_options": {
+                "valid_ws_types": [ "KBaseGenomes.Genome" ]
+            }
+        },
+        {
+            "id": "ontology_translation",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "sso2go" ],
+            "field_type": "dropdown",
+            "dropdown_options": {
+                "options": [
+                    {
+                      "value": "sso2go",
+                      "display": "SEED to GO",
+                      "id": "sso2go",
+                      "ui_name": "SEED to GO"
+                    },
+                    {
+                      "value": "interpro2go",
+                      "display": "Interpro to GO",
+                      "id": "interpro2go",
+                      "ui_name": "Interpro to GO"
+                    },
+                    {
+                      "value": "ec2go",
+                      "display": "EC to GO",
+                      "id": "ec2go",
+                      "ui_name": "EC to GO"
+                    },
+                    {
+                      "value": "uniprotkb_kw2go",
+                      "display": "Uniprot to GO",
+                      "id": "uniprotkb_kw2go",
+                      "ui_name": "Uniprot to GO"
+                    },
+                    {
+                      "value": "custom",
+                      "display": "Custom Translation",
+                      "id": "custom",
+                      "ui_name": "Custom Translation"
+                    }
+
+                ]
+
+            }
+        },
+        {
+            "id": "translation_behavior",
+            "optional": false,
+            "advanced": false,
+            "allow_multiple": false,
+            "default_values": [ "featureOnly" ],
+            "field_type": "dropdown",
+            "dropdown_options": {
+                "options": [
+                    {
+                      "value": "featureOnly",
+                      "display": "Translate from feature annotations only",
+                      "id": "featureOnly",
+                      "ui_name": "Translate from feature annotations only"
+                    },
+                    {
+                      "value": "ontologyOnly",
+                      "display": "Translate from feature ontology",
+                      "id": "ontologyOnly",
+                      "ui_name": "Translate from feature ontology"
+                    },
+                    {
+                      "value": "annoandOnt",
+                      "display": "Translate from both feature annotations and ontology",
+                      "id": "annoandOnt",
+                      "ui_name": "Translate from both feature annotations and ontology"
+                    }
+
+                ]
+
+            }
+        },
+        {
+         "field_type" : "checkbox",
+         "allow_multiple" : false,
+         "optional" : false,
+         "id" : "clear_existing",
+         "advanced" : false,
+         "default_values" : [
+            "0"
+         ],
+          "checkbox_options" : {
+            "unchecked_value" : 0,
+            "checked_value" : 1
+          },
+          "text_options" : {
+            "valid_ws_types" : []
+          }
+        },
+        {
+            "id" : "custom_translation",
+            "optional" : true,
+            "advanced" : false,
+            "allow_multiple" : false,
+            "default_values" : [ "" ],
+            "field_type" : "text",
+            "text_options" : {
+            "valid_ws_types" : [ "KBaseOntology.OntologyTranslation" ]
+            }
+        },
+        {
+            "id" : "output_genome",
+            "optional" : true,
+            "advanced" : false,
+            "allow_multiple" : false,
+            "default_values" : [ "" ],
+            "field_type" : "text",
+            "text_options" : {
+            "valid_ws_types" : [ ],
+            "is_output_name":true
+            }
+         }
+
+    ],
+    "behavior": {
+        "service-mapping": {
+            "url": "",
+            "name": "sdk_ontology",
+            "method": "annotationtogo",
+            "input_mapping": [
+                {
+                    "narrative_system_variable": "workspace",
+                    "target_property": "workspace"
+                },
+                {
+                    "input_parameter": "input_genome",
+                    "target_property": "input_genome"
+                },
+                {
+                    "input_parameter": "ontology_translation",
+                    "target_property": "ontology_translation"
+                },
+                {
+                    "input_parameter": "translation_behavior",
+                    "target_property": "translation_behavior"
+                },
+                {
+                    "input_parameter": "clear_existing",
+                    "target_property": "clear_existing"
+                },
+                {
+                    "input_parameter": "custom_translation",
+                    "target_property": "custom_translation"
+                },
+                {
+                    "input_parameter": "output_genome",
+                    "target_property": "output_genome"
+                }
+            ],
+            "output_mapping": [
+                {
+                  "constant_value": "KBaseGenomes.Genome",
+                  "target_property": "type"
+                },
+                {
+                  "input_parameter": "output_genome",
+                  "target_property": "id"
+                },
+                {
+                  "narrative_system_variable": "workspace",
+                  "target_property": "ws"
+                }
+              ]
+        }
+    },
+    "job_id_output_field": "docker"
+}

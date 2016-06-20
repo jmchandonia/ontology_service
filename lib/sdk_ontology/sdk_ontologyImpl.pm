@@ -65,6 +65,243 @@ sub searchec
     return $sn;
 }
 
+sub ontologyTranslate{
+my ($genome, $ontTr, $ontRef, $ont_tr, $clear) = @_;
+    my $func_list = $genome->{features};
+    my %selectedRoles;
+    my %termName;
+    my %termId;
+    my %ontType = (
+        sso2go => "GO",
+        interpro2go => "GO",
+        uniprotkb_kw2go => "GO"
+
+    );
+
+    foreach my $k (keys $ontTr){
+        my $r = $ontTr->{$k}->{name};
+        my $eq = $ontTr->{$k}->{equiv_terms};
+        my $mRole = searchname ($r);
+        my @ecArr;
+        if ($ont_tr eq "ec2go"){
+            my $ecsn = searchec($k);
+            $mRole=$ecsn;
+        }
+            my @tempMR;
+            for (my $i=0; $i<@$eq; $i++){
+                my $e_name = $eq->[$i]->{equiv_name};
+                my $e_term = $eq->[$i]->{equiv_term};
+                $termName{$e_name} = $e_term;
+                $termId{$mRole} = [$r,$k];
+                push (@tempMR, $e_name);
+            }
+            $selectedRoles{$mRole} = \@tempMR;
+    }
+
+    print "Following ontology terms were translated in the genome\n";
+    my $local_time = localtime ();
+    my $vs = version ();
+    my $changeRoles =0;
+    for (my $j =0; $j< @$func_list; $j++){
+
+        if ($clear == 1){
+            $func_list->[$j]->{ontology_terms} = {};
+
+        }
+        my $func = $func_list->[$j]->{function};
+        my $funcId = $func_list->[$j]->{id};
+
+        my $sn;
+        if (defined $func_list->[$j]->{ontology_terms}->{$ontType{$ont_tr}} && exists $ontType{$ont_tr}){
+            my $oTerm = $func_list->[$j]->{ontology_terms}->{$ontType{$ont_tr}};
+            my %oTermRecord;
+            foreach my $k (keys $oTerm){
+                my $tName =  $oTerm->{$k}->{term_name};
+                $tName =~ s/GO://g;
+
+                $oTermRecord{$tName} = [$k, $tName, $func, $oTerm->{$k}->{term_name}];
+                print "$func\t$k\t$tName\t$oTerm->{$k}->{term_name}\n";
+                $sn = searchname($tName);
+                if ($ont_tr eq "ec2go"){
+                    my $ecNum;
+                    if ($tName =~ /(.+?)\s*$EC_PATTERN\s*(.*)/) {
+                        $ecNum = $2;
+                        $sn = searchec ("EC:$ecNum");
+                    }
+                }
+                else{
+                     $sn = searchname($tName);
+                }
+                ########## for unitprot and ec partial mappings being considered######
+                if ($ont_tr eq "uniprotkb_kw2go" || $ont_tr eq "ec2go" ){
+                    while (my($key, $value) = each %selectedRoles) {
+                        if (-1 != index($sn, $key)) {
+                            $sn =$key;
+
+                            if ( exists $selectedRoles{$sn}  && !defined ($func_list->[$j]->{ontology_terms}->{GO}) ){
+                                my $nrL = $selectedRoles{$sn};
+                                my @tempA;
+                                for (my $i=0; $i< @$nrL; $i++){
+                                    my $ontEvi = {
+                                        method => "Remap annotations based on Ontology translation table",
+                                        method_version => $vs,
+                                        timestamp => $local_time,
+                                        translation_provenance => [],
+                                        alignment_evidence => []
+                                    };
+                                    my $ontData ={
+                                        id => "",
+                                        ontology_ref =>"",
+                                        term_lineage => [],
+                                        term_name => "",
+                                        evidence => []
+                                    };
+                                    push(@tempA, $nrL->[$i]);
+                                    $ontData->{id} = $termName{$nrL->[$i]}; #$termName{$nrL->[$i]};
+                                    $ontData->{ontology_ref} = "dictionary ref";
+                                    $ontData->{term_name} = $nrL->[$i];#$nrL->[$i];
+                                    $ontEvi->{translation_provenance} = [$ontRef, $termId{$sn}->[1], $termId{$sn}->[0]];
+                                    push (@{$ontData->{evidence}},$ontEvi);
+                                    $func_list->[$j]->{ontology_terms}->{GO}->{$termName{$nrL->[$i]}} = $ontData;
+                                }
+                                my $joinStr = join (" | ", @tempA);
+                                print "$funcId\t$k\t$tName\t-\t$joinStr\n";
+                                $changeRoles++;
+                            }
+                            elsif ( exists $selectedRoles{$sn} && defined ($func_list->[$j]->{ontology_terms}->{GO}) ) {
+                                    my $new_term = $func_list->[$j]->{ontology_terms}->{GO};
+
+                                    my $nrL = $selectedRoles{$sn};
+                                    my @tempA;
+                                    for (my $i=0; $i< @$nrL; $i++){
+                                        my $ontEvi = {
+                                            method => "Remap annotations based on Ontology translation table",
+                                            method_version => $vs,
+                                            timestamp => $local_time,
+                                            translation_provenance => [],
+                                            alignment_evidence => []
+                                        };
+                                        my $ontData ={
+                                            id => "",
+                                            ontology_ref =>"",
+                                            term_lineage => [],
+                                            term_name => "",
+                                            evidence => []
+                                        };
+                                        push(@tempA, $nrL->[$i]);
+
+                                        if (exists $new_term->{$termName{$nrL->[$i]}}){
+                                            $ontEvi->{translation_provenance} = [$ontRef, $termId{$sn}->[1], $termId{$sn}->[0]];
+                                            push (@{$new_term->{$termName{$nrL->[$i]}}->{evidence}}, $ontEvi);
+                                        }
+                                        else{
+                                            $ontData->{id} = $termName{$nrL->[$i]}; #$termName{$nrL->[$i]};
+                                            $ontData->{ontology_ref} = "dictionary ref";
+                                            $ontData->{term_name} = $nrL->[$i];#$nrL->[$i];
+                                            $ontEvi->{translation_provenance} = [$ontRef, $termId{$sn}->[1], $termId{$sn}->[0]];
+                                            push (@{$ontData->{evidence}},$ontEvi);
+                                            $func_list->[$j]->{ontology_terms}->{GO}->{$termName{$nrL->[$i]}} = $ontData;
+                                        }
+                                    }
+                                    my $joinStr = join (" | ", @tempA);
+                                    #print "$funcId\t$fr\t-\t$joinStr\n";
+                                    $changeRoles++;
+                                    #print &Dumper ( $func_list->[$j]->{ontology_terms});
+                                    #die;
+                            }
+                            else{
+                                next;
+                            }
+    #################################end
+                        }
+                    }
+                }
+                else{
+
+                    if ( exists $selectedRoles{$sn}  && !defined ($func_list->[$j]->{ontology_terms}->{GO}) ){
+                        my $nrL = $selectedRoles{$sn};
+                            my @tempA;
+                            for (my $i=0; $i< @$nrL; $i++){
+                                my $ontEvi = {
+                                    method => "Remap annotations based on Ontology translation table",
+                                    method_version => $vs,
+                                    timestamp => $local_time,
+                                    translation_provenance => [],
+                                    alignment_evidence => []
+                                };
+                                my $ontData ={
+                                    id => "",
+                                    ontology_ref =>"",
+                                    term_lineage => [],
+                                    term_name => "",
+                                    evidence => []
+                                };
+                                push(@tempA, $nrL->[$i]);
+                                $ontData->{id} = $termName{$nrL->[$i]}; #$termName{$nrL->[$i]};
+                                $ontData->{ontology_ref} = "dictionary ref";
+                                $ontData->{term_name} = $nrL->[$i];#$nrL->[$i];
+                                $ontEvi->{translation_provenance} = [$ontRef, $termId{$sn}->[1], $termId{$sn}->[0]];
+                                push (@{$ontData->{evidence}},$ontEvi);
+                                $func_list->[$j]->{ontology_terms}->{GO}->{$termName{$nrL->[$i]}} = $ontData;
+                            }
+                            my $joinStr = join (" | ", @tempA);
+                            print "$funcId\t$k\t$tName\t-\t$joinStr\n";
+                            #print &Dumper ($func_list->[$j]->{ontology_terms});
+                            $changeRoles++;
+                    }
+                    elsif ( exists $selectedRoles{$sn} && defined ($func_list->[$j]->{ontology_terms}->{GO}) ) {
+                            my $new_term = $func_list->[$j]->{ontology_terms};
+                            my $nrL = $selectedRoles{$sn};
+                            my @tempA;
+                            for (my $i=0; $i< @$nrL; $i++){
+                                my $ontEvi = {
+                                    method => "Remap annotations based on Ontology translation table",
+                                    method_version => $vs,
+                                    timestamp => $local_time,
+                                    translation_provenance => [],
+                                    alignment_evidence => []
+                                };
+                                my $ontData ={
+                                    id => "",
+                                    ontology_ref =>"",
+                                    term_lineage => [],
+                                    term_name => "",
+                                    evidence => []
+                                };
+                                push(@tempA, $nrL->[$i]);
+
+                                if (exists $new_term->{$termName{$nrL->[$i]}}){
+                                    $ontEvi->{translation_provenance} = [$ontRef, $termId{$sn}->[1], $termId{$sn}->[0]];
+                                    push (@{$new_term->{$termName{$nrL->[$i]}}->{evidence}}, $ontEvi);
+                                }
+                                else{
+                                    $ontData->{id} = $termName{$nrL->[$i]}; #$termName{$nrL->[$i]};
+                                    $ontData->{ontology_ref} = "dictionary ref";
+                                    $ontData->{term_name} = $nrL->[$i];#$nrL->[$i];
+                                    $ontEvi->{translation_provenance} = [$ontRef, $termId{$sn}->[1], $termId{$sn}->[0]];
+                                    push (@{$ontData->{evidence}},$ontEvi);
+                                    $func_list->[$j]->{ontology_terms}->{GO}->{$termName{$nrL->[$i]}} = $ontData;
+                                }
+                            }
+                            my $joinStr = join (" | ", @tempA);
+                            print "$funcId\t$k\t$tName\t-\t$joinStr\n";
+                            $changeRoles++;
+
+                    }
+                    else{
+                        next;
+                    }
+                }
+            }#foreach
+        } #outer if
+    }#for
+    print "\nTotal of $changeRoles ontology terms were translated \n";
+    #die;
+}
+
+
+
+
 sub featureTranslate{
     my ($genome, $ontTr, $ontRef, $ont_tr, $clear) = @_;
     my $func_list = $genome->{features};
@@ -91,6 +328,7 @@ sub featureTranslate{
             }
             $selectedRoles{$mRole} = \@tempMR;
     }
+
     print "Following feature annotations were translated in the genome\n";
     my $local_time = localtime ();
     my $vs = version ();
@@ -101,6 +339,7 @@ sub featureTranslate{
             $func_list->[$j]->{ontology_terms} = {};
 
         }
+
         my $func = $func_list->[$j]->{function};
         my $funcId = $func_list->[$j]->{id};
         my $splitArr = splitFunc($func);
@@ -152,7 +391,6 @@ sub featureTranslate{
                             }
                             my $joinStr = join (" | ", @tempA);
                             print "$funcId\t$fr\t-\t$joinStr\n";
-                            #print &Dumper ($func_list->[$j]->{ontology_terms});
                             $changeRoles++;
                         }
                         elsif ( exists $selectedRoles{$sn} && defined ($func_list->[$j]->{ontology_terms}->{GO}) && $count_flag <= 1 ) {
@@ -191,10 +429,9 @@ sub featureTranslate{
                                     }
                                 }
                                 my $joinStr = join (" | ", @tempA);
-                                print "$funcId\t$fr\t-\t$joinStr\n";
+                                #print "$funcId\t$fr\t-\t$joinStr\n";
                                 $changeRoles++;
-                                #print &Dumper ( $func_list->[$j]->{ontology_terms});
-                                #die;
+
                         }
                         else{
                             next;
@@ -233,7 +470,6 @@ sub featureTranslate{
                         }
                         my $joinStr = join (" | ", @tempA);
                         print "$funcId\t$fr\t-\t$joinStr\n";
-                        #print &Dumper ($func_list->[$j]->{ontology_terms});
                         $changeRoles++;
                 }
                 elsif ( exists $selectedRoles{$sn} && defined ($func_list->[$j]->{ontology_terms}->{GO}) && $count_flag <= 1 ) {
@@ -271,10 +507,9 @@ sub featureTranslate{
                             }
                         }
                         my $joinStr = join (" | ", @tempA);
-                        print "$funcId\t$fr\t-\t$joinStr\n";
+                        #print "$funcId\t$fr\t-\t$joinStr\n";
                         $changeRoles++;
-                        #print &Dumper ( $func_list->[$j]->{ontology_terms});
-                        #die;
+
                 }
                 else{
                     next;
@@ -471,8 +706,26 @@ sub annotationtogo
     my $ontRef = $ontTr->{info}->[6]."/".$ontTr->{info}->[0]."/".$ontTr->{info}->[4];
 
     if ( ($ont_tr eq "sso2go" || $ont_tr eq "interpro2go" || $ont_tr eq "custom" || $ont_tr eq "uniprotkb_kw2go" || $ont_tr eq "ec2go" )  && ($trns_bh eq "featureOnly") ){
-    featureTranslate($genome, $ontTr->{data}->{translation}, $ontRef, $ont_tr, $cl_ex);
+        print "\n...translating feature annotations\n";
+        featureTranslate($genome, $ontTr->{data}->{translation}, $ontRef, $ont_tr, $cl_ex);
     }
+
+    elsif ( ($ont_tr eq "sso2go" || $ont_tr eq "interpro2go" || $ont_tr eq "custom" || $ont_tr eq "uniprotkb_kw2go" || $ont_tr eq "ec2go" )  && ($trns_bh eq "ontologyOnly") ){
+        print "\n...translating ontolog terms\n";
+        ontologyTranslate($genome, $ontTr->{data}->{translation}, $ontRef, $ont_tr, $cl_ex);
+    }
+
+    elsif ( ($ont_tr eq "sso2go" || $ont_tr eq "interpro2go" || $ont_tr eq "custom" || $ont_tr eq "uniprotkb_kw2go" || $ont_tr eq "ec2go" )  && ($trns_bh eq "annoandOnt") ){
+        print "\n...translating both feature annotations and ontology terms\n";
+        featureTranslate($genome, $ontTr->{data}->{translation}, $ontRef, $ont_tr, $cl_ex);
+        ontologyTranslate($genome, $ontTr->{data}->{translation}, $ontRef, $ont_tr, $cl_ex);
+
+    }
+    else{
+
+        die "incorrect input parameters\n";
+    }
+
     my $obj_info_list = undef;
     eval {
         $obj_info_list = $wsClient->save_objects({
@@ -488,6 +741,7 @@ sub annotationtogo
     if ($@) {
         die "Error saving modified genome object to workspace:\n".$@;
     }
+
     my $info = $obj_info_list->[0];
     print "\nMethod sucuessfully completed\n";
     print("saved:".Dumper($info)."\n");
