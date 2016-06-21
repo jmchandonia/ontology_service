@@ -51,7 +51,7 @@ parameters :
         ui-name : |
             Optional custom translational table
         short-hint : |
-            First select Custom Translation option above in Translation type field, then select the custom table
+            First select the Custom Translation option from the drowdown above in Translation type field, then select the custom table here
     output_genome :
         ui-name : |
             Output genome name

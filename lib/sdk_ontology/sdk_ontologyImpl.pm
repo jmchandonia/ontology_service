@@ -72,10 +72,7 @@ my ($genome, $ontTr, $ontRef, $ont_tr, $clear) = @_;
     my %termName;
     my %termId;
     my %ontType = (
-        sso2go => "GO",
-        interpro2go => "GO",
-        uniprotkb_kw2go => "GO"
-
+        sso2go => "SSO",
     );
 
     foreach my $k (keys $ontTr){
@@ -98,7 +95,7 @@ my ($genome, $ontTr, $ontRef, $ont_tr, $clear) = @_;
             $selectedRoles{$mRole} = \@tempMR;
     }
 
-    print "Following ontology terms were translated in the genome\n";
+    #print "Following ontology terms were translated in the genome\n";
     my $local_time = localtime ();
     my $vs = version ();
     my $changeRoles =0;
@@ -165,7 +162,7 @@ my ($genome, $ontTr, $ontRef, $ont_tr, $clear) = @_;
                                     $func_list->[$j]->{ontology_terms}->{GO}->{$termName{$nrL->[$i]}} = $ontData;
                                 }
                                 my $joinStr = join (" | ", @tempA);
-                                print "$funcId\t$k\t$tName\t-\t$joinStr\n";
+                                #print "$funcId\t$k\t$tName\t-\t$joinStr\n";
                                 $changeRoles++;
                             }
                             elsif ( exists $selectedRoles{$sn} && defined ($func_list->[$j]->{ontology_terms}->{GO}) ) {
@@ -245,7 +242,7 @@ my ($genome, $ontTr, $ontRef, $ont_tr, $clear) = @_;
                                 $func_list->[$j]->{ontology_terms}->{GO}->{$termName{$nrL->[$i]}} = $ontData;
                             }
                             my $joinStr = join (" | ", @tempA);
-                            print "$funcId\t$k\t$tName\t-\t$joinStr\n";
+                            #print "$funcId\t$k\t$tName\t-\t$joinStr\n";
                             #print &Dumper ($func_list->[$j]->{ontology_terms});
                             $changeRoles++;
                     }
@@ -284,7 +281,7 @@ my ($genome, $ontTr, $ontRef, $ont_tr, $clear) = @_;
                                 }
                             }
                             my $joinStr = join (" | ", @tempA);
-                            print "$funcId\t$k\t$tName\t-\t$joinStr\n";
+                            #print "$funcId\t$k\t$tName\t-\t$joinStr\n";
                             $changeRoles++;
 
                     }
@@ -296,7 +293,6 @@ my ($genome, $ontTr, $ontRef, $ont_tr, $clear) = @_;
         } #outer if
     }#for
     print "\nTotal of $changeRoles ontology terms were translated \n";
-    #die;
 }
 
 
@@ -329,7 +325,7 @@ sub featureTranslate{
             $selectedRoles{$mRole} = \@tempMR;
     }
 
-    print "Following feature annotations were translated in the genome\n";
+    #print "Following feature annotations were translated in the genome\n";
     my $local_time = localtime ();
     my $vs = version ();
     my $changeRoles =0;
@@ -390,7 +386,7 @@ sub featureTranslate{
                                 $func_list->[$j]->{ontology_terms}->{GO}->{$termName{$nrL->[$i]}} = $ontData;
                             }
                             my $joinStr = join (" | ", @tempA);
-                            print "$funcId\t$fr\t-\t$joinStr\n";
+                            #print "$funcId\t$fr\t-\t$joinStr\n";
                             $changeRoles++;
                         }
                         elsif ( exists $selectedRoles{$sn} && defined ($func_list->[$j]->{ontology_terms}->{GO}) && $count_flag <= 1 ) {
@@ -469,7 +465,7 @@ sub featureTranslate{
                             $func_list->[$j]->{ontology_terms}->{GO}->{$termName{$nrL->[$i]}} = $ontData;
                         }
                         my $joinStr = join (" | ", @tempA);
-                        print "$funcId\t$fr\t-\t$joinStr\n";
+                        #print "$funcId\t$fr\t-\t$joinStr\n";
                         $changeRoles++;
                 }
                 elsif ( exists $selectedRoles{$sn} && defined ($func_list->[$j]->{ontology_terms}->{GO}) && $count_flag <= 1 ) {
@@ -706,17 +702,17 @@ sub annotationtogo
     my $ontRef = $ontTr->{info}->[6]."/".$ontTr->{info}->[0]."/".$ontTr->{info}->[4];
 
     if ( ($ont_tr eq "sso2go" || $ont_tr eq "interpro2go" || $ont_tr eq "custom" || $ont_tr eq "uniprotkb_kw2go" || $ont_tr eq "ec2go" )  && ($trns_bh eq "featureOnly") ){
-        print "\n...translating feature annotations\n";
+        print "\n\n...translating feature annotations\n";
         featureTranslate($genome, $ontTr->{data}->{translation}, $ontRef, $ont_tr, $cl_ex);
     }
 
     elsif ( ($ont_tr eq "sso2go" || $ont_tr eq "interpro2go" || $ont_tr eq "custom" || $ont_tr eq "uniprotkb_kw2go" || $ont_tr eq "ec2go" )  && ($trns_bh eq "ontologyOnly") ){
-        print "\n...translating ontolog terms\n";
+        print "\n\n...translating ontology terms\n";
         ontologyTranslate($genome, $ontTr->{data}->{translation}, $ontRef, $ont_tr, $cl_ex);
     }
 
     elsif ( ($ont_tr eq "sso2go" || $ont_tr eq "interpro2go" || $ont_tr eq "custom" || $ont_tr eq "uniprotkb_kw2go" || $ont_tr eq "ec2go" )  && ($trns_bh eq "annoandOnt") ){
-        print "\n...translating both feature annotations and ontology terms\n";
+        print "\n\n...translating both feature annotations and ontology terms\n";
         featureTranslate($genome, $ontTr->{data}->{translation}, $ontRef, $ont_tr, $cl_ex);
         ontologyTranslate($genome, $ontTr->{data}->{translation}, $ontRef, $ont_tr, $cl_ex);
 
