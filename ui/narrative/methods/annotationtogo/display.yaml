@@ -44,9 +44,9 @@ parameters :
             Translational behavior
     clear_existing :
         ui-name : |
-            Clear existing terms
+            Clear existing destination (e.g GO) terms
         short-hint : |
-            Clear existing terms
+            Clear existing destination (e.g GO) terms
     custom_translation :
         ui-name : |
             Optional custom translational table
