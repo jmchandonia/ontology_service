@@ -14,4 +14,4 @@ owners:
     [janakakbase]
 
 service-config:
-	dynamic-service: true
+dynamic-service: true

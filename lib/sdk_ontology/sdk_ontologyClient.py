@@ -171,6 +171,55 @@ class sdk_ontology(object):
             raise ServerError('Unknown', 0, 'An unknown server error occurred')
         return resp['result']
  
+    def list_ontology_terms(self, params, json_rpc_context = None):
+        if json_rpc_context and type(json_rpc_context) is not dict:
+            raise ValueError('Method list_ontology_terms: argument json_rpc_context is not type dict as required.')
+        resp = self._call('sdk_ontology.list_ontology_terms',
+                          [params], json_rpc_context)
+        return resp[0]
+  
+    def ontology_overview(self, params, json_rpc_context = None):
+        if json_rpc_context and type(json_rpc_context) is not dict:
+            raise ValueError('Method ontology_overview: argument json_rpc_context is not type dict as required.')
+        resp = self._call('sdk_ontology.ontology_overview',
+                          [params], json_rpc_context)
+        return resp[0]
+  
+    def lsit_public_ontologies(self, json_rpc_context = None):
+        if json_rpc_context and type(json_rpc_context) is not dict:
+            raise ValueError('Method lsit_public_ontologies: argument json_rpc_context is not type dict as required.')
+        resp = self._call('sdk_ontology.lsit_public_ontologies',
+                          [], json_rpc_context)
+        return resp[0]
+  
+    def ontology_overview(self, params, json_rpc_context = None):
+        if json_rpc_context and type(json_rpc_context) is not dict:
+            raise ValueError('Method ontology_overview: argument json_rpc_context is not type dict as required.')
+        resp = self._call('sdk_ontology.ontology_overview',
+                          [params], json_rpc_context)
+        return resp[0]
+  
+    def list_public_translations(self, json_rpc_context = None):
+        if json_rpc_context and type(json_rpc_context) is not dict:
+            raise ValueError('Method list_public_translations: argument json_rpc_context is not type dict as required.')
+        resp = self._call('sdk_ontology.list_public_translations',
+                          [], json_rpc_context)
+        return resp[0]
+  
+    def get_ontology_terms(self, params, json_rpc_context = None):
+        if json_rpc_context and type(json_rpc_context) is not dict:
+            raise ValueError('Method get_ontology_terms: argument json_rpc_context is not type dict as required.')
+        resp = self._call('sdk_ontology.get_ontology_terms',
+                          [params], json_rpc_context)
+        return resp[0]
+  
+    def get_equivalent_terms(self, params, json_rpc_context = None):
+        if json_rpc_context and type(json_rpc_context) is not dict:
+            raise ValueError('Method get_equivalent_terms: argument json_rpc_context is not type dict as required.')
+        resp = self._call('sdk_ontology.get_equivalent_terms',
+                          [params], json_rpc_context)
+        return resp[0]
+  
     def annotationtogo(self, params, json_rpc_context = None):
         if json_rpc_context and type(json_rpc_context) is not dict:
             raise ValueError('Method annotationtogo: argument json_rpc_context is not type dict as required.')
