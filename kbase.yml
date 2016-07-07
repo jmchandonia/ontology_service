@@ -13,3 +13,5 @@ module-version:
 owners:
     [janakakbase]
 
+service-config:
+	dynamic-service: true

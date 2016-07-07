@@ -110,6 +110,629 @@ sub new
 
 
 
+=head2 list_ontology_terms
+
+  $output = $obj->list_ontology_terms($params)
+
+=over 4
+
+=item Parameter and return types
+
+=begin html
+
+<pre>
+$params is a sdk_ontology.ListOntologyTermsParams
+$output is a sdk_ontology.OntlogyTermsOut
+ListOntologyTermsParams is a reference to a hash where the following keys are defined:
+	workspace has a value which is a string
+	ontology_dictionary_ref has a value which is a string
+OntlogyTermsOut is a reference to a hash where the following keys are defined:
+	ontology has a value which is a string
+	namespace has a value which is a string
+	term_id has a value which is a reference to a list where each element is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+$params is a sdk_ontology.ListOntologyTermsParams
+$output is a sdk_ontology.OntlogyTermsOut
+ListOntologyTermsParams is a reference to a hash where the following keys are defined:
+	workspace has a value which is a string
+	ontology_dictionary_ref has a value which is a string
+OntlogyTermsOut is a reference to a hash where the following keys are defined:
+	ontology has a value which is a string
+	namespace has a value which is a string
+	term_id has a value which is a reference to a list where each element is a string
+
+
+=end text
+
+=item Description
+
+
+
+=back
+
+=cut
+
+ sub list_ontology_terms
+{
+    my($self, @args) = @_;
+
+# Authentication: required
+
+    if ((my $n = @args) != 1)
+    {
+	Bio::KBase::Exceptions::ArgumentValidationError->throw(error =>
+							       "Invalid argument count for function list_ontology_terms (received $n, expecting 1)");
+    }
+    {
+	my($params) = @args;
+
+	my @_bad_arguments;
+        (ref($params) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument 1 \"params\" (value was \"$params\")");
+        if (@_bad_arguments) {
+	    my $msg = "Invalid arguments passed to list_ontology_terms:\n" . join("", map { "\t$_\n" } @_bad_arguments);
+	    Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
+								   method_name => 'list_ontology_terms');
+	}
+    }
+
+    my $result = $self->{client}->call($self->{url}, $self->{headers}, {
+	method => "sdk_ontology.list_ontology_terms",
+	params => \@args,
+    });
+    if ($result) {
+	if ($result->is_error) {
+	    Bio::KBase::Exceptions::JSONRPC->throw(error => $result->error_message,
+					       code => $result->content->{error}->{code},
+					       method_name => 'list_ontology_terms',
+					       data => $result->content->{error}->{error} # JSON::RPC::ReturnObject only supports JSONRPC 1.1 or 1.O
+					      );
+	} else {
+	    return wantarray ? @{$result->result} : $result->result->[0];
+	}
+    } else {
+        Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method list_ontology_terms",
+					    status_line => $self->{client}->status_line,
+					    method_name => 'list_ontology_terms',
+				       );
+    }
+}
+ 
+
+
+=head2 ontology_overview
+
+  $output = $obj->ontology_overview($params)
+
+=over 4
+
+=item Parameter and return types
+
+=begin html
+
+<pre>
+$params is a sdk_ontology.OntologyOverviewParams
+$output is a sdk_ontology.OntlogyOverviewOut
+OntologyOverviewParams is a reference to a hash where the following keys are defined:
+	ontology_dictionary_ref has a value which is a reference to a list where each element is a string
+OntlogyOverviewOut is a reference to a hash where the following keys are defined:
+	dictionaries_meta has a value which is a reference to a list where each element is a sdk_ontology.overViewInfo
+overViewInfo is a reference to a hash where the following keys are defined:
+	ontology has a value which is a string
+	namespace has a value which is a string
+	data_version has a value which is a string
+	format_version has a value which is a string
+	number_of_terms has a value which is an int
+	dictionary_ref has a value which is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+$params is a sdk_ontology.OntologyOverviewParams
+$output is a sdk_ontology.OntlogyOverviewOut
+OntologyOverviewParams is a reference to a hash where the following keys are defined:
+	ontology_dictionary_ref has a value which is a reference to a list where each element is a string
+OntlogyOverviewOut is a reference to a hash where the following keys are defined:
+	dictionaries_meta has a value which is a reference to a list where each element is a sdk_ontology.overViewInfo
+overViewInfo is a reference to a hash where the following keys are defined:
+	ontology has a value which is a string
+	namespace has a value which is a string
+	data_version has a value which is a string
+	format_version has a value which is a string
+	number_of_terms has a value which is an int
+	dictionary_ref has a value which is a string
+
+
+=end text
+
+=item Description
+
+
+
+=back
+
+=cut
+
+ sub ontology_overview
+{
+    my($self, @args) = @_;
+
+# Authentication: required
+
+    if ((my $n = @args) != 1)
+    {
+	Bio::KBase::Exceptions::ArgumentValidationError->throw(error =>
+							       "Invalid argument count for function ontology_overview (received $n, expecting 1)");
+    }
+    {
+	my($params) = @args;
+
+	my @_bad_arguments;
+        (ref($params) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument 1 \"params\" (value was \"$params\")");
+        if (@_bad_arguments) {
+	    my $msg = "Invalid arguments passed to ontology_overview:\n" . join("", map { "\t$_\n" } @_bad_arguments);
+	    Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
+								   method_name => 'ontology_overview');
+	}
+    }
+
+    my $result = $self->{client}->call($self->{url}, $self->{headers}, {
+	method => "sdk_ontology.ontology_overview",
+	params => \@args,
+    });
+    if ($result) {
+	if ($result->is_error) {
+	    Bio::KBase::Exceptions::JSONRPC->throw(error => $result->error_message,
+					       code => $result->content->{error}->{code},
+					       method_name => 'ontology_overview',
+					       data => $result->content->{error}->{error} # JSON::RPC::ReturnObject only supports JSONRPC 1.1 or 1.O
+					      );
+	} else {
+	    return wantarray ? @{$result->result} : $result->result->[0];
+	}
+    } else {
+        Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method ontology_overview",
+					    status_line => $self->{client}->status_line,
+					    method_name => 'ontology_overview',
+				       );
+    }
+}
+ 
+
+
+=head2 lsit_public_ontologies
+
+  $return = $obj->lsit_public_ontologies()
+
+=over 4
+
+=item Parameter and return types
+
+=begin html
+
+<pre>
+$return is a sdk_ontology.public_ontologies
+public_ontologies is a reference to a list where each element is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+$return is a sdk_ontology.public_ontologies
+public_ontologies is a reference to a list where each element is a string
+
+
+=end text
+
+=item Description
+
+
+
+=back
+
+=cut
+
+ sub lsit_public_ontologies
+{
+    my($self, @args) = @_;
+
+# Authentication: required
+
+    if ((my $n = @args) != 0)
+    {
+	Bio::KBase::Exceptions::ArgumentValidationError->throw(error =>
+							       "Invalid argument count for function lsit_public_ontologies (received $n, expecting 0)");
+    }
+
+    my $result = $self->{client}->call($self->{url}, $self->{headers}, {
+	method => "sdk_ontology.lsit_public_ontologies",
+	params => \@args,
+    });
+    if ($result) {
+	if ($result->is_error) {
+	    Bio::KBase::Exceptions::JSONRPC->throw(error => $result->error_message,
+					       code => $result->content->{error}->{code},
+					       method_name => 'lsit_public_ontologies',
+					       data => $result->content->{error}->{error} # JSON::RPC::ReturnObject only supports JSONRPC 1.1 or 1.O
+					      );
+	} else {
+	    return wantarray ? @{$result->result} : $result->result->[0];
+	}
+    } else {
+        Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method lsit_public_ontologies",
+					    status_line => $self->{client}->status_line,
+					    method_name => 'lsit_public_ontologies',
+				       );
+    }
+}
+ 
+
+
+=head2 ontology_overview
+
+  $output = $obj->ontology_overview($params)
+
+=over 4
+
+=item Parameter and return types
+
+=begin html
+
+<pre>
+$params is a sdk_ontology.OntologyOverviewParams
+$output is a sdk_ontology.OntlogyOverviewOut
+OntologyOverviewParams is a reference to a hash where the following keys are defined:
+	ontology_dictionary_ref has a value which is a reference to a list where each element is a string
+OntlogyOverviewOut is a reference to a hash where the following keys are defined:
+	dictionaries_meta has a value which is a reference to a list where each element is a sdk_ontology.overViewInfo
+overViewInfo is a reference to a hash where the following keys are defined:
+	ontology has a value which is a string
+	namespace has a value which is a string
+	data_version has a value which is a string
+	format_version has a value which is a string
+	number_of_terms has a value which is an int
+	dictionary_ref has a value which is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+$params is a sdk_ontology.OntologyOverviewParams
+$output is a sdk_ontology.OntlogyOverviewOut
+OntologyOverviewParams is a reference to a hash where the following keys are defined:
+	ontology_dictionary_ref has a value which is a reference to a list where each element is a string
+OntlogyOverviewOut is a reference to a hash where the following keys are defined:
+	dictionaries_meta has a value which is a reference to a list where each element is a sdk_ontology.overViewInfo
+overViewInfo is a reference to a hash where the following keys are defined:
+	ontology has a value which is a string
+	namespace has a value which is a string
+	data_version has a value which is a string
+	format_version has a value which is a string
+	number_of_terms has a value which is an int
+	dictionary_ref has a value which is a string
+
+
+=end text
+
+=item Description
+
+
+
+=back
+
+=cut
+
+ sub ontology_overview
+{
+    my($self, @args) = @_;
+
+# Authentication: required
+
+    if ((my $n = @args) != 1)
+    {
+	Bio::KBase::Exceptions::ArgumentValidationError->throw(error =>
+							       "Invalid argument count for function ontology_overview (received $n, expecting 1)");
+    }
+    {
+	my($params) = @args;
+
+	my @_bad_arguments;
+        (ref($params) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument 1 \"params\" (value was \"$params\")");
+        if (@_bad_arguments) {
+	    my $msg = "Invalid arguments passed to ontology_overview:\n" . join("", map { "\t$_\n" } @_bad_arguments);
+	    Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
+								   method_name => 'ontology_overview');
+	}
+    }
+
+    my $result = $self->{client}->call($self->{url}, $self->{headers}, {
+	method => "sdk_ontology.ontology_overview",
+	params => \@args,
+    });
+    if ($result) {
+	if ($result->is_error) {
+	    Bio::KBase::Exceptions::JSONRPC->throw(error => $result->error_message,
+					       code => $result->content->{error}->{code},
+					       method_name => 'ontology_overview',
+					       data => $result->content->{error}->{error} # JSON::RPC::ReturnObject only supports JSONRPC 1.1 or 1.O
+					      );
+	} else {
+	    return wantarray ? @{$result->result} : $result->result->[0];
+	}
+    } else {
+        Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method ontology_overview",
+					    status_line => $self->{client}->status_line,
+					    method_name => 'ontology_overview',
+				       );
+    }
+}
+ 
+
+
+=head2 list_public_translations
+
+  $return = $obj->list_public_translations()
+
+=over 4
+
+=item Parameter and return types
+
+=begin html
+
+<pre>
+$return is a sdk_ontology.public_translations
+public_translations is a reference to a list where each element is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+$return is a sdk_ontology.public_translations
+public_translations is a reference to a list where each element is a string
+
+
+=end text
+
+=item Description
+
+
+
+=back
+
+=cut
+
+ sub list_public_translations
+{
+    my($self, @args) = @_;
+
+# Authentication: required
+
+    if ((my $n = @args) != 0)
+    {
+	Bio::KBase::Exceptions::ArgumentValidationError->throw(error =>
+							       "Invalid argument count for function list_public_translations (received $n, expecting 0)");
+    }
+
+    my $result = $self->{client}->call($self->{url}, $self->{headers}, {
+	method => "sdk_ontology.list_public_translations",
+	params => \@args,
+    });
+    if ($result) {
+	if ($result->is_error) {
+	    Bio::KBase::Exceptions::JSONRPC->throw(error => $result->error_message,
+					       code => $result->content->{error}->{code},
+					       method_name => 'list_public_translations',
+					       data => $result->content->{error}->{error} # JSON::RPC::ReturnObject only supports JSONRPC 1.1 or 1.O
+					      );
+	} else {
+	    return wantarray ? @{$result->result} : $result->result->[0];
+	}
+    } else {
+        Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method list_public_translations",
+					    status_line => $self->{client}->status_line,
+					    method_name => 'list_public_translations',
+				       );
+    }
+}
+ 
+
+
+=head2 get_ontology_terms
+
+  $output = $obj->get_ontology_terms($params)
+
+=over 4
+
+=item Parameter and return types
+
+=begin html
+
+<pre>
+$params is a sdk_ontology.GetOntologyTermsParams
+$output is a sdk_ontology.GetOntologyTermsOut
+GetOntologyTermsParams is a reference to a hash where the following keys are defined:
+	ontology_dictionary_ref has a value which is a string
+	term_ids has a value which is a reference to a list where each element is a string
+GetOntologyTermsOut is a reference to a hash where the following keys are defined:
+	term_info has a value which is a reference to a hash where the key is a string and the value is a reference to a list where each element is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+$params is a sdk_ontology.GetOntologyTermsParams
+$output is a sdk_ontology.GetOntologyTermsOut
+GetOntologyTermsParams is a reference to a hash where the following keys are defined:
+	ontology_dictionary_ref has a value which is a string
+	term_ids has a value which is a reference to a list where each element is a string
+GetOntologyTermsOut is a reference to a hash where the following keys are defined:
+	term_info has a value which is a reference to a hash where the key is a string and the value is a reference to a list where each element is a string
+
+
+=end text
+
+=item Description
+
+
+
+=back
+
+=cut
+
+ sub get_ontology_terms
+{
+    my($self, @args) = @_;
+
+# Authentication: required
+
+    if ((my $n = @args) != 1)
+    {
+	Bio::KBase::Exceptions::ArgumentValidationError->throw(error =>
+							       "Invalid argument count for function get_ontology_terms (received $n, expecting 1)");
+    }
+    {
+	my($params) = @args;
+
+	my @_bad_arguments;
+        (ref($params) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument 1 \"params\" (value was \"$params\")");
+        if (@_bad_arguments) {
+	    my $msg = "Invalid arguments passed to get_ontology_terms:\n" . join("", map { "\t$_\n" } @_bad_arguments);
+	    Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
+								   method_name => 'get_ontology_terms');
+	}
+    }
+
+    my $result = $self->{client}->call($self->{url}, $self->{headers}, {
+	method => "sdk_ontology.get_ontology_terms",
+	params => \@args,
+    });
+    if ($result) {
+	if ($result->is_error) {
+	    Bio::KBase::Exceptions::JSONRPC->throw(error => $result->error_message,
+					       code => $result->content->{error}->{code},
+					       method_name => 'get_ontology_terms',
+					       data => $result->content->{error}->{error} # JSON::RPC::ReturnObject only supports JSONRPC 1.1 or 1.O
+					      );
+	} else {
+	    return wantarray ? @{$result->result} : $result->result->[0];
+	}
+    } else {
+        Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method get_ontology_terms",
+					    status_line => $self->{client}->status_line,
+					    method_name => 'get_ontology_terms',
+				       );
+    }
+}
+ 
+
+
+=head2 get_equivalent_terms
+
+  $output = $obj->get_equivalent_terms($params)
+
+=over 4
+
+=item Parameter and return types
+
+=begin html
+
+<pre>
+$params is a sdk_ontology.GetEqTermsParams
+$output is a sdk_ontology.GetEqTermsOut
+GetEqTermsParams is a reference to a hash where the following keys are defined:
+	ontology_trans_ref has a value which is a string
+	term_ids has a value which is a reference to a list where each element is a string
+GetEqTermsOut is a reference to a hash where the following keys are defined:
+	term_info has a value which is a reference to a hash where the key is a string and the value is a reference to a list where each element is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+$params is a sdk_ontology.GetEqTermsParams
+$output is a sdk_ontology.GetEqTermsOut
+GetEqTermsParams is a reference to a hash where the following keys are defined:
+	ontology_trans_ref has a value which is a string
+	term_ids has a value which is a reference to a list where each element is a string
+GetEqTermsOut is a reference to a hash where the following keys are defined:
+	term_info has a value which is a reference to a hash where the key is a string and the value is a reference to a list where each element is a string
+
+
+=end text
+
+=item Description
+
+
+
+=back
+
+=cut
+
+ sub get_equivalent_terms
+{
+    my($self, @args) = @_;
+
+# Authentication: required
+
+    if ((my $n = @args) != 1)
+    {
+	Bio::KBase::Exceptions::ArgumentValidationError->throw(error =>
+							       "Invalid argument count for function get_equivalent_terms (received $n, expecting 1)");
+    }
+    {
+	my($params) = @args;
+
+	my @_bad_arguments;
+        (ref($params) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument 1 \"params\" (value was \"$params\")");
+        if (@_bad_arguments) {
+	    my $msg = "Invalid arguments passed to get_equivalent_terms:\n" . join("", map { "\t$_\n" } @_bad_arguments);
+	    Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
+								   method_name => 'get_equivalent_terms');
+	}
+    }
+
+    my $result = $self->{client}->call($self->{url}, $self->{headers}, {
+	method => "sdk_ontology.get_equivalent_terms",
+	params => \@args,
+    });
+    if ($result) {
+	if ($result->is_error) {
+	    Bio::KBase::Exceptions::JSONRPC->throw(error => $result->error_message,
+					       code => $result->content->{error}->{code},
+					       method_name => 'get_equivalent_terms',
+					       data => $result->content->{error}->{error} # JSON::RPC::ReturnObject only supports JSONRPC 1.1 or 1.O
+					      );
+	} else {
+	    return wantarray ? @{$result->result} : $result->result->[0];
+	}
+    } else {
+        Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method get_equivalent_terms",
+					    status_line => $self->{client}->status_line,
+					    method_name => 'get_equivalent_terms',
+				       );
+    }
+}
+ 
+
+
 =head2 annotationtogo
 
   $output = $obj->annotationtogo($params)
@@ -273,6 +896,411 @@ sub _validate_version {
 }
 
 =head1 TYPES
+
+
+
+=head2 ListOntologyTermsParams
+
+=over 4
+
+
+
+=item Description
+
+workspace - the name of the workspace for input/output
+ontology_dictionary - reference to ontology dictionary
+
+
+=item Definition
+
+=begin html
+
+<pre>
+a reference to a hash where the following keys are defined:
+workspace has a value which is a string
+ontology_dictionary_ref has a value which is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+a reference to a hash where the following keys are defined:
+workspace has a value which is a string
+ontology_dictionary_ref has a value which is a string
+
+
+=end text
+
+=back
+
+
+
+=head2 OntlogyTermsOut
+
+=over 4
+
+
+
+=item Definition
+
+=begin html
+
+<pre>
+a reference to a hash where the following keys are defined:
+ontology has a value which is a string
+namespace has a value which is a string
+term_id has a value which is a reference to a list where each element is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+a reference to a hash where the following keys are defined:
+ontology has a value which is a string
+namespace has a value which is a string
+term_id has a value which is a reference to a list where each element is a string
+
+
+=end text
+
+=back
+
+
+
+=head2 OntologyOverviewParams
+
+=over 4
+
+
+
+=item Description
+
+Ontology overview
+
+
+=item Definition
+
+=begin html
+
+<pre>
+a reference to a hash where the following keys are defined:
+ontology_dictionary_ref has a value which is a reference to a list where each element is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+a reference to a hash where the following keys are defined:
+ontology_dictionary_ref has a value which is a reference to a list where each element is a string
+
+
+=end text
+
+=back
+
+
+
+=head2 overViewInfo
+
+=over 4
+
+
+
+=item Definition
+
+=begin html
+
+<pre>
+a reference to a hash where the following keys are defined:
+ontology has a value which is a string
+namespace has a value which is a string
+data_version has a value which is a string
+format_version has a value which is a string
+number_of_terms has a value which is an int
+dictionary_ref has a value which is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+a reference to a hash where the following keys are defined:
+ontology has a value which is a string
+namespace has a value which is a string
+data_version has a value which is a string
+format_version has a value which is a string
+number_of_terms has a value which is an int
+dictionary_ref has a value which is a string
+
+
+=end text
+
+=back
+
+
+
+=head2 OntlogyOverviewOut
+
+=over 4
+
+
+
+=item Definition
+
+=begin html
+
+<pre>
+a reference to a hash where the following keys are defined:
+dictionaries_meta has a value which is a reference to a list where each element is a sdk_ontology.overViewInfo
+
+</pre>
+
+=end html
+
+=begin text
+
+a reference to a hash where the following keys are defined:
+dictionaries_meta has a value which is a reference to a list where each element is a sdk_ontology.overViewInfo
+
+
+=end text
+
+=back
+
+
+
+=head2 public_ontologies
+
+=over 4
+
+
+
+=item Description
+
+List public ontologies
+
+
+=item Definition
+
+=begin html
+
+<pre>
+a reference to a list where each element is a string
+</pre>
+
+=end html
+
+=begin text
+
+a reference to a list where each element is a string
+
+=end text
+
+=back
+
+
+
+=head2 public_translations
+
+=over 4
+
+
+
+=item Description
+
+List public translations
+
+
+=item Definition
+
+=begin html
+
+<pre>
+a reference to a list where each element is a string
+</pre>
+
+=end html
+
+=begin text
+
+a reference to a list where each element is a string
+
+=end text
+
+=back
+
+
+
+=head2 GetOntologyTermsParams
+
+=over 4
+
+
+
+=item Description
+
+get ontology terms
+
+
+=item Definition
+
+=begin html
+
+<pre>
+a reference to a hash where the following keys are defined:
+ontology_dictionary_ref has a value which is a string
+term_ids has a value which is a reference to a list where each element is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+a reference to a hash where the following keys are defined:
+ontology_dictionary_ref has a value which is a string
+term_ids has a value which is a reference to a list where each element is a string
+
+
+=end text
+
+=back
+
+
+
+=head2 term_info
+
+=over 4
+
+
+
+=item Definition
+
+=begin html
+
+<pre>
+a reference to a hash where the following keys are defined:
+name has a value which is a string
+id has a value which is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+a reference to a hash where the following keys are defined:
+name has a value which is a string
+id has a value which is a string
+
+
+=end text
+
+=back
+
+
+
+=head2 GetOntologyTermsOut
+
+=over 4
+
+
+
+=item Definition
+
+=begin html
+
+<pre>
+a reference to a hash where the following keys are defined:
+term_info has a value which is a reference to a hash where the key is a string and the value is a reference to a list where each element is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+a reference to a hash where the following keys are defined:
+term_info has a value which is a reference to a hash where the key is a string and the value is a reference to a list where each element is a string
+
+
+=end text
+
+=back
+
+
+
+=head2 GetEqTermsParams
+
+=over 4
+
+
+
+=item Description
+
+get equivalent terms
+
+
+=item Definition
+
+=begin html
+
+<pre>
+a reference to a hash where the following keys are defined:
+ontology_trans_ref has a value which is a string
+term_ids has a value which is a reference to a list where each element is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+a reference to a hash where the following keys are defined:
+ontology_trans_ref has a value which is a string
+term_ids has a value which is a reference to a list where each element is a string
+
+
+=end text
+
+=back
+
+
+
+=head2 GetEqTermsOut
+
+=over 4
+
+
+
+=item Definition
+
+=begin html
+
+<pre>
+a reference to a hash where the following keys are defined:
+term_info has a value which is a reference to a hash where the key is a string and the value is a reference to a list where each element is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+a reference to a hash where the following keys are defined:
+term_info has a value which is a reference to a hash where the key is a string and the value is a reference to a list where each element is a string
+
+
+=end text
+
+=back
 
 
 

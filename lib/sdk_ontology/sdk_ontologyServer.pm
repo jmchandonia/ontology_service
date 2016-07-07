@@ -28,6 +28,27 @@ has 'local_headers' => (is => 'ro', isa => 'HashRef');
 our $CallContext;
 
 our %return_counts = (
+        'list_ontology_terms' => 1,
+        'list_ontology_terms_async' => 1,
+        'list_ontology_terms_check' => 1,
+        'ontology_overview' => 1,
+        'ontology_overview_async' => 1,
+        'ontology_overview_check' => 1,
+        'lsit_public_ontologies' => 1,
+        'lsit_public_ontologies_async' => 1,
+        'lsit_public_ontologies_check' => 1,
+        'ontology_overview' => 1,
+        'ontology_overview_async' => 1,
+        'ontology_overview_check' => 1,
+        'list_public_translations' => 1,
+        'list_public_translations_async' => 1,
+        'list_public_translations_check' => 1,
+        'get_ontology_terms' => 1,
+        'get_ontology_terms_async' => 1,
+        'get_ontology_terms_check' => 1,
+        'get_equivalent_terms' => 1,
+        'get_equivalent_terms_async' => 1,
+        'get_equivalent_terms_check' => 1,
         'annotationtogo' => 1,
         'annotationtogo_async' => 1,
         'annotationtogo_check' => 1,
@@ -35,20 +56,62 @@ our %return_counts = (
 );
 
 our %method_authentication = (
+        'list_ontology_terms' => 'required',
+        'list_ontology_terms_async' => 'required',
+        'list_ontology_terms_check' => 'required',
+        'ontology_overview' => 'required',
+        'ontology_overview_async' => 'required',
+        'ontology_overview_check' => 'required',
+        'lsit_public_ontologies' => 'required',
+        'lsit_public_ontologies_async' => 'required',
+        'lsit_public_ontologies_check' => 'required',
+        'ontology_overview' => 'required',
+        'ontology_overview_async' => 'required',
+        'ontology_overview_check' => 'required',
+        'list_public_translations' => 'required',
+        'list_public_translations_async' => 'required',
+        'list_public_translations_check' => 'required',
+        'get_ontology_terms' => 'required',
+        'get_ontology_terms_async' => 'required',
+        'get_ontology_terms_check' => 'required',
+        'get_equivalent_terms' => 'required',
+        'get_equivalent_terms_async' => 'required',
+        'get_equivalent_terms_check' => 'required',
         'annotationtogo' => 'required',
         'annotationtogo_async' => 'required',
         'annotationtogo_check' => 'required',
 );
 
 our %sync_methods = (
+        'list_ontology_terms' => 1,
+        'ontology_overview' => 1,
+        'lsit_public_ontologies' => 1,
+        'ontology_overview' => 1,
+        'list_public_translations' => 1,
+        'get_ontology_terms' => 1,
+        'get_equivalent_terms' => 1,
         'annotationtogo' => 1,
 );
 
 our %async_run_methods = (
+        'list_ontology_terms_async' => 'sdk_ontology.list_ontology_terms',
+        'ontology_overview_async' => 'sdk_ontology.ontology_overview',
+        'lsit_public_ontologies_async' => 'sdk_ontology.lsit_public_ontologies',
+        'ontology_overview_async' => 'sdk_ontology.ontology_overview',
+        'list_public_translations_async' => 'sdk_ontology.list_public_translations',
+        'get_ontology_terms_async' => 'sdk_ontology.get_ontology_terms',
+        'get_equivalent_terms_async' => 'sdk_ontology.get_equivalent_terms',
         'annotationtogo_async' => 'sdk_ontology.annotationtogo',
 );
 
 our %async_check_methods = (
+        'list_ontology_terms_check' => 'sdk_ontology.list_ontology_terms',
+        'ontology_overview_check' => 'sdk_ontology.ontology_overview',
+        'lsit_public_ontologies_check' => 'sdk_ontology.lsit_public_ontologies',
+        'ontology_overview_check' => 'sdk_ontology.ontology_overview',
+        'list_public_translations_check' => 'sdk_ontology.list_public_translations',
+        'get_ontology_terms_check' => 'sdk_ontology.get_ontology_terms',
+        'get_equivalent_terms_check' => 'sdk_ontology.get_equivalent_terms',
         'annotationtogo_check' => 'sdk_ontology.annotationtogo',
 );
 
@@ -56,6 +119,27 @@ sub _build_valid_methods
 {
     my($self) = @_;
     my $methods = {
+        'list_ontology_terms' => 1,
+        'list_ontology_terms_async' => 1,
+        'list_ontology_terms_check' => 1,
+        'ontology_overview' => 1,
+        'ontology_overview_async' => 1,
+        'ontology_overview_check' => 1,
+        'lsit_public_ontologies' => 1,
+        'lsit_public_ontologies_async' => 1,
+        'lsit_public_ontologies_check' => 1,
+        'ontology_overview' => 1,
+        'ontology_overview_async' => 1,
+        'ontology_overview_check' => 1,
+        'list_public_translations' => 1,
+        'list_public_translations_async' => 1,
+        'list_public_translations_check' => 1,
+        'get_ontology_terms' => 1,
+        'get_ontology_terms_async' => 1,
+        'get_ontology_terms_check' => 1,
+        'get_equivalent_terms' => 1,
+        'get_equivalent_terms_async' => 1,
+        'get_equivalent_terms_check' => 1,
         'annotationtogo' => 1,
         'annotationtogo_async' => 1,
         'annotationtogo_check' => 1,

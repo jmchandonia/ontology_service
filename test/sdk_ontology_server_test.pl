@@ -26,25 +26,52 @@ my $impl = new sdk_ontology::sdk_ontologyImpl();
 my $params = {
 input_genome => "ecoli",
 workspace => "janakakbase:1455821214132",
-ontology_translation => "sso2go",
-translation_behavior => "tFO",
+ontology_translation => "ec2go",
+translation_behavior => "featureOnly",
 custom_translation => "",
 output_genome => "ecoliModified"
 };
 
 my $shew = {
-input_genome => "she_sso2go",
+input_genome => "Shew_uniprot",
 workspace => "janakakbase:1455821214132",
-ontology_translation => "interpro2go",
-translation_behavior => "featureOnly",
+ontology_translation => "uniprotkb_kw2go",
+translation_behavior => "annoandOnt",
 custom_translation => "",
-output_genome => "defined_sso2go"
+clear_existing => 0,
+output_genome => "shew_uniprot_ec2go"
+};
+
+my $list_ontology_terms_test = {
+    workspace => "KBaseOntology",
+    ontology_dictionary_ref => "6308/9/2"
+};
+
+my $ontology_overview_test ={
+    ontology_dictionary_ref => ["6308/9/2","6308/8/1"]
+};
+
+my $get_ontology_terms_test = {
+    term_ids => ["SSO:000008325","SSO:000005093","SSO:000007691","SSO:000005610"],
+    ontology_dictionary_ref => "6308/8/1"
+};
+my $get_eq_terms_test = {
+    term_ids => ["SSO:000005862","SSO:000000019","SSO:000002940","SSO:000002499"],
+    ontology_trans_ref => "6308/14/1"
 };
 
 eval {
 	#my $ret =$impl->seedtogo($ws,$geno,$trt,$out);
-  	my $ret =$impl->annotationtogo($shew);
+  	#my $ret =$impl->annotationtogo($shew);
+    #my $ret =$impl->list_ontology_terms($list_ontology_terms_test);
+    my $ret =$impl->ontology_overview($ontology_overview_test);
+    #my $ret =$impl->lsit_public_ontologies();
+    #my $ret =$impl->list_public_translations();
+    #my $ret =$impl->get_ontology_terms($get_ontology_terms_test);
+    #my $ret =$impl->get_equivalent_terms($get_eq_terms_test);
 };
+
+
 
 my $err = undef;
 if ($@) {
