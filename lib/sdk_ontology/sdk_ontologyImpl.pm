@@ -2,8 +2,10 @@ package sdk_ontology::sdk_ontologyImpl;
 use strict;
 use Bio::KBase::Exceptions;
 # Use Semantic Versioning (2.0.0-rc.1)
-# http://semver.org
-our $VERSION = "0.1.0";
+# http://semver.org 
+our $VERSION = "0.0.1";
+our $GIT_URL = "https://github.com/kbaseapps/ontology_service";
+our $GIT_COMMIT_HASH = "fb3a762639fe2b0adba6e5183a44c49b51e361cd";
 
 =head1 NAME
 
@@ -732,11 +734,14 @@ sub ontology_overview
     my $ctx = $sdk_ontology::sdk_ontologyServer::CallContext;
     my($output);
     #BEGIN ontology_overview
+
+
     my $token=$ctx->token;
     my $provenance=$ctx->provenance;
     my $wsClient=Bio::KBase::workspace::Client->new($self->{'workspace-url'},token=>$token);
     my $ont_dic=undef;
     my $dict_list = [];
+
 
     if (!exists $params->{'ontology_dictionary_ref'}) {
         die "Parameter ontology_dictionary_ref is not set in input arguments";
@@ -762,11 +767,10 @@ sub ontology_overview
          push ($dict_list, $overViewInfo);
 
     }
-    die;
     $output->{dictionaries_meta} = $dict_list;
-    print &Dumper ($output);
+    #print &Dumper ($output);
 
-    die;
+
 
     #END ontology_overview
     my @_bad_returns;
@@ -861,132 +865,6 @@ sub lsit_public_ontologies
 							       method_name => 'lsit_public_ontologies');
     }
     return($return);
-}
-
-
-
-
-=head2 ontology_overview
-
-  $output = $obj->ontology_overview($params)
-
-=over 4
-
-=item Parameter and return types
-
-=begin html
-
-<pre>
-$params is a sdk_ontology.OntologyOverviewParams
-$output is a sdk_ontology.OntlogyOverviewOut
-OntologyOverviewParams is a reference to a hash where the following keys are defined:
-	ontology_dictionary_ref has a value which is a reference to a list where each element is a string
-OntlogyOverviewOut is a reference to a hash where the following keys are defined:
-	dictionaries_meta has a value which is a reference to a list where each element is a sdk_ontology.overViewInfo
-overViewInfo is a reference to a hash where the following keys are defined:
-	ontology has a value which is a string
-	namespace has a value which is a string
-	data_version has a value which is a string
-	format_version has a value which is a string
-	number_of_terms has a value which is an int
-	dictionary_ref has a value which is a string
-
-</pre>
-
-=end html
-
-=begin text
-
-$params is a sdk_ontology.OntologyOverviewParams
-$output is a sdk_ontology.OntlogyOverviewOut
-OntologyOverviewParams is a reference to a hash where the following keys are defined:
-	ontology_dictionary_ref has a value which is a reference to a list where each element is a string
-OntlogyOverviewOut is a reference to a hash where the following keys are defined:
-	dictionaries_meta has a value which is a reference to a list where each element is a sdk_ontology.overViewInfo
-overViewInfo is a reference to a hash where the following keys are defined:
-	ontology has a value which is a string
-	namespace has a value which is a string
-	data_version has a value which is a string
-	format_version has a value which is a string
-	number_of_terms has a value which is an int
-	dictionary_ref has a value which is a string
-
-
-=end text
-
-
-
-=item Description
-
-
-
-=back
-
-=cut
-
-sub ontology_overview
-{
-    my $self = shift;
-    my($params) = @_;
-
-    my @_bad_arguments;
-    (ref($params) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument \"params\" (value was \"$params\")");
-    if (@_bad_arguments) {
-	my $msg = "Invalid arguments passed to ontology_overview:\n" . join("", map { "\t$_\n" } @_bad_arguments);
-	Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
-							       method_name => 'ontology_overview');
-    }
-
-    my $ctx = $sdk_ontology::sdk_ontologyServer::CallContext;
-    my($output);
-    #BEGIN ontology_overview
-
-
-    my $token=$ctx->token;
-    my $provenance=$ctx->provenance;
-    my $wsClient=Bio::KBase::workspace::Client->new($self->{'workspace-url'},token=>$token);
-    my $ont_dic=undef;
-    my $dict_list = [];
-
-
-    if (!exists $params->{'ontology_dictionary_ref'}) {
-        die "Parameter ontology_dictionary_ref is not set in input arguments";
-    }
-    my $ont_dic_ref=$params->{'ontology_dictionary_ref'};
-
-    foreach my $d (@$ont_dic_ref){
-
-        eval {
-        $ont_dic=$wsClient->get_objects([{ref=>$d}])->[0]{data};
-    };
-    if ($@) {
-        die "Error loading ontology dictionary object from workspace:\n".$@;
-    }
-
-        my $overViewInfo = undef;
-         $overViewInfo->{namespace} = $ont_dic->{default_namespace};
-         $overViewInfo->{ontology} = $ont_dic->{ontology};
-         $overViewInfo->{data_version} = $ont_dic->{data_version};
-         $overViewInfo->{format_version} = $ont_dic->{format_version};
-         $overViewInfo->{number_of_terms} = keys $ont_dic->{term_hash};
-         $overViewInfo->{dictionary_ref} = $d;
-         push ($dict_list, $overViewInfo);
-
-    }
-    $output->{dictionaries_meta} = $dict_list;
-    #print &Dumper ($output);
-
-
-
-    #END ontology_overview
-    my @_bad_returns;
-    (ref($output) eq 'HASH') or push(@_bad_returns, "Invalid type for return variable \"output\" (value was \"$output\")");
-    if (@_bad_returns) {
-	my $msg = "Invalid returns passed to ontology_overview:\n" . join("", map { "\t$_\n" } @_bad_returns);
-	Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
-							       method_name => 'ontology_overview');
-    }
-    return($output);
 }
 
 
@@ -1216,7 +1094,7 @@ GetEqTermsParams is a reference to a hash where the following keys are defined:
 	ontology_trans_ref has a value which is a string
 	term_ids has a value which is a reference to a list where each element is a string
 GetEqTermsOut is a reference to a hash where the following keys are defined:
-	term_info has a value which is a reference to a hash where the key is a string and the value is a reference to a list where each element is a string
+	term_info_list has a value which is a reference to a hash where the key is a string and the value is a reference to a list where each element is a string
 
 </pre>
 
@@ -1230,7 +1108,7 @@ GetEqTermsParams is a reference to a hash where the following keys are defined:
 	ontology_trans_ref has a value which is a string
 	term_ids has a value which is a reference to a list where each element is a string
 GetEqTermsOut is a reference to a hash where the following keys are defined:
-	term_info has a value which is a reference to a hash where the key is a string and the value is a reference to a list where each element is a string
+	term_info_list has a value which is a reference to a hash where the key is a string and the value is a reference to a list where each element is a string
 
 
 =end text
@@ -1531,9 +1409,9 @@ sub annotationtogo
 
 
 
-=head2 version
+=head2 status 
 
-  $return = $obj->version()
+  $return = $obj->status()
 
 =over 4
 
@@ -1555,14 +1433,19 @@ $return is a string
 
 =item Description
 
-Return the module version. This is a Semantic Versioning number.
+Return the module status. This is a structure including Semantic Versioning number, state and git info.
 
 =back
 
 =cut
 
-sub version {
-    return $VERSION;
+sub status {
+    my($return);
+    #BEGIN_STATUS
+    $return = {"state" => "OK", "message" => "", "version" => $VERSION,
+               "git_url" => $GIT_URL, "git_commit_hash" => $GIT_COMMIT_HASH};
+    #END_STATUS
+    return($return);
 }
 
 =head1 TYPES
@@ -1944,6 +1827,38 @@ term_ids has a value which is a reference to a list where each element is a stri
 
 
 
+=head2 term_info_list
+
+=over 4
+
+
+
+=item Definition
+
+=begin html
+
+<pre>
+a reference to a hash where the following keys are defined:
+name has a value which is a string
+terms has a value which is a reference to a list where each element is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+a reference to a hash where the following keys are defined:
+name has a value which is a string
+terms has a value which is a reference to a list where each element is a string
+
+
+=end text
+
+=back
+
+
+
 =head2 GetEqTermsOut
 
 =over 4
@@ -1956,7 +1871,7 @@ term_ids has a value which is a reference to a list where each element is a stri
 
 <pre>
 a reference to a hash where the following keys are defined:
-term_info has a value which is a reference to a hash where the key is a string and the value is a reference to a list where each element is a string
+term_info_list has a value which is a reference to a hash where the key is a string and the value is a reference to a list where each element is a string
 
 </pre>
 
@@ -1965,7 +1880,7 @@ term_info has a value which is a reference to a hash where the key is a string a
 =begin text
 
 a reference to a hash where the following keys are defined:
-term_info has a value which is a reference to a hash where the key is a string and the value is a reference to a list where each element is a string
+term_info_list has a value which is a reference to a hash where the key is a string and the value is a reference to a list where each element is a string
 
 
 =end text

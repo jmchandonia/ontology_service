@@ -63,9 +63,6 @@ module sdk_ontology {
 
     funcdef lsit_public_ontologies () returns (public_ontologies) authentication required;
 
-
-    funcdef ontology_overview (OntologyOverviewParams params) returns (OntlogyOverviewOut output) authentication required;
-
     /*
         List public translations
     */
@@ -112,10 +109,15 @@ module sdk_ontology {
     }GetEqTermsParams;
 
 
+    typedef structure{
+        string name;
+        list <string> terms;
+    }term_info_list;
+
 
     typedef structure {
 
-        mapping <string, list<string>> term_info;
+        mapping <string, list<string>> term_info_list;
 
     }GetEqTermsOut;
 
