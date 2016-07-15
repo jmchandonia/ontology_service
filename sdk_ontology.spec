@@ -12,7 +12,7 @@ module sdk_ontology {
 
     */
     typedef structure {
-        string workspace;
+
         string ontology_dictionary_ref;
 
     } ListOntologyTermsParams;

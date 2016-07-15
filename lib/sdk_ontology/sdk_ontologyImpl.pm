@@ -3,9 +3,7 @@ use strict;
 use Bio::KBase::Exceptions;
 # Use Semantic Versioning (2.0.0-rc.1)
 # http://semver.org 
-our $VERSION = "0.0.1";
-our $GIT_URL = "https://github.com/kbaseapps/ontology_service";
-our $GIT_COMMIT_HASH = "fb3a762639fe2b0adba6e5183a44c49b51e361cd";
+our $VERSION = "0.1.0";
 
 =head1 NAME
 
@@ -23,6 +21,8 @@ use Bio::KBase::AuthToken;
 use Bio::KBase::workspace::Client;
 use Config::IniFiles;
 use Data::Dumper;
+use JSON;
+binmode STDOUT, ":utf8";
 our $EC_PATTERN = qr/\(\s*E\.?C\.?(?:\s+|:)(\d\.(?:\d+|-)\.(?:\d+|-)\.(?:n?\d+|-)\s*)\)/;
 
 sub version {
@@ -563,7 +563,6 @@ sub new
 $params is a sdk_ontology.ListOntologyTermsParams
 $output is a sdk_ontology.OntlogyTermsOut
 ListOntologyTermsParams is a reference to a hash where the following keys are defined:
-	workspace has a value which is a string
 	ontology_dictionary_ref has a value which is a string
 OntlogyTermsOut is a reference to a hash where the following keys are defined:
 	ontology has a value which is a string
@@ -579,7 +578,6 @@ OntlogyTermsOut is a reference to a hash where the following keys are defined:
 $params is a sdk_ontology.ListOntologyTermsParams
 $output is a sdk_ontology.OntlogyTermsOut
 ListOntologyTermsParams is a reference to a hash where the following keys are defined:
-	workspace has a value which is a string
 	ontology_dictionary_ref has a value which is a string
 OntlogyTermsOut is a reference to a hash where the following keys are defined:
 	ontology has a value which is a string
@@ -620,11 +618,6 @@ sub list_ontology_terms
     my $provenance=$ctx->provenance;
     my $wsClient=Bio::KBase::workspace::Client->new($self->{'workspace-url'},token=>$token);
     my $ont_dic=undef;
-
-    if (!exists $params->{'workspace'}) {
-         print "Parameter workspace is not set in input arguments";
-    }
-    my $workspace_name=$params->{'workspace'};
 
     if (!exists $params->{'ontology_dictionary_ref'}) {
         die "Parameter ontology_dictionary_ref is not set in input arguments";
@@ -1156,17 +1149,15 @@ sub get_equivalent_terms
         die "Parameter term_ids is not set in input arguments";
     }
     my $term_ids=$params->{'term_ids'};
-
+    #$ont_tr_ref = "8162/10/2";
 
     eval {
-        $ont_Tr=$wsClient->get_objects([{ref=>$ont_tr_ref}])->[0]{data}{translation};
+        $ont_Tr=$wsClient->get_objects([{ref=>$ont_tr_ref}])->[0]{data};#{translation};
     };
     if ($@) {
         die "Error loading ontology dictionary object from workspace:\n".$@;
     }
 
-    #print &Dumper ($ont_Tr);
-    #die;
     my $term_info;
     foreach my $t (@$term_ids){
         my $term_info_id = {
@@ -1182,7 +1173,7 @@ sub get_equivalent_terms
         }
     }
         $output = $term_info;
-        print &Dumper ($term_info);
+        #print &Dumper ($term_info);
     #die;
 
     #END get_equivalent_terms
@@ -1409,9 +1400,9 @@ sub annotationtogo
 
 
 
-=head2 status 
+=head2 version 
 
-  $return = $obj->status()
+  $return = $obj->version()
 
 =over 4
 
@@ -1433,19 +1424,14 @@ $return is a string
 
 =item Description
 
-Return the module status. This is a structure including Semantic Versioning number, state and git info.
+Return the module version. This is a Semantic Versioning number.
 
 =back
 
 =cut
 
-sub status {
-    my($return);
-    #BEGIN_STATUS
-    $return = {"state" => "OK", "message" => "", "version" => $VERSION,
-               "git_url" => $GIT_URL, "git_commit_hash" => $GIT_COMMIT_HASH};
-    #END_STATUS
-    return($return);
+sub version {
+    return $VERSION;
 }
 
 =head1 TYPES
@@ -1470,7 +1456,6 @@ ontology_dictionary - reference to ontology dictionary
 
 <pre>
 a reference to a hash where the following keys are defined:
-workspace has a value which is a string
 ontology_dictionary_ref has a value which is a string
 
 </pre>
@@ -1480,7 +1465,6 @@ ontology_dictionary_ref has a value which is a string
 =begin text
 
 a reference to a hash where the following keys are defined:
-workspace has a value which is a string
 ontology_dictionary_ref has a value which is a string
 
 

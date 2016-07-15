@@ -124,7 +124,6 @@ sub new
 $params is a sdk_ontology.ListOntologyTermsParams
 $output is a sdk_ontology.OntlogyTermsOut
 ListOntologyTermsParams is a reference to a hash where the following keys are defined:
-	workspace has a value which is a string
 	ontology_dictionary_ref has a value which is a string
 OntlogyTermsOut is a reference to a hash where the following keys are defined:
 	ontology has a value which is a string
@@ -140,7 +139,6 @@ OntlogyTermsOut is a reference to a hash where the following keys are defined:
 $params is a sdk_ontology.ListOntologyTermsParams
 $output is a sdk_ontology.OntlogyTermsOut
 ListOntologyTermsParams is a reference to a hash where the following keys are defined:
-	workspace has a value which is a string
 	ontology_dictionary_ref has a value which is a string
 OntlogyTermsOut is a reference to a hash where the following keys are defined:
 	ontology has a value which is a string
@@ -181,10 +179,9 @@ OntlogyTermsOut is a reference to a hash where the following keys are defined:
 	}
     }
 
-    my $url = $self->{url};
-    my $result = $self->{client}->call($url, $self->{headers}, {
-	    method => "sdk_ontology.list_ontology_terms",
-	    params => \@args,
+    my $result = $self->{client}->call($self->{url}, $self->{headers}, {
+	method => "sdk_ontology.list_ontology_terms",
+	params => \@args,
     });
     if ($result) {
 	if ($result->is_error) {
@@ -285,10 +282,9 @@ overViewInfo is a reference to a hash where the following keys are defined:
 	}
     }
 
-    my $url = $self->{url};
-    my $result = $self->{client}->call($url, $self->{headers}, {
-	    method => "sdk_ontology.ontology_overview",
-	    params => \@args,
+    my $result = $self->{client}->call($self->{url}, $self->{headers}, {
+	method => "sdk_ontology.ontology_overview",
+	params => \@args,
     });
     if ($result) {
 	if ($result->is_error) {
@@ -356,10 +352,9 @@ public_ontologies is a reference to a list where each element is a string
 							       "Invalid argument count for function lsit_public_ontologies (received $n, expecting 0)");
     }
 
-    my $url = $self->{url};
-    my $result = $self->{client}->call($url, $self->{headers}, {
-	    method => "sdk_ontology.lsit_public_ontologies",
-	    params => \@args,
+    my $result = $self->{client}->call($self->{url}, $self->{headers}, {
+	method => "sdk_ontology.lsit_public_ontologies",
+	params => \@args,
     });
     if ($result) {
 	if ($result->is_error) {
@@ -427,10 +422,9 @@ public_translations is a reference to a list where each element is a string
 							       "Invalid argument count for function list_public_translations (received $n, expecting 0)");
     }
 
-    my $url = $self->{url};
-    my $result = $self->{client}->call($url, $self->{headers}, {
-	    method => "sdk_ontology.list_public_translations",
-	    params => \@args,
+    my $result = $self->{client}->call($self->{url}, $self->{headers}, {
+	method => "sdk_ontology.list_public_translations",
+	params => \@args,
     });
     if ($result) {
 	if ($result->is_error) {
@@ -519,10 +513,9 @@ GetOntologyTermsOut is a reference to a hash where the following keys are define
 	}
     }
 
-    my $url = $self->{url};
-    my $result = $self->{client}->call($url, $self->{headers}, {
-	    method => "sdk_ontology.get_ontology_terms",
-	    params => \@args,
+    my $result = $self->{client}->call($self->{url}, $self->{headers}, {
+	method => "sdk_ontology.get_ontology_terms",
+	params => \@args,
     });
     if ($result) {
 	if ($result->is_error) {
@@ -611,10 +604,9 @@ GetEqTermsOut is a reference to a hash where the following keys are defined:
 	}
     }
 
-    my $url = $self->{url};
-    my $result = $self->{client}->call($url, $self->{headers}, {
-	    method => "sdk_ontology.get_equivalent_terms",
-	    params => \@args,
+    my $result = $self->{client}->call($self->{url}, $self->{headers}, {
+	method => "sdk_ontology.get_equivalent_terms",
+	params => \@args,
     });
     if ($result) {
 	if ($result->is_error) {
@@ -721,10 +713,9 @@ ElectronicAnnotationResults is a reference to a hash where the following keys ar
 	}
     }
 
-    my $url = $self->{url};
-    my $result = $self->{client}->call($url, $self->{headers}, {
-	    method => "sdk_ontology.annotationtogo",
-	    params => \@args,
+    my $result = $self->{client}->call($self->{url}, $self->{headers}, {
+	method => "sdk_ontology.annotationtogo",
+	params => \@args,
     });
     if ($result) {
 	if ($result->is_error) {
@@ -745,36 +736,6 @@ ElectronicAnnotationResults is a reference to a hash where the following keys ar
 }
  
   
-sub status
-{
-    my($self, @args) = @_;
-    if ((my $n = @args) != 0) {
-        Bio::KBase::Exceptions::ArgumentValidationError->throw(error =>
-                                   "Invalid argument count for function status (received $n, expecting 0)");
-    }
-    my $url = $self->{url};
-    my $result = $self->{client}->call($url, $self->{headers}, {
-        method => "sdk_ontology.status",
-        params => \@args,
-    });
-    if ($result) {
-        if ($result->is_error) {
-            Bio::KBase::Exceptions::JSONRPC->throw(error => $result->error_message,
-                           code => $result->content->{error}->{code},
-                           method_name => 'status',
-                           data => $result->content->{error}->{error} # JSON::RPC::ReturnObject only supports JSONRPC 1.1 or 1.O
-                          );
-        } else {
-            return wantarray ? @{$result->result} : $result->result->[0];
-        }
-    } else {
-        Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method status",
-                        status_line => $self->{client}->status_line,
-                        method_name => 'status',
-                       );
-    }
-}
-   
 
 sub version {
     my ($self) = @_;
@@ -851,7 +812,6 @@ ontology_dictionary - reference to ontology dictionary
 
 <pre>
 a reference to a hash where the following keys are defined:
-workspace has a value which is a string
 ontology_dictionary_ref has a value which is a string
 
 </pre>
@@ -861,7 +821,6 @@ ontology_dictionary_ref has a value which is a string
 =begin text
 
 a reference to a hash where the following keys are defined:
-workspace has a value which is a string
 ontology_dictionary_ref has a value which is a string
 
 

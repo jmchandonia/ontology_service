@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import us.kbase.auth.AuthToken;
 import us.kbase.common.service.JsonClientCaller;
 import us.kbase.common.service.JsonClientException;
@@ -22,7 +21,6 @@ import us.kbase.common.service.UnauthorizedException;
  */
 public class SdkOntologyClient {
     private JsonClientCaller caller;
-    private String serviceVersion = null;
 
 
     /** Constructs a client with a custom URL and no user credentials.
@@ -141,14 +139,6 @@ public class SdkOntologyClient {
         caller.setFileForNextRpcResponse(f);
     }
 
-    public String getServiceVersion() {
-        return this.serviceVersion;
-    }
-
-    public void setServiceVersion(String newValue) {
-        this.serviceVersion = newValue;
-    }
-
     /**
      * <p>Original spec-file function name: list_ontology_terms</p>
      * <pre>
@@ -162,7 +152,7 @@ public class SdkOntologyClient {
         List<Object> args = new ArrayList<Object>();
         args.add(params);
         TypeReference<List<OntlogyTermsOut>> retType = new TypeReference<List<OntlogyTermsOut>>() {};
-        List<OntlogyTermsOut> res = caller.jsonrpcCall("sdk_ontology.list_ontology_terms", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        List<OntlogyTermsOut> res = caller.jsonrpcCall("sdk_ontology.list_ontology_terms", args, retType, true, true, jsonRpcContext);
         return res.get(0);
     }
 
@@ -179,7 +169,7 @@ public class SdkOntologyClient {
         List<Object> args = new ArrayList<Object>();
         args.add(params);
         TypeReference<List<OntlogyOverviewOut>> retType = new TypeReference<List<OntlogyOverviewOut>>() {};
-        List<OntlogyOverviewOut> res = caller.jsonrpcCall("sdk_ontology.ontology_overview", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        List<OntlogyOverviewOut> res = caller.jsonrpcCall("sdk_ontology.ontology_overview", args, retType, true, true, jsonRpcContext);
         return res.get(0);
     }
 
@@ -194,7 +184,7 @@ public class SdkOntologyClient {
     public List<String> lsitPublicOntologies(RpcContext... jsonRpcContext) throws IOException, JsonClientException {
         List<Object> args = new ArrayList<Object>();
         TypeReference<List<List<String>>> retType = new TypeReference<List<List<String>>>() {};
-        List<List<String>> res = caller.jsonrpcCall("sdk_ontology.lsit_public_ontologies", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        List<List<String>> res = caller.jsonrpcCall("sdk_ontology.lsit_public_ontologies", args, retType, true, true, jsonRpcContext);
         return res.get(0);
     }
 
@@ -209,7 +199,7 @@ public class SdkOntologyClient {
     public List<String> listPublicTranslations(RpcContext... jsonRpcContext) throws IOException, JsonClientException {
         List<Object> args = new ArrayList<Object>();
         TypeReference<List<List<String>>> retType = new TypeReference<List<List<String>>>() {};
-        List<List<String>> res = caller.jsonrpcCall("sdk_ontology.list_public_translations", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        List<List<String>> res = caller.jsonrpcCall("sdk_ontology.list_public_translations", args, retType, true, true, jsonRpcContext);
         return res.get(0);
     }
 
@@ -226,7 +216,7 @@ public class SdkOntologyClient {
         List<Object> args = new ArrayList<Object>();
         args.add(params);
         TypeReference<List<GetOntologyTermsOut>> retType = new TypeReference<List<GetOntologyTermsOut>>() {};
-        List<GetOntologyTermsOut> res = caller.jsonrpcCall("sdk_ontology.get_ontology_terms", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        List<GetOntologyTermsOut> res = caller.jsonrpcCall("sdk_ontology.get_ontology_terms", args, retType, true, true, jsonRpcContext);
         return res.get(0);
     }
 
@@ -243,7 +233,7 @@ public class SdkOntologyClient {
         List<Object> args = new ArrayList<Object>();
         args.add(params);
         TypeReference<List<GetEqTermsOut>> retType = new TypeReference<List<GetEqTermsOut>>() {};
-        List<GetEqTermsOut> res = caller.jsonrpcCall("sdk_ontology.get_equivalent_terms", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        List<GetEqTermsOut> res = caller.jsonrpcCall("sdk_ontology.get_equivalent_terms", args, retType, true, true, jsonRpcContext);
         return res.get(0);
     }
 
@@ -260,14 +250,7 @@ public class SdkOntologyClient {
         List<Object> args = new ArrayList<Object>();
         args.add(params);
         TypeReference<List<ElectronicAnnotationResults>> retType = new TypeReference<List<ElectronicAnnotationResults>>() {};
-        List<ElectronicAnnotationResults> res = caller.jsonrpcCall("sdk_ontology.annotationtogo", args, retType, true, true, jsonRpcContext, this.serviceVersion);
-        return res.get(0);
-    }
-
-    public Map<String, Object> status(RpcContext... jsonRpcContext) throws IOException, JsonClientException {
-        List<Object> args = new ArrayList<Object>();
-        TypeReference<List<Map<String, Object>>> retType = new TypeReference<List<Map<String, Object>>>() {};
-        List<Map<String, Object>> res = caller.jsonrpcCall("sdk_ontology.status", args, retType, true, false, jsonRpcContext, this.serviceVersion);
+        List<ElectronicAnnotationResults> res = caller.jsonrpcCall("sdk_ontology.annotationtogo", args, retType, true, true, jsonRpcContext);
         return res.get(0);
     }
 }
