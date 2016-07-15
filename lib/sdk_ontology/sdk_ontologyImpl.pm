@@ -1323,8 +1323,7 @@ sub annotationtogo
     my $genome=undef;
     my $ontTr=undef;
     my $cusTr=undef;
-    #my $ontWs = "KBaseOntology";
-    my $ontWs = "chenry:1466480454984";
+    my $ontWs = "KBaseOntology";
 
     if (defined $cus_tr && $ont_tr eq "custom"){
         $ontWs=$workspace_name;
@@ -1336,7 +1335,6 @@ sub annotationtogo
         die "Custome translationial table is not provided\n\n";
     }
 =cut
-    $ont_tr = "sso2go";
     eval {
         $genome=$wsClient->get_objects([{workspace=>$workspace_name,name=>$input_gen}])->[0]{data};
         $ontTr=$wsClient->get_objects([{workspace=>$ontWs,name=>$ont_tr}])->[0];#{data}{translation};
