@@ -2,7 +2,7 @@ package sdk_ontology::sdk_ontologyImpl;
 use strict;
 use Bio::KBase::Exceptions;
 # Use Semantic Versioning (2.0.0-rc.1)
-# http://semver.org 
+# http://semver.org
 our $VERSION = "0.1.0";
 
 =head1 NAME
@@ -68,7 +68,7 @@ sub searchec
 }
 
 sub ontologyTranslate{
-my ($genome, $ontTr, $ontRef, $ont_tr, $clear) = @_;
+my ($genome, $ontTr, $ontRef, $ont_tr, $clear, $dictionary_ref) = @_;
     my $func_list = $genome->{features};
     my %selectedRoles;
     my %termName;
@@ -157,7 +157,7 @@ my ($genome, $ontTr, $ontRef, $ont_tr, $clear) = @_;
                                     };
                                     push(@tempA, $nrL->[$i]);
                                     $ontData->{id} = $termName{$nrL->[$i]}; #$termName{$nrL->[$i]};
-                                    $ontData->{ontology_ref} = "dictionary ref";
+                                    $ontData->{ontology_ref} = $dictionary_ref;
                                     $ontData->{term_name} = $nrL->[$i];#$nrL->[$i];
                                     $ontEvi->{translation_provenance} = [$ontRef, $termId{$sn}->[1], $termId{$sn}->[0]];
                                     push (@{$ontData->{evidence}},$ontEvi);
@@ -195,7 +195,7 @@ my ($genome, $ontTr, $ontRef, $ont_tr, $clear) = @_;
                                         }
                                         else{
                                             $ontData->{id} = $termName{$nrL->[$i]}; #$termName{$nrL->[$i]};
-                                            $ontData->{ontology_ref} = "dictionary ref";
+                                            $ontData->{ontology_ref} = $dictionary_ref;
                                             $ontData->{term_name} = $nrL->[$i];#$nrL->[$i];
                                             $ontEvi->{translation_provenance} = [$ontRef, $termId{$sn}->[1], $termId{$sn}->[0]];
                                             push (@{$ontData->{evidence}},$ontEvi);
@@ -237,7 +237,7 @@ my ($genome, $ontTr, $ontRef, $ont_tr, $clear) = @_;
                                 };
                                 push(@tempA, $nrL->[$i]);
                                 $ontData->{id} = $termName{$nrL->[$i]}; #$termName{$nrL->[$i]};
-                                $ontData->{ontology_ref} = "dictionary ref";
+                                $ontData->{ontology_ref} = $dictionary_ref;
                                 $ontData->{term_name} = $nrL->[$i];#$nrL->[$i];
                                 $ontEvi->{translation_provenance} = [$ontRef, $termId{$sn}->[1], $termId{$sn}->[0]];
                                 push (@{$ontData->{evidence}},$ontEvi);
@@ -275,7 +275,7 @@ my ($genome, $ontTr, $ontRef, $ont_tr, $clear) = @_;
                                 }
                                 else{
                                     $ontData->{id} = $termName{$nrL->[$i]}; #$termName{$nrL->[$i]};
-                                    $ontData->{ontology_ref} = "dictionary ref";
+                                    $ontData->{ontology_ref} = $dictionary_ref;
                                     $ontData->{term_name} = $nrL->[$i];#$nrL->[$i];
                                     $ontEvi->{translation_provenance} = [$ontRef, $termId{$sn}->[1], $termId{$sn}->[0]];
                                     push (@{$ontData->{evidence}},$ontEvi);
@@ -301,7 +301,7 @@ my ($genome, $ontTr, $ontRef, $ont_tr, $clear) = @_;
 
 
 sub featureTranslate{
-    my ($genome, $ontTr, $ontRef, $ont_tr, $clear) = @_;
+    my ($genome, $ontTr, $ontRef, $ont_tr, $clear, $dictionary_ref) = @_;
     my $func_list = $genome->{features};
     my %selectedRoles;
     my %termName;
@@ -381,7 +381,7 @@ sub featureTranslate{
                                 };
                                 push(@tempA, $nrL->[$i]);
                                 $ontData->{id} = $termName{$nrL->[$i]}; #$termName{$nrL->[$i]};
-                                $ontData->{ontology_ref} = "dictionary ref";
+                                $ontData->{ontology_ref} = $dictionary_ref;
                                 $ontData->{term_name} = $nrL->[$i];#$nrL->[$i];
                                 $ontEvi->{translation_provenance} = [$ontRef, $termId{$sn}->[1], $termId{$sn}->[0]];
                                 push (@{$ontData->{evidence}},$ontEvi);
@@ -419,7 +419,7 @@ sub featureTranslate{
                                     }
                                     else{
                                         $ontData->{id} = $termName{$nrL->[$i]}; #$termName{$nrL->[$i]};
-                                        $ontData->{ontology_ref} = "dictionary ref";
+                                        $ontData->{ontology_ref} = $dictionary_ref;
                                         $ontData->{term_name} = $nrL->[$i];#$nrL->[$i];
                                         $ontEvi->{translation_provenance} = [$ontRef, $termId{$sn}->[1], $termId{$sn}->[0]];
                                         push (@{$ontData->{evidence}},$ontEvi);
@@ -460,7 +460,7 @@ sub featureTranslate{
                             };
                             push(@tempA, $nrL->[$i]);
                             $ontData->{id} = $termName{$nrL->[$i]}; #$termName{$nrL->[$i]};
-                            $ontData->{ontology_ref} = "dictionary ref";
+                            $ontData->{ontology_ref} = $dictionary_ref;
                             $ontData->{term_name} = $nrL->[$i];#$nrL->[$i];
                             $ontEvi->{translation_provenance} = [$ontRef, $termId{$sn}->[1], $termId{$sn}->[0]];
                             push (@{$ontData->{evidence}},$ontEvi);
@@ -497,7 +497,7 @@ sub featureTranslate{
                             }
                             else{
                                 $ontData->{id} = $termName{$nrL->[$i]}; #$termName{$nrL->[$i]};
-                                $ontData->{ontology_ref} = "dictionary ref";
+                                $ontData->{ontology_ref} = $dictionary_ref;
                                 $ontData->{term_name} = $nrL->[$i];#$nrL->[$i];
                                 $ontEvi->{translation_provenance} = [$ontRef, $termId{$sn}->[1], $termId{$sn}->[0]];
                                 push (@{$ontData->{evidence}},$ontEvi);
@@ -1323,7 +1323,8 @@ sub annotationtogo
     my $genome=undef;
     my $ontTr=undef;
     my $cusTr=undef;
-    my $ontWs = "KBaseOntology";
+    #my $ontWs = "KBaseOntology";
+    my $ontWs = "chenry:1466480454984";
 
     if (defined $cus_tr && $ont_tr eq "custom"){
         $ontWs=$workspace_name;
@@ -1335,6 +1336,7 @@ sub annotationtogo
         die "Custome translationial table is not provided\n\n";
     }
 =cut
+    $ont_tr = "sso2go";
     eval {
         $genome=$wsClient->get_objects([{workspace=>$workspace_name,name=>$input_gen}])->[0]{data};
         $ontTr=$wsClient->get_objects([{workspace=>$ontWs,name=>$ont_tr}])->[0];#{data}{translation};
@@ -1343,21 +1345,22 @@ sub annotationtogo
         die "Error loading ontology translation object from workspace:\n".$@;
     }
     my $ontRef = $ontTr->{info}->[6]."/".$ontTr->{info}->[0]."/".$ontTr->{info}->[4];
+    my $ontTableRef = $ontTr->{data}->{ontology1};
 
     if ( ($ont_tr eq "sso2go" || $ont_tr eq "interpro2go" || $ont_tr eq "custom" || $ont_tr eq "uniprotkb_kw2go" || $ont_tr eq "ec2go" )  && ($trns_bh eq "featureOnly") ){
         print "\n\n...translating feature annotations\n";
-        featureTranslate($genome, $ontTr->{data}->{translation}, $ontRef, $ont_tr, $cl_ex);
+        featureTranslate($genome, $ontTr->{data}->{translation}, $ontRef, $ont_tr, $cl_ex, $ontTableRef);
     }
 
     elsif ( ($ont_tr eq "sso2go" || $ont_tr eq "interpro2go" || $ont_tr eq "custom" || $ont_tr eq "uniprotkb_kw2go" || $ont_tr eq "ec2go" )  && ($trns_bh eq "ontologyOnly") ){
         print "\n\n...translating ontology terms\n";
-        ontologyTranslate($genome, $ontTr->{data}->{translation}, $ontRef, $ont_tr, $cl_ex);
+        ontologyTranslate($genome, $ontTr->{data}->{translation}, $ontRef, $ont_tr, $cl_ex, $ontTableRef);
     }
 
     elsif ( ($ont_tr eq "sso2go" || $ont_tr eq "interpro2go" || $ont_tr eq "custom" || $ont_tr eq "uniprotkb_kw2go" || $ont_tr eq "ec2go" )  && ($trns_bh eq "annoandOnt") ){
         print "\n\n...translating both feature annotations and ontology terms\n";
-        featureTranslate($genome, $ontTr->{data}->{translation}, $ontRef, $ont_tr, $cl_ex);
-        ontologyTranslate($genome, $ontTr->{data}->{translation}, $ontRef, $ont_tr, $cl_ex);
+        featureTranslate($genome, $ontTr->{data}->{translation}, $ontRef, $ont_tr, $cl_ex, $ontTableRef);
+        ontologyTranslate($genome, $ontTr->{data}->{translation}, $ontRef, $ont_tr, $cl_ex, $ontTableRef);
 
     }
     else{
@@ -1400,7 +1403,7 @@ sub annotationtogo
 
 
 
-=head2 version 
+=head2 version
 
   $return = $obj->version()
 
