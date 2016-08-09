@@ -1376,7 +1376,7 @@ sub annotationtogo
 				die "Genome failed to load!";
 			}
 			$genome = $self->util_from_json(pop(@{$output}));
-			$genome->{contigobj};
+			delete $genome->{contigobj};
 		} else {
 			$genome=$wsClient->get_objects([$self->util_configure_ws_id($workspace_name,$input_gen)])->[0]{data};
 		}
