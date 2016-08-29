@@ -3,7 +3,7 @@
 #
 name: Remap annotations based on Ontology translation table
 tooltip: |
-    This method translate existing genome annotations into GO terms for a given genome
+    This method translates existing genome functional annotations and/or ontology term assignments into available ontology term translations in KBase or custom ontology term translations.
 screenshots: []
 
 icon: icon.png
@@ -31,7 +31,7 @@ parameters :
         ui-name : |
             Genome name
         short-hint : |
-            Genome of Interest
+            A genome with functional annotations to be translated
     ontology_translation :
         ui-name : |
             Translation type
@@ -60,4 +60,31 @@ parameters :
         long-hint  : |
             changed annotations will be stored in this genome object.
 description : |
-    <p>This method translate SEED/KBase gene annotations into GO terms.</p>
+    <p>This method translates existing genome functional annotations and/or ontology term assignments into available ontology term translations in KBase or custom ontology term translations. Currently KBase supports  Enzyme Commission (EC) to Gene Ontology (GO), UniProtKB-Keyword to GO, InterPro to GO, SEED Subsystem Ontology (SSO) to GO and user uploaded custom translations (see Data Upload and Download Guide (hyperlink) for details on Ontology Translation upload). Reference ontology translation tables are available in KBase for the supported methods described above. The EC 2 GO, UniProtKB-Keyword to GO and InterPro to GO references tables are updated monthly from EBI’s <a href="http://www.ebi.ac.uk/GOA/ElectronicAnnotationMethods">Electronic Annotation Resources</a></p>.
+    <p>EC to GO maps EC numbers genome annotation function descriptions to GO terms with the ec2go ontology translation table. EC numbers are manually curated into the description line of Swiss-Prot entries and added automatically to TrEMBL entries. Mappings between EC and the corresponding GO terms are automatically made using the EC cross-references in the GO Molecular Function ontology. This method has been evaluated at up to 100% accurate.</p> 
+    <p>UniProtKB/Swiss-Prot entries are assigned keywords manually based on literature and sequence analysis checks by curators. Keywords are mapped to corresponding GO terms in the uniprotkb_kw2go translation table, which was originally constructed manually by MGI curators and is now maintained by the UniProt-GOA team at EBI. The mappings are then transitively assigned at each UniProt-GOA release. GO annotations using this technique will receive the evidence code Inferred from Electronic Annotation (IEA).</p>
+publications :
+    -
+        display-text: |
+            Hill, David P., et al. "Program description: Strategies for biological annotation of mammalian systems: implementing gene ontologies in mouse genome informatics." Genomics 74.1 (2001): 121-128.
+        link: http://www.ncbi.nlm.nih.gov/pubmed/11374909
+    -
+        display-text: |
+            Camon, Evelyn B., et al. "An evaluation of GO annotation retrieval for BioCreAtIvE and GOA." BMC bioinformatics 6.1 (2005): 1.
+        link: hhttp://www.ncbi.nlm.nih.gov/pubmed/15960829
+    -
+        display-text: |
+            The UniProt Consortium. UniProt: a hub for protein information. Nucleic Acids Research. 2015;43(Database issue):D204-D212. doi:10.1093/nar/gku989.
+        link: http://www.ncbi.nlm.nih.gov/pubmed/18957448
+    -
+        display-text: |
+            Camon EB, Barrell DG, Dimmer EC, et al. An evaluation of GO annotation retrieval for BioCreAtIvE and GOA. BMC Bioinformatics. 2005;6(Suppl 1):S17. doi:10.1186/1471-2105-6-S1-S17.
+        link: http://www.ncbi.nlm.nih.gov/pubmed/15960829
+    -
+        display-text: |
+            Burge, Sarah, Elizabeth Kelly, David Lonsdale, Prudence Mutowo-Muellenet, Craig McAnulla, Alex Mitchell, Amaia Sangrador-Vegas, Siew-Yit Yong, Nicola Mulder, and Sarah Hunter. "Manual GO annotation of predictive protein signatures: the InterPro approach to GO curation." Database 2012 (2012): bar068.
+        link: http://www.ncbi.nlm.nih.gov/pubmed/22301074
+    -
+        display-text: |
+            Mitchell, Alex, Hsin-Yu Chang, Louise Daugherty, Matthew Fraser, Sarah Hunter, Rodrigo Lopez, Craig McAnulla et al. "The InterPro protein families database: the classification resource after 15 years." Nucleic acids research 43, no. D1 (2015): D213-D221.
+        link: http://www.ncbi.nlm.nih.gov/pubmed/25428371
