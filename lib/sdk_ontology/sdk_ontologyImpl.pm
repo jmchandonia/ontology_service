@@ -1390,7 +1390,7 @@ sub annotationtogo
         $ont_tr=$cus_tr;
     }
     eval {
-        $genome = $self->util_ga_client()->util_get_genome($workspace_name."/".$input_gen);
+        $genome = $self->util_get_genome($workspace_name."/".$input_gen);
 		$ontTr=$wsClient->get_objects([{workspace=>$ontWs,name=>$ont_tr}])->[0];#{data}{translation};
     };
     if ($@) {
