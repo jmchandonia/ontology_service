@@ -18,9 +18,6 @@ default: compile
 all: compile build build-startup-script build-executable-script build-test-script
 
 compile:
-	mkdir -p $(TARGET)/pybin/
-	cp pybin/get_contigset.py $(TARGET)/pybin/
-	cp pybin/get_genome.py $(TARGET)/pybin/
 	kb-sdk compile $(SPEC_FILE) \
 		--out $(LIB_DIR) \
 		--plclname $(SERVICE_CAPS)::$(SERVICE_CAPS)Client \

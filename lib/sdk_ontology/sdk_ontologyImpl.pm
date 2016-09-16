@@ -19,6 +19,7 @@ This module convert given KBase annotations of a genome to GO terms.
 #BEGIN_HEADER
 use Bio::KBase::AuthToken;
 use Bio::KBase::workspace::Client;
+use GenomeAnnotationAPI::GenomeAnnotationAPIClient;
 use Config::IniFiles;
 use Data::Dumper;
 use JSON;
@@ -549,6 +550,28 @@ sub util_from_json {
     }
     return decode_json $data;
 }
+
+sub util_get_genome {
+	my ($self,$ref) = @_;
+	my $output = $self->util_ga_client()->get_genome_v1({
+		genomes => [{
+			"ref" => $ref
+		}],
+		ignore_errors => 1,
+		no_data => 0,
+		no_metadata => 1
+	});
+	return $output->{genomes}->[0]->{data};
+}
+
+sub util_ga_client {
+	my ($self,$input) = @_;
+	if (!defined($self->{_gaclient})) {
+		$self->{_gaclient} = new GenomeAnnotationAPI::GenomeAnnotationAPIClient($ENV{ SDK_CALLBACK_URL });
+	}
+	return $self->{_gaclient};
+}
+
 ##################################
 
 #END_HEADER
@@ -1367,19 +1390,7 @@ sub annotationtogo
         $ont_tr=$cus_tr;
     }
     eval {
-        my $info_array = $wsClient->get_object_info([$self->util_configure_ws_id($workspace_name,$input_gen)],0);
-		my $info = $info_array->[0];
-		if ($info->[2] =~ /GenomeAnnotation/) {
-			my $output = $self->util_runexecutable($self->{"Data_API_script_directory"}.'get_genome.py "'.$self->{'workspace-url'}.'" "'.$self->{'shock-url'}.'" "'.$self->{"handle-service-url"}.'" "'.$token.'" "'.$info->[6]."/".$info->[0]."/".$info->[4].'" "'.$info->[1].'" 1');
-			my $last = pop(@{$output});
-			if ($last !~ m/SUCCESS/) {
-				die "Genome failed to load!";
-			}
-			$genome = $self->util_from_json(pop(@{$output}));
-			delete $genome->{contigobj};
-		} else {
-			$genome=$wsClient->get_objects([$self->util_configure_ws_id($workspace_name,$input_gen)])->[0]{data};
-		}
+        $genome = $self->util_ga_client()->util_get_genome($workspace_name."/".$input_gen);
 		$ontTr=$wsClient->get_objects([{workspace=>$ontWs,name=>$ont_tr}])->[0];#{data}{translation};
     };
     if ($@) {
@@ -1409,26 +1420,23 @@ sub annotationtogo
         die "incorrect input parameters\n";
     }
 
-    my $obj_info_list = undef;
+    my $gaout;
     eval {
-        $obj_info_list = $wsClient->save_objects({
-            'workspace'=>$workspace_name,
-            'objects'=>[{
-                'type'=>'KBaseGenomes.Genome',
-                'data'=>$genome,
-                'name'=>$outGenome,
-                'provenance'=>$provenance
-            }]
-        });
+        $gaout = $self->util_ga_client()->save_one_genome_v1({
+			workspace => $workspace_name,
+	        name => $outGenome,
+	        data => $genome,
+	        provenance => $provenance,
+	        hidden => 0
+		});
     };
     if ($@) {
         die "Error saving modified genome object to workspace:\n".$@;
     }
 
-    my $info = $obj_info_list->[0];
     print "\nMethod sucuessfully completed\n";
-    print("saved:".Dumper($info)."\n");
-    $output = { 'Ontology Translator' => $obj_info_list};
+    print("saved:".Dumper($gaout->{info})."\n");
+    $output = { 'Ontology Translator' => [$gaout->{info}]};
 
     #END annotationtogo
     my @_bad_returns;
