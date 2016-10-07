@@ -3,7 +3,7 @@
 #
 name: Remap annotations based on Ontology translation table
 tooltip: |
-    This method translates existing genome functional annotations and/or ontology term assignments into available ontology term translations in KBase or custom ontology term translations.
+    Translates genome functional annotations and ontology term assignments across ontologies.
 screenshots: []
 
 icon: icon.png
@@ -36,33 +36,34 @@ parameters :
         ui-name : |
             Translation type
         short-hint : |
-            This conversion type will be used to translate annotations
+            Choose conversion type to be used. Options available: SEED to GO (default), EC to GO , UniProtKB-Keyword to GO, InterPro to GO and user uploaded custom translations.
     translation_behavior :
         ui-name : |
             Translational behavior
         short-hint : |
-            Translational behavior
+            Choose one of three different Translational behaviors: translate from feature annotations only (default); translate from feature ontology; or translate from both feature annotations and ontology.
     clear_existing :
         ui-name : |
-            Clear existing destination (e.g GO) terms
+            Clear existing ontology (e.g GO) terms
         short-hint : |
-            Clear existing destination (e.g GO) terms
+            Removes all previous ontology term assignments from genome object before starting a new ontology translation.
     custom_translation :
         ui-name : |
-            Optional custom translational table
+            (Optional) Custom translational table
         short-hint : |
-            First select the Custom Translation option from the drowdown above in Translation type field, then select the custom table here
+            Upload Ontology Translation Table (<a href="https://kbase.us/data-upload-download-guide/">Data Upload and Download Guide</a>) and select “Custom Translation” option in “Translation type” field to use custom Ontology Translation Tables.
     output_genome :
         ui-name : |
             Output genome name
         short-hint : |
-            Resulting Output Genome name
+            The name of output genome object with the translated ontology assignments.
         long-hint  : |
-            changed annotations will be stored in this genome object.
+            Changed annotations will be stored in this genome object.
 description : |
-    <p>This method translates existing genome functional annotations and/or ontology term assignments into available ontology term translations in KBase or custom ontology term translations. Currently KBase supports  Enzyme Commission (EC) to Gene Ontology (GO), UniProtKB-Keyword to GO, InterPro to GO, SEED Subsystem Ontology (SSO) to GO and user uploaded custom translations (see Data Upload and Download Guide (hyperlink) for details on Ontology Translation upload). Reference ontology translation tables are available in KBase for the supported methods described above. The EC 2 GO, UniProtKB-Keyword to GO and InterPro to GO references tables are updated monthly from EBI’s <a href="http://www.ebi.ac.uk/GOA/ElectronicAnnotationMethods">Electronic Annotation Resources</a></p>.
-    <p>EC to GO maps EC numbers genome annotation function descriptions to GO terms with the ec2go ontology translation table. EC numbers are manually curated into the description line of Swiss-Prot entries and added automatically to TrEMBL entries. Mappings between EC and the corresponding GO terms are automatically made using the EC cross-references in the GO Molecular Function ontology. This method has been evaluated at up to 100% accurate.</p> 
-    <p>UniProtKB/Swiss-Prot entries are assigned keywords manually based on literature and sequence analysis checks by curators. Keywords are mapped to corresponding GO terms in the uniprotkb_kw2go translation table, which was originally constructed manually by MGI curators and is now maintained by the UniProt-GOA team at EBI. The mappings are then transitively assigned at each UniProt-GOA release. GO annotations using this technique will receive the evidence code Inferred from Electronic Annotation (IEA).</p>
+    <p>This App translates both genome functional annotations and ontology term assignments across various ontologies. Currently, this Apps supports translating Enzyme Commission (EC) to Gene Ontology (GO), UniProtKB-Keyword to GO, InterPro to GO, SEED Subsystem Ontology (SSO) to GO, and user-uploaded custom translations (see <a href="https://kbase.us/data-upload-download-guide/">Data Upload and Download Guide</a>) for details on Ontology Translation upload). Reference ontology translation tables are available in KBase for the supported methods described above. The EC 2 GO, UniProtKB-Keyword to GO and InterPro to GO references tables are updated monthly from EBI’s <a href="http://www.ebi.ac.uk/GOA/ElectronicAnnotationMethods">Electronic Annotation Resources</a></p>.
+    <p>EC to GO maps the genome annotation function descriptions in EC numbers to GO terms using the ec2go Ontology Translation Table. EC numbers are manually curated into the description line of Swiss-Prot entries and added automatically to <a href="http://www.uniprot.org/uniprot/">TrEMBL</a> entries. Mappings between EC and the corresponding GO terms are automatically made using the EC cross-references in the <a href="http://geneontology.org/">GO Molecular Function ontology</a>, which enables high accuracy for translating between terms.</p> 
+    <p>UniProtKB/Swiss-Prot entries are assigned keywords manually based on literature and sequence analysis checks by curators from UniProt-GOA team at the European Bioinformatics Institute. Keywords are mapped to corresponding GO terms in the uniprotkb_kw2go translation table. The mappings are then transitively assigned at each UniProt-GOA release. GO annotations using this technique will receive the evidence code Inferred from Electronic Annotation (IEA).</p>
+    <p>The App can be used to reconcile different sources of genome annotations with the same ontology (e. G. Gene Ontology). Other Apps, most notably Compute Pangenome and Compare Genomes from Pangenome can be used to aid in comparison analysis.</p>
 publications :
     -
         display-text: |
