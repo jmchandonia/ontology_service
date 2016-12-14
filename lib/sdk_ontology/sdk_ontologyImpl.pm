@@ -23,7 +23,7 @@ use GenomeAnnotationAPI::GenomeAnnotationAPIClient;
 use Config::IniFiles;
 use Data::Dumper;
 use JSON;
-use JSON::XS;
+use JSON::XS ();
 binmode STDOUT, ":utf8";
 our $EC_PATTERN = qr/\(\s*E\.?C\.?(?:\s+|:)(\d\.(?:\d+|-)\.(?:\d+|-)\.(?:n?\d+|-)\s*)\)/;
 
