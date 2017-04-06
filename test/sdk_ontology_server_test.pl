@@ -45,15 +45,18 @@ output_genome => "shew_uniprot_ec2go"
 my $list_ontology_terms_test = {
     workspace => "KBaseOntology",
     ontology_dictionary_ref => "6308/9/2"
+    # ontology_dictionary_ref => "605/6/1"
 };
 
 my $ontology_overview_test ={
     ontology_dictionary_ref => ["6308/9/2","6308/8/1"]
+    # ontology_dictionary_ref => ["605/5/1", "605/6/1"]
 };
 
 my $get_ontology_terms_test = {
     term_ids => ["SSO:000008325","SSO:000005093","SSO:000007691","SSO:000005610"],
     ontology_dictionary_ref => "6308/8/1"
+    # ontology_dictionary_ref => "605/6/1"
 };
 my $get_eq_terms_test = {
     term_ids => ["SSO:000005862","SSO:000000019","SSO:000002940","SSO:000002499"],
@@ -61,13 +64,21 @@ my $get_eq_terms_test = {
 };
 
 eval {
-	#my $ret =$impl->seedtogo($ws,$geno,$trt,$out);
-  	#my $ret =$impl->annotationtogo($shew);
-    #my $ret =$impl->list_ontology_terms($list_ontology_terms_test);
+    #my $ret =$impl->seedtogo($ws,$geno,$trt,$out);
+    #my $ret =$impl->annotationtogo($shew);
+    my $ret =$impl->list_ontology_terms($list_ontology_terms_test);
+    print ("list_ontology_terms test\n");
+    print Dumper($ret);
     my $ret =$impl->ontology_overview($ontology_overview_test);
-    #my $ret =$impl->lsit_public_ontologies();
+    print ("ontology_overview test\n");
+    print Dumper($ret);
+    my $ret =$impl->list_public_ontologies();
+    print ("list_public_ontologies test\n");
+    print Dumper($ret);
     #my $ret =$impl->list_public_translations();
-    #my $ret =$impl->get_ontology_terms($get_ontology_terms_test);
+    my $ret =$impl->get_ontology_terms($get_ontology_terms_test);
+    print ("get_ontology_terms test\n");
+    print Dumper($ret);
     #my $ret =$impl->get_equivalent_terms($get_eq_terms_test);
 };
 

@@ -2,8 +2,10 @@ package sdk_ontology::sdk_ontologyImpl;
 use strict;
 use Bio::KBase::Exceptions;
 # Use Semantic Versioning (2.0.0-rc.1)
-# http://semver.org
-our $VERSION = "0.1.0";
+# http://semver.org 
+our $VERSION = '0.0.1';
+our $GIT_URL = 'git@github.com:jmchandonia/ontology_service.git';
+our $GIT_COMMIT_HASH = '656b1c71cf9103feb149bba7c35d75319189fbe0';
 
 =head1 NAME
 
@@ -621,10 +623,10 @@ sub new
 
 <pre>
 $params is a sdk_ontology.ListOntologyTermsParams
-$output is a sdk_ontology.OntlogyTermsOut
+$output is a sdk_ontology.OntologyTermsOut
 ListOntologyTermsParams is a reference to a hash where the following keys are defined:
 	ontology_dictionary_ref has a value which is a string
-OntlogyTermsOut is a reference to a hash where the following keys are defined:
+OntologyTermsOut is a reference to a hash where the following keys are defined:
 	ontology has a value which is a string
 	namespace has a value which is a string
 	term_id has a value which is a reference to a list where each element is a string
@@ -636,10 +638,10 @@ OntlogyTermsOut is a reference to a hash where the following keys are defined:
 =begin text
 
 $params is a sdk_ontology.ListOntologyTermsParams
-$output is a sdk_ontology.OntlogyTermsOut
+$output is a sdk_ontology.OntologyTermsOut
 ListOntologyTermsParams is a reference to a hash where the following keys are defined:
 	ontology_dictionary_ref has a value which is a string
-OntlogyTermsOut is a reference to a hash where the following keys are defined:
+OntologyTermsOut is a reference to a hash where the following keys are defined:
 	ontology has a value which is a string
 	namespace has a value which is a string
 	term_id has a value which is a reference to a list where each element is a string
@@ -725,10 +727,10 @@ sub list_ontology_terms
 
 <pre>
 $params is a sdk_ontology.OntologyOverviewParams
-$output is a sdk_ontology.OntlogyOverviewOut
+$output is a sdk_ontology.OntologyOverviewOut
 OntologyOverviewParams is a reference to a hash where the following keys are defined:
 	ontology_dictionary_ref has a value which is a reference to a list where each element is a string
-OntlogyOverviewOut is a reference to a hash where the following keys are defined:
+OntologyOverviewOut is a reference to a hash where the following keys are defined:
 	dictionaries_meta has a value which is a reference to a list where each element is a sdk_ontology.overViewInfo
 overViewInfo is a reference to a hash where the following keys are defined:
 	ontology has a value which is a string
@@ -745,10 +747,10 @@ overViewInfo is a reference to a hash where the following keys are defined:
 =begin text
 
 $params is a sdk_ontology.OntologyOverviewParams
-$output is a sdk_ontology.OntlogyOverviewOut
+$output is a sdk_ontology.OntologyOverviewOut
 OntologyOverviewParams is a reference to a hash where the following keys are defined:
 	ontology_dictionary_ref has a value which is a reference to a list where each element is a string
-OntlogyOverviewOut is a reference to a hash where the following keys are defined:
+OntologyOverviewOut is a reference to a hash where the following keys are defined:
 	dictionaries_meta has a value which is a reference to a list where each element is a sdk_ontology.overViewInfo
 overViewInfo is a reference to a hash where the following keys are defined:
 	ontology has a value which is a string
@@ -839,9 +841,9 @@ sub ontology_overview
 
 
 
-=head2 lsit_public_ontologies
+=head2 list_public_ontologies
 
-  $return = $obj->lsit_public_ontologies()
+  $return = $obj->list_public_ontologies()
 
 =over 4
 
@@ -875,13 +877,13 @@ public_ontologies is a reference to a list where each element is a string
 
 =cut
 
-sub lsit_public_ontologies
+sub list_public_ontologies
 {
     my $self = shift;
 
     my $ctx = $sdk_ontology::sdk_ontologyServer::CallContext;
     my($return);
-    #BEGIN lsit_public_ontologies
+    #BEGIN list_public_ontologies
 
     my $token=$ctx->token;
     my $provenance=$ctx->provenance;
@@ -909,13 +911,13 @@ sub lsit_public_ontologies
      #print &Dumper ($return);
 
 
-    #END lsit_public_ontologies
+    #END list_public_ontologies
     my @_bad_returns;
     (ref($return) eq 'ARRAY') or push(@_bad_returns, "Invalid type for return variable \"return\" (value was \"$return\")");
     if (@_bad_returns) {
-	my $msg = "Invalid returns passed to lsit_public_ontologies:\n" . join("", map { "\t$_\n" } @_bad_returns);
+	my $msg = "Invalid returns passed to list_public_ontologies:\n" . join("", map { "\t$_\n" } @_bad_returns);
 	Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
-							       method_name => 'lsit_public_ontologies');
+							       method_name => 'list_public_ontologies');
     }
     return($return);
 }
@@ -1452,9 +1454,9 @@ sub annotationtogo
 
 
 
-=head2 version
+=head2 status 
 
-  $return = $obj->version()
+  $return = $obj->status()
 
 =over 4
 
@@ -1476,14 +1478,19 @@ $return is a string
 
 =item Description
 
-Return the module version. This is a Semantic Versioning number.
+Return the module status. This is a structure including Semantic Versioning number, state and git info.
 
 =back
 
 =cut
 
-sub version {
-    return $VERSION;
+sub status {
+    my($return);
+    #BEGIN_STATUS
+    $return = {"state" => "OK", "message" => "", "version" => $VERSION,
+               "git_url" => $GIT_URL, "git_commit_hash" => $GIT_COMMIT_HASH};
+    #END_STATUS
+    return($return);
 }
 
 =head1 TYPES
@@ -1526,7 +1533,7 @@ ontology_dictionary_ref has a value which is a string
 
 
 
-=head2 OntlogyTermsOut
+=head2 OntologyTermsOut
 
 =over 4
 
@@ -1635,7 +1642,7 @@ dictionary_ref has a value which is a string
 
 
 
-=head2 OntlogyOverviewOut
+=head2 OntologyOverviewOut
 
 =over 4
 

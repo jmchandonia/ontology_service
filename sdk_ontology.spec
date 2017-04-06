@@ -21,10 +21,10 @@ module sdk_ontology {
         string ontology;
         string namespace;
         list <string> term_id;
-    }OntlogyTermsOut;
+    }OntologyTermsOut;
 
 
-    funcdef list_ontology_terms (ListOntologyTermsParams params) returns (OntlogyTermsOut output) authentication required;
+    funcdef list_ontology_terms (ListOntologyTermsParams params) returns (OntologyTermsOut output) authentication required;
 
 
     /*
@@ -50,10 +50,10 @@ module sdk_ontology {
     typedef structure{
 
         list <overViewInfo> dictionaries_meta;
-    }OntlogyOverviewOut;
+    }OntologyOverviewOut;
 
 
-    funcdef ontology_overview (OntologyOverviewParams params) returns (OntlogyOverviewOut output) authentication required;
+    funcdef ontology_overview (OntologyOverviewParams params) returns (OntologyOverviewOut output) authentication required;
 
     /*
         List public ontologies
@@ -61,7 +61,7 @@ module sdk_ontology {
 
     typedef list <string> public_ontologies;
 
-    funcdef lsit_public_ontologies () returns (public_ontologies) authentication required;
+    funcdef list_public_ontologies () returns (public_ontologies) authentication required;
 
     /*
         List public translations
