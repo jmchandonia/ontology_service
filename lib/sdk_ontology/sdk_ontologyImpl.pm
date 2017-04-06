@@ -20,7 +20,7 @@ This module convert given KBase annotations of a genome to GO terms.
 
 #BEGIN_HEADER
 use Bio::KBase::AuthToken;
-use Bio::KBase::workspace::Client;
+use Workspace::WorkspaceClient;
 use GenomeAnnotationAPI::GenomeAnnotationAPIClient;
 use Config::IniFiles;
 use Data::Dumper;
@@ -678,7 +678,7 @@ sub list_ontology_terms
 
     my $token=$ctx->token;
     my $provenance=$ctx->provenance;
-    my $wsClient=Bio::KBase::workspace::Client->new($self->{'workspace-url'},token=>$token);
+    my $wsClient=Workspace::WorkspaceClient->new($self->{'workspace-url'},token=>$token);
     my $ont_dic=undef;
 
     if (!exists $params->{'ontology_dictionary_ref'}) {
@@ -793,7 +793,7 @@ sub ontology_overview
 
     my $token=$ctx->token;
     my $provenance=$ctx->provenance;
-    my $wsClient=Bio::KBase::workspace::Client->new($self->{'workspace-url'},token=>$token);
+    my $wsClient=Workspace::WorkspaceClient->new($self->{'workspace-url'},token=>$token);
     my $ont_dic=undef;
     my $dict_list = [];
 
@@ -887,7 +887,7 @@ sub list_public_ontologies
 
     my $token=$ctx->token;
     my $provenance=$ctx->provenance;
-    my $wsClient=Bio::KBase::workspace::Client->new($self->{'workspace-url'},token=>$token);
+    my $wsClient=Workspace::WorkspaceClient->new($self->{'workspace-url'},token=>$token);
     my $public_ont=undef;
     my $pubOntArr= [];
     my $list_obj;
@@ -970,7 +970,7 @@ sub list_public_translations
     #BEGIN list_public_translations
     my $token=$ctx->token;
     my $provenance=$ctx->provenance;
-    my $wsClient=Bio::KBase::workspace::Client->new($self->{'workspace-url'},token=>$token);
+    my $wsClient=Workspace::WorkspaceClient->new($self->{'workspace-url'},token=>$token);
     my $public_tr=undef;
     my $pubTrArr= [];
 
@@ -1072,7 +1072,7 @@ sub get_ontology_terms
 
     my $token=$ctx->token;
     my $provenance=$ctx->provenance;
-    my $wsClient=Bio::KBase::workspace::Client->new($self->{'workspace-url'},token=>$token);
+    my $wsClient=Workspace::WorkspaceClient->new($self->{'workspace-url'},token=>$token);
     my $ont_dic=undef;
     my $dict_list = [];
 
@@ -1196,7 +1196,7 @@ sub get_equivalent_terms
     #BEGIN get_equivalent_terms
     my $token=$ctx->token;
     my $provenance=$ctx->provenance;
-    my $wsClient=Bio::KBase::workspace::Client->new($self->{'workspace-url'},token=>$token);
+    my $wsClient=Workspace::WorkspaceClient->new($self->{'workspace-url'},token=>$token);
     my $ont_Tr=undef;
     my $dict_list = [];
 
@@ -1381,7 +1381,7 @@ sub annotationtogo
 
     my $token=$ctx->token;
     my $provenance=$ctx->provenance;
-    my $wsClient=Bio::KBase::workspace::Client->new($self->{'workspace-url'},token=>$token);
+    my $wsClient=Workspace::WorkspaceClient->new($self->{'workspace-url'},token=>$token);
     my $genome=undef;
     my $ontTr=undef;
     my $cusTr=undef;

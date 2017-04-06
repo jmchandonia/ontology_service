@@ -4,7 +4,7 @@ use Test::More;
 use Config::Simple;
 use Time::HiRes qw(time);
 use Bio::KBase::AuthToken;
-use Bio::KBase::workspace::Client;
+use Workspace::WorkspaceClient;
 use sdk_ontology::sdk_ontologyImpl;
 
 local $| = 1;
@@ -13,7 +13,7 @@ my $config_file = $ENV{'KB_DEPLOYMENT_CONFIG'};
 my $config = new Config::Simple($config_file)->get_block('sdk_ontology');
 my $ws_url = $config->{"workspace-url"};
 my $ws_name = undef;
-my $ws_client = new Bio::KBase::workspace::Client($ws_url,token => $token);
+my $ws_client = Workspace::WorkspaceClient->new($ws_url,token => $token);
 my $auth_token = Bio::KBase::AuthToken->new(token => $token, ignore_authrc => 1, auth_svc=>$config->{'auth-service-url'});
 my $ctx = LocalCallContext->new($token, $auth_token->user_id);
 $sdk_ontology::sdk_ontologyServer::CallContext = $ctx;
