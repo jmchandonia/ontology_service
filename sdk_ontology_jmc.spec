@@ -1,9 +1,8 @@
 /*
-A KBase module: sdk_ontology
-This module convert given KBase annotations of a genome to GO terms.
+A KBase module: sdk_ontology_dk
 */
 
-module sdk_ontology {
+module sdk_ontology_jmc {
 
     /*
         workspace - the name of the workspace for input/output

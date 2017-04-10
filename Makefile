@@ -1,7 +1,7 @@
-SERVICE = sdk_ontology
-SERVICE_CAPS = sdk_ontology
-SPEC_FILE = sdk_ontology.spec
-URL = https://kbase.us/services/sdk_ontology
+SERVICE = sdk_ontology_jmc
+SERVICE_CAPS = sdk_ontology_jmc
+SPEC_FILE = sdk_ontology_jmc.spec
+URL = https://kbase.us/services/sdk_ontology_jmc
 DIR = $(shell pwd)
 LIB_DIR = lib
 SCRIPTS_DIR = scripts
