@@ -1,8 +1,8 @@
 module-name:
-    sdk_ontology
+    sdk_ontology_jmc
 
 module-description:
-    A KBase module
+    ontology service with patches for auth2 support, typos in api
 
 service-language:
     perl
@@ -11,7 +11,7 @@ module-version:
     0.0.1
 
 owners:
-    [janakakbase,chenry]
+    [janakakbase,chenry,jmc]
 
 service-config:
     dynamic-service: true
