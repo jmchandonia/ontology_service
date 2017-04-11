@@ -12,3 +12,6 @@ module-version:
 
 owners:
     [janakakbase,chenry,jmc]
+
+service-config:
+    dynamic-service: true

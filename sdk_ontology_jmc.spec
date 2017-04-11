@@ -1,5 +1,5 @@
 /*
-A KBase module: sdk_ontology_dk
+A KBase module: sdk_ontology_jmc
 */
 
 module sdk_ontology_jmc {
