@@ -5,19 +5,19 @@ use Config::Simple;
 use Time::HiRes qw(time);
 use Bio::KBase::AuthToken;
 use Workspace::WorkspaceClient;
-use sdk_ontology::sdk_ontologyImpl;
+use sdk_ontology_jmc::sdk_ontology_jmcImpl;
 
 local $| = 1;
 my $token = $ENV{'KB_AUTH_TOKEN'};
 my $config_file = $ENV{'KB_DEPLOYMENT_CONFIG'};
-my $config = new Config::Simple($config_file)->get_block('sdk_ontology');
+my $config = new Config::Simple($config_file)->get_block('sdk_ontology_jmc');
 my $ws_url = $config->{"workspace-url"};
 my $ws_name = undef;
 my $ws_client = Workspace::WorkspaceClient->new($ws_url,token => $token);
 my $auth_token = Bio::KBase::AuthToken->new(token => $token, ignore_authrc => 1, auth_svc=>$config->{'auth-service-url'});
 my $ctx = LocalCallContext->new($token, $auth_token->user_id);
-$sdk_ontology::sdk_ontologyServer::CallContext = $ctx;
-my $impl = new sdk_ontology::sdk_ontologyImpl();
+$sdk_ontology_jmc::sdk_ontology_jmcServer::CallContext = $ctx;
+my $impl = new sdk_ontology_jmc::sdk_ontology_jmcImpl();
 
 #my $exp = "e.coli";
 #my $exp = "Shew_proper_data";
@@ -123,7 +123,7 @@ if (defined($err)) {
     }
     sub provenance {
         my($self) = @_;
-        return [{'service' => 'sdk_ontology', 'method' => 'please_never_use_it_in_production', 'method_params' => []}];
+        return [{'service' => 'sdk_ontology_jmc', 'method' => 'please_never_use_it_in_production', 'method_params' => []}];
     }
     sub authenticated {
         return 1;

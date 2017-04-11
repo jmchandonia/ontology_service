@@ -1,4 +1,4 @@
-package sdk_ontology::sdk_ontologyImpl;
+package sdk_ontology_jmc::sdk_ontology_jmcImpl;
 use strict;
 use Bio::KBase::Exceptions;
 # Use Semantic Versioning (2.0.0-rc.1)
@@ -9,11 +9,11 @@ our $GIT_COMMIT_HASH = '656b1c71cf9103feb149bba7c35d75319189fbe0';
 
 =head1 NAME
 
-sdk_ontology
+sdk_ontology_jmc
 
 =head1 DESCRIPTION
 
-A KBase module: sdk_ontology
+A KBase module: sdk_ontology_jmc
 This module convert given KBase annotations of a genome to GO terms.
 
 =cut
@@ -588,13 +588,13 @@ sub new
 
     my $config_file = $ENV{ KB_DEPLOYMENT_CONFIG };
     my $cfg = Config::IniFiles->new(-file=>$config_file);
-    $self->{'kbase-endpoint'} = $cfg->val('sdk_ontology','kbase-endpoint');
-    $self->{'workspace-url'} = $cfg->val('sdk_ontology','workspace-url');
-    $self->{'job-service-url'} = $cfg->val('sdk_ontology','job-service-url');
-    $self->{'shock-url'} = $cfg->val('sdk_ontology','shock-url');
-    $self->{'handle-service-url'} = $cfg->val('sdk_ontology','handle-service-url');
-    $self->{'scratch'} = $cfg->val('sdk_ontology','scratch');
-    $self->{'Data_API_script_directory'} = $cfg->val('sdk_ontology','Data_API_script_directory');
+    $self->{'kbase-endpoint'} = $cfg->val('sdk_ontology_jmc','kbase-endpoint');
+    $self->{'workspace-url'} = $cfg->val('sdk_ontology_jmc','workspace-url');
+    $self->{'job-service-url'} = $cfg->val('sdk_ontology_jmc','job-service-url');
+    $self->{'shock-url'} = $cfg->val('sdk_ontology_jmc','shock-url');
+    $self->{'handle-service-url'} = $cfg->val('sdk_ontology_jmc','handle-service-url');
+    $self->{'scratch'} = $cfg->val('sdk_ontology_jmc','scratch');
+    $self->{'Data_API_script_directory'} = $cfg->val('sdk_ontology_jmc','Data_API_script_directory');
 	if (!defined($self->{'workspace-url'})) {
 		die "no workspace-url defined";
 	}
@@ -622,8 +622,8 @@ sub new
 =begin html
 
 <pre>
-$params is a sdk_ontology.ListOntologyTermsParams
-$output is a sdk_ontology.OntologyTermsOut
+$params is a sdk_ontology_jmc.ListOntologyTermsParams
+$output is a sdk_ontology_jmc.OntologyTermsOut
 ListOntologyTermsParams is a reference to a hash where the following keys are defined:
 	ontology_dictionary_ref has a value which is a string
 OntologyTermsOut is a reference to a hash where the following keys are defined:
@@ -637,8 +637,8 @@ OntologyTermsOut is a reference to a hash where the following keys are defined:
 
 =begin text
 
-$params is a sdk_ontology.ListOntologyTermsParams
-$output is a sdk_ontology.OntologyTermsOut
+$params is a sdk_ontology_jmc.ListOntologyTermsParams
+$output is a sdk_ontology_jmc.OntologyTermsOut
 ListOntologyTermsParams is a reference to a hash where the following keys are defined:
 	ontology_dictionary_ref has a value which is a string
 OntologyTermsOut is a reference to a hash where the following keys are defined:
@@ -672,7 +672,7 @@ sub list_ontology_terms
 							       method_name => 'list_ontology_terms');
     }
 
-    my $ctx = $sdk_ontology::sdk_ontologyServer::CallContext;
+    my $ctx = $sdk_ontology_jmc::sdk_ontology_jmcServer::CallContext;
     my($output);
     #BEGIN list_ontology_terms
 
@@ -726,12 +726,12 @@ sub list_ontology_terms
 =begin html
 
 <pre>
-$params is a sdk_ontology.OntologyOverviewParams
-$output is a sdk_ontology.OntologyOverviewOut
+$params is a sdk_ontology_jmc.OntologyOverviewParams
+$output is a sdk_ontology_jmc.OntologyOverviewOut
 OntologyOverviewParams is a reference to a hash where the following keys are defined:
 	ontology_dictionary_ref has a value which is a reference to a list where each element is a string
 OntologyOverviewOut is a reference to a hash where the following keys are defined:
-	dictionaries_meta has a value which is a reference to a list where each element is a sdk_ontology.overViewInfo
+	dictionaries_meta has a value which is a reference to a list where each element is a sdk_ontology_jmc.overViewInfo
 overViewInfo is a reference to a hash where the following keys are defined:
 	ontology has a value which is a string
 	namespace has a value which is a string
@@ -746,12 +746,12 @@ overViewInfo is a reference to a hash where the following keys are defined:
 
 =begin text
 
-$params is a sdk_ontology.OntologyOverviewParams
-$output is a sdk_ontology.OntologyOverviewOut
+$params is a sdk_ontology_jmc.OntologyOverviewParams
+$output is a sdk_ontology_jmc.OntologyOverviewOut
 OntologyOverviewParams is a reference to a hash where the following keys are defined:
 	ontology_dictionary_ref has a value which is a reference to a list where each element is a string
 OntologyOverviewOut is a reference to a hash where the following keys are defined:
-	dictionaries_meta has a value which is a reference to a list where each element is a sdk_ontology.overViewInfo
+	dictionaries_meta has a value which is a reference to a list where each element is a sdk_ontology_jmc.overViewInfo
 overViewInfo is a reference to a hash where the following keys are defined:
 	ontology has a value which is a string
 	namespace has a value which is a string
@@ -786,7 +786,7 @@ sub ontology_overview
 							       method_name => 'ontology_overview');
     }
 
-    my $ctx = $sdk_ontology::sdk_ontologyServer::CallContext;
+    my $ctx = $sdk_ontology_jmc::sdk_ontology_jmcServer::CallContext;
     my($output);
     #BEGIN ontology_overview
 
@@ -852,7 +852,7 @@ sub ontology_overview
 =begin html
 
 <pre>
-$return is a sdk_ontology.public_ontologies
+$return is a sdk_ontology_jmc.public_ontologies
 public_ontologies is a reference to a list where each element is a string
 
 </pre>
@@ -861,7 +861,7 @@ public_ontologies is a reference to a list where each element is a string
 
 =begin text
 
-$return is a sdk_ontology.public_ontologies
+$return is a sdk_ontology_jmc.public_ontologies
 public_ontologies is a reference to a list where each element is a string
 
 
@@ -881,7 +881,7 @@ sub list_public_ontologies
 {
     my $self = shift;
 
-    my $ctx = $sdk_ontology::sdk_ontologyServer::CallContext;
+    my $ctx = $sdk_ontology_jmc::sdk_ontology_jmcServer::CallContext;
     my($return);
     #BEGIN list_public_ontologies
 
@@ -936,7 +936,7 @@ sub list_public_ontologies
 =begin html
 
 <pre>
-$return is a sdk_ontology.public_translations
+$return is a sdk_ontology_jmc.public_translations
 public_translations is a reference to a list where each element is a string
 
 </pre>
@@ -945,7 +945,7 @@ public_translations is a reference to a list where each element is a string
 
 =begin text
 
-$return is a sdk_ontology.public_translations
+$return is a sdk_ontology_jmc.public_translations
 public_translations is a reference to a list where each element is a string
 
 
@@ -965,7 +965,7 @@ sub list_public_translations
 {
     my $self = shift;
 
-    my $ctx = $sdk_ontology::sdk_ontologyServer::CallContext;
+    my $ctx = $sdk_ontology_jmc::sdk_ontology_jmcServer::CallContext;
     my($return);
     #BEGIN list_public_translations
     my $token=$ctx->token;
@@ -1018,8 +1018,8 @@ sub list_public_translations
 =begin html
 
 <pre>
-$params is a sdk_ontology.GetOntologyTermsParams
-$output is a sdk_ontology.GetOntologyTermsOut
+$params is a sdk_ontology_jmc.GetOntologyTermsParams
+$output is a sdk_ontology_jmc.GetOntologyTermsOut
 GetOntologyTermsParams is a reference to a hash where the following keys are defined:
 	ontology_dictionary_ref has a value which is a string
 	term_ids has a value which is a reference to a list where each element is a string
@@ -1032,8 +1032,8 @@ GetOntologyTermsOut is a reference to a hash where the following keys are define
 
 =begin text
 
-$params is a sdk_ontology.GetOntologyTermsParams
-$output is a sdk_ontology.GetOntologyTermsOut
+$params is a sdk_ontology_jmc.GetOntologyTermsParams
+$output is a sdk_ontology_jmc.GetOntologyTermsOut
 GetOntologyTermsParams is a reference to a hash where the following keys are defined:
 	ontology_dictionary_ref has a value which is a string
 	term_ids has a value which is a reference to a list where each element is a string
@@ -1066,7 +1066,7 @@ sub get_ontology_terms
 							       method_name => 'get_ontology_terms');
     }
 
-    my $ctx = $sdk_ontology::sdk_ontologyServer::CallContext;
+    my $ctx = $sdk_ontology_jmc::sdk_ontology_jmcServer::CallContext;
     my($output);
     #BEGIN get_ontology_terms
 
@@ -1143,8 +1143,8 @@ sub get_ontology_terms
 =begin html
 
 <pre>
-$params is a sdk_ontology.GetEqTermsParams
-$output is a sdk_ontology.GetEqTermsOut
+$params is a sdk_ontology_jmc.GetEqTermsParams
+$output is a sdk_ontology_jmc.GetEqTermsOut
 GetEqTermsParams is a reference to a hash where the following keys are defined:
 	ontology_trans_ref has a value which is a string
 	term_ids has a value which is a reference to a list where each element is a string
@@ -1157,8 +1157,8 @@ GetEqTermsOut is a reference to a hash where the following keys are defined:
 
 =begin text
 
-$params is a sdk_ontology.GetEqTermsParams
-$output is a sdk_ontology.GetEqTermsOut
+$params is a sdk_ontology_jmc.GetEqTermsParams
+$output is a sdk_ontology_jmc.GetEqTermsOut
 GetEqTermsParams is a reference to a hash where the following keys are defined:
 	ontology_trans_ref has a value which is a string
 	term_ids has a value which is a reference to a list where each element is a string
@@ -1191,7 +1191,7 @@ sub get_equivalent_terms
 							       method_name => 'get_equivalent_terms');
     }
 
-    my $ctx = $sdk_ontology::sdk_ontologyServer::CallContext;
+    my $ctx = $sdk_ontology_jmc::sdk_ontology_jmcServer::CallContext;
     my($output);
     #BEGIN get_equivalent_terms
     my $token=$ctx->token;
@@ -1263,8 +1263,8 @@ sub get_equivalent_terms
 =begin html
 
 <pre>
-$params is a sdk_ontology.ElectronicAnnotationParams
-$output is a sdk_ontology.ElectronicAnnotationResults
+$params is a sdk_ontology_jmc.ElectronicAnnotationParams
+$output is a sdk_ontology_jmc.ElectronicAnnotationResults
 ElectronicAnnotationParams is a reference to a hash where the following keys are defined:
 	workspace has a value which is a string
 	input_genome has a value which is a string
@@ -1286,8 +1286,8 @@ ElectronicAnnotationResults is a reference to a hash where the following keys ar
 
 =begin text
 
-$params is a sdk_ontology.ElectronicAnnotationParams
-$output is a sdk_ontology.ElectronicAnnotationResults
+$params is a sdk_ontology_jmc.ElectronicAnnotationParams
+$output is a sdk_ontology_jmc.ElectronicAnnotationResults
 ElectronicAnnotationParams is a reference to a hash where the following keys are defined:
 	workspace has a value which is a string
 	input_genome has a value which is a string
@@ -1329,11 +1329,11 @@ sub annotationtogo
 							       method_name => 'annotationtogo');
     }
 
-    my $ctx = $sdk_ontology::sdk_ontologyServer::CallContext;
+    my $ctx = $sdk_ontology_jmc::sdk_ontology_jmcServer::CallContext;
     my($output);
     #BEGIN annotationtogo
 
-    print("Starting sdk_ontology method...\n\n");
+    print("Starting sdk_ontology_jmc method...\n\n");
 
     if (!exists $params->{'workspace'}) {
         die "Parameter workspace is not set in input arguments";
@@ -1654,7 +1654,7 @@ dictionary_ref has a value which is a string
 
 <pre>
 a reference to a hash where the following keys are defined:
-dictionaries_meta has a value which is a reference to a list where each element is a sdk_ontology.overViewInfo
+dictionaries_meta has a value which is a reference to a list where each element is a sdk_ontology_jmc.overViewInfo
 
 </pre>
 
@@ -1663,7 +1663,7 @@ dictionaries_meta has a value which is a reference to a list where each element 
 =begin text
 
 a reference to a hash where the following keys are defined:
-dictionaries_meta has a value which is a reference to a list where each element is a sdk_ontology.overViewInfo
+dictionaries_meta has a value which is a reference to a list where each element is a sdk_ontology_jmc.overViewInfo
 
 
 =end text
