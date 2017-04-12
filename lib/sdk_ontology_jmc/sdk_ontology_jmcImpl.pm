@@ -5,7 +5,7 @@ use Bio::KBase::Exceptions;
 # http://semver.org 
 our $VERSION = '0.0.1';
 our $GIT_URL = 'git@github.com:jmchandonia/ontology_service.git';
-our $GIT_COMMIT_HASH = '656b1c71cf9103feb149bba7c35d75319189fbe0';
+our $GIT_COMMIT_HASH = '2886517f0458afe43a6d37abd77d93567d039bbf';
 
 =head1 NAME
 
@@ -14,7 +14,6 @@ sdk_ontology_jmc
 =head1 DESCRIPTION
 
 A KBase module: sdk_ontology_jmc
-This module convert given KBase annotations of a genome to GO terms.
 
 =cut
 
@@ -739,6 +738,7 @@ overViewInfo is a reference to a hash where the following keys are defined:
 	format_version has a value which is a string
 	number_of_terms has a value which is an int
 	dictionary_ref has a value which is a string
+	namespace_id_rule has a value which is a reference to a list where each element is a string
 
 </pre>
 
@@ -759,6 +759,7 @@ overViewInfo is a reference to a hash where the following keys are defined:
 	format_version has a value which is a string
 	number_of_terms has a value which is an int
 	dictionary_ref has a value which is a string
+	namespace_id_rule has a value which is a reference to a list where each element is a string
 
 
 =end text
@@ -819,6 +820,7 @@ sub ontology_overview
          $overViewInfo->{format_version} = $ont_dic->{format_version};
          $overViewInfo->{number_of_terms} = keys $ont_dic->{term_hash};
          $overViewInfo->{dictionary_ref} = $d;
+	 $overViewInfo->{namespace_id_rule} = $ont_dic->{namespace_id_rule};
          push ($dict_list, $overViewInfo);
 
     }
@@ -884,33 +886,7 @@ sub list_public_ontologies
     my $ctx = $sdk_ontology_jmc::sdk_ontology_jmcServer::CallContext;
     my($return);
     #BEGIN list_public_ontologies
-
-    my $token=$ctx->token;
-    my $provenance=$ctx->provenance;
-    my $wsClient=Workspace::WorkspaceClient->new($self->{'workspace-url'},token=>$token);
-    my $public_ont=undef;
-    my $pubOntArr= [];
-    my $list_obj;
-    $list_obj->[0]->{ws_name} = "KBaseOntology";
-    $list_obj->[0]->{type} = "KBaseOntology.OntologyDictionary";
-
-    eval{
-    $public_ont = $wsClient->list_objects({workspaces=>["KBaseOntology"],type=>"KBaseOntology.OntologyDictionary"});
-    };
-    if ($@) {
-        die "Error loading ontology dictionary object from workspace:\n".$@;
-    }
-
-    foreach my $p (@$public_ont){
-
-        my $pubOntRef = $p->[6]."/".$p->[0]."/".$p->[4];
-        push ($pubOntArr, $pubOntRef);
-    }
-
-     $return = $pubOntArr;
-     #print &Dumper ($return);
-
-
+    $return = $self->list_ontologies({workspace_names=>["KBaseOntology"]});
     #END list_public_ontologies
     my @_bad_returns;
     (ref($return) eq 'ARRAY') or push(@_bad_returns, "Invalid type for return variable \"return\" (value was \"$return\")");
@@ -918,6 +894,105 @@ sub list_public_ontologies
 	my $msg = "Invalid returns passed to list_public_ontologies:\n" . join("", map { "\t$_\n" } @_bad_returns);
 	Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
 							       method_name => 'list_public_ontologies');
+    }
+    return($return);
+}
+
+
+
+
+=head2 list_ontologies
+
+  $return = $obj->list_ontologies($params)
+
+=over 4
+
+=item Parameter and return types
+
+=begin html
+
+<pre>
+$params is a sdk_ontology_jmc.ListOntologiesParams
+$return is a sdk_ontology_jmc.ontologies
+ListOntologiesParams is a reference to a hash where the following keys are defined:
+	workspace_names has a value which is a reference to a list where each element is a string
+ontologies is a reference to a list where each element is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+$params is a sdk_ontology_jmc.ListOntologiesParams
+$return is a sdk_ontology_jmc.ontologies
+ListOntologiesParams is a reference to a hash where the following keys are defined:
+	workspace_names has a value which is a reference to a list where each element is a string
+ontologies is a reference to a list where each element is a string
+
+
+=end text
+
+
+
+=item Description
+
+
+
+=back
+
+=cut
+
+sub list_ontologies
+{
+    my $self = shift;
+    my($params) = @_;
+
+    my @_bad_arguments;
+    (ref($params) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument \"params\" (value was \"$params\")");
+    if (@_bad_arguments) {
+	my $msg = "Invalid arguments passed to list_ontologies:\n" . join("", map { "\t$_\n" } @_bad_arguments);
+	Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
+							       method_name => 'list_ontologies');
+    }
+
+    my $ctx = $sdk_ontology_jmc::sdk_ontology_jmcServer::CallContext;
+    my($return);
+    #BEGIN list_ontologies
+
+    my $token=$ctx->token;
+    my $provenance=$ctx->provenance;
+    my $wsClient=Workspace::WorkspaceClient->new($self->{'workspace-url'},token=>$token);
+    my $ws_ont=undef;
+    my $wsOntArr= [];
+
+    if (!exists $params->{'workspace_names'}) {
+        die "Parameter workspace_names is not set in input arguments";
+    }
+
+    eval{
+    $ws_ont = $wsClient->list_objects({workspaces=>$params->{'workspace_names'},type=>"KBaseOntology.OntologyDictionary"});
+    };
+    if ($@) {
+        die "Error loading ontology dictionary object from workspace:\n".$@;
+    }
+
+    foreach my $p (@$ws_ont){
+
+        my $wsOntRef = $p->[6]."/".$p->[0]."/".$p->[4];
+        push ($wsOntArr, $wsOntRef);
+    }
+
+     $return = $wsOntArr;
+     #print &Dumper ($return);
+
+    #END list_ontologies
+    my @_bad_returns;
+    (ref($return) eq 'ARRAY') or push(@_bad_returns, "Invalid type for return variable \"return\" (value was \"$return\")");
+    if (@_bad_returns) {
+	my $msg = "Invalid returns passed to list_ontologies:\n" . join("", map { "\t$_\n" } @_bad_returns);
+	Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
+							       method_name => 'list_ontologies');
     }
     return($return);
 }
@@ -974,7 +1049,6 @@ sub list_public_translations
     my $public_tr=undef;
     my $pubTrArr= [];
 
-
     eval{
     $public_tr = $wsClient->list_objects({workspaces=>["KBaseOntology"],type=>"KBaseOntology.OntologyTranslation"});
     };
@@ -990,8 +1064,6 @@ sub list_public_translations
 
      print &Dumper ($pubTrArr);
      $return = $pubTrArr;
-
-
 
     #END list_public_translations
     my @_bad_returns;
@@ -1024,7 +1096,15 @@ GetOntologyTermsParams is a reference to a hash where the following keys are def
 	ontology_dictionary_ref has a value which is a string
 	term_ids has a value which is a reference to a list where each element is a string
 GetOntologyTermsOut is a reference to a hash where the following keys are defined:
-	term_info has a value which is a reference to a hash where the key is a string and the value is a reference to a list where each element is a string
+	term_info has a value which is a reference to a hash where the key is a string and the value is a sdk_ontology_jmc.termInfo
+termInfo is a reference to a hash where the following keys are defined:
+	id has a value which is a string
+	name has a value which is a string
+	def has a value which is a reference to a list where each element is a string
+	synonym has a value which is a reference to a list where each element is a string
+	xref has a value which is a reference to a list where each element is a string
+	property_value has a value which is a reference to a list where each element is a string
+	is_a has a value which is a reference to a list where each element is a string
 
 </pre>
 
@@ -1038,7 +1118,15 @@ GetOntologyTermsParams is a reference to a hash where the following keys are def
 	ontology_dictionary_ref has a value which is a string
 	term_ids has a value which is a reference to a list where each element is a string
 GetOntologyTermsOut is a reference to a hash where the following keys are defined:
-	term_info has a value which is a reference to a hash where the key is a string and the value is a reference to a list where each element is a string
+	term_info has a value which is a reference to a hash where the key is a string and the value is a sdk_ontology_jmc.termInfo
+termInfo is a reference to a hash where the following keys are defined:
+	id has a value which is a string
+	name has a value which is a string
+	def has a value which is a reference to a list where each element is a string
+	synonym has a value which is a reference to a list where each element is a string
+	xref has a value which is a reference to a list where each element is a string
+	property_value has a value which is a reference to a list where each element is a string
+	is_a has a value which is a reference to a list where each element is a string
 
 
 =end text
@@ -1103,12 +1191,21 @@ sub get_ontology_terms
     foreach my $t (@$term_ids){
         my $term_info_id = {
             name => "",
-            id => ""
+            id => "",
+	    def => [],
+	    synonym => [],
+	    xref => [],
+	    property_value => [],
+	    is_a => []
         };
         if (exists $ont_dic->{$t}){
-
             $term_info_id->{name} = $ont_dic->{$t}->{name};
             $term_info_id->{id} = $ont_dic->{$t}->{id};
+            $term_info_id->{def} = $ont_dic->{$t}->{def};
+            $term_info_id->{synonym} = $ont_dic->{$t}->{synonym};
+            $term_info_id->{xref} = $ont_dic->{$t}->{xref};
+            $term_info_id->{property_value} = $ont_dic->{$t}->{property_value};
+            $term_info_id->{is_a} = $ont_dic->{$t}->{is_a};
             $term_info->{$t} = $term_info_id;
             #push (@{$term_info->{$t}}, $term_info_id);
              #print &Dumper ($term_info_id);
@@ -1620,6 +1717,7 @@ data_version has a value which is a string
 format_version has a value which is a string
 number_of_terms has a value which is an int
 dictionary_ref has a value which is a string
+namespace_id_rule has a value which is a reference to a list where each element is a string
 
 </pre>
 
@@ -1634,6 +1732,7 @@ data_version has a value which is a string
 format_version has a value which is a string
 number_of_terms has a value which is an int
 dictionary_ref has a value which is a string
+namespace_id_rule has a value which is a reference to a list where each element is a string
 
 
 =end text
@@ -1681,6 +1780,67 @@ dictionaries_meta has a value which is a reference to a list where each element 
 =item Description
 
 List public ontologies
+
+
+=item Definition
+
+=begin html
+
+<pre>
+a reference to a list where each element is a string
+</pre>
+
+=end html
+
+=begin text
+
+a reference to a list where each element is a string
+
+=end text
+
+=back
+
+
+
+=head2 ListOntologiesParams
+
+=over 4
+
+
+
+=item Description
+
+List all ontologies in one or more workspaces
+
+
+=item Definition
+
+=begin html
+
+<pre>
+a reference to a hash where the following keys are defined:
+workspace_names has a value which is a reference to a list where each element is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+a reference to a hash where the following keys are defined:
+workspace_names has a value which is a reference to a list where each element is a string
+
+
+=end text
+
+=back
+
+
+
+=head2 ontologies
+
+=over 4
+
 
 
 =item Definition
@@ -1771,7 +1931,7 @@ term_ids has a value which is a reference to a list where each element is a stri
 
 
 
-=head2 term_info
+=head2 termInfo
 
 =over 4
 
@@ -1783,8 +1943,13 @@ term_ids has a value which is a reference to a list where each element is a stri
 
 <pre>
 a reference to a hash where the following keys are defined:
-name has a value which is a string
 id has a value which is a string
+name has a value which is a string
+def has a value which is a reference to a list where each element is a string
+synonym has a value which is a reference to a list where each element is a string
+xref has a value which is a reference to a list where each element is a string
+property_value has a value which is a reference to a list where each element is a string
+is_a has a value which is a reference to a list where each element is a string
 
 </pre>
 
@@ -1793,8 +1958,13 @@ id has a value which is a string
 =begin text
 
 a reference to a hash where the following keys are defined:
-name has a value which is a string
 id has a value which is a string
+name has a value which is a string
+def has a value which is a reference to a list where each element is a string
+synonym has a value which is a reference to a list where each element is a string
+xref has a value which is a reference to a list where each element is a string
+property_value has a value which is a reference to a list where each element is a string
+is_a has a value which is a reference to a list where each element is a string
 
 
 =end text
@@ -1815,7 +1985,7 @@ id has a value which is a string
 
 <pre>
 a reference to a hash where the following keys are defined:
-term_info has a value which is a reference to a hash where the key is a string and the value is a reference to a list where each element is a string
+term_info has a value which is a reference to a hash where the key is a string and the value is a sdk_ontology_jmc.termInfo
 
 </pre>
 
@@ -1824,7 +1994,7 @@ term_info has a value which is a reference to a hash where the key is a string a
 =begin text
 
 a reference to a hash where the following keys are defined:
-term_info has a value which is a reference to a hash where the key is a string and the value is a reference to a list where each element is a string
+term_info has a value which is a reference to a hash where the key is a string and the value is a sdk_ontology_jmc.termInfo
 
 
 =end text

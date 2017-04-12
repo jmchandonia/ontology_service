@@ -57,7 +57,8 @@ class sdk_ontology_jmc(object):
            structure: parameter "ontology" of String, parameter "namespace"
            of String, parameter "data_version" of String, parameter
            "format_version" of String, parameter "number_of_terms" of Long,
-           parameter "dictionary_ref" of String
+           parameter "dictionary_ref" of String, parameter
+           "namespace_id_rule" of list of String
         """
         return self._client.call_method(
             'sdk_ontology_jmc.ontology_overview',
@@ -71,6 +72,17 @@ class sdk_ontology_jmc(object):
         return self._client.call_method(
             'sdk_ontology_jmc.list_public_ontologies',
             [], self._service_ver, context)
+
+    def list_ontologies(self, params, context=None):
+        """
+        :param params: instance of type "ListOntologiesParams" (List all
+           ontologies in one or more workspaces) -> structure: parameter
+           "workspace_names" of list of String
+        :returns: instance of type "ontologies" -> list of String
+        """
+        return self._client.call_method(
+            'sdk_ontology_jmc.list_ontologies',
+            [params], self._service_ver, context)
 
     def list_public_translations(self, context=None):
         """
@@ -87,7 +99,12 @@ class sdk_ontology_jmc(object):
            ontology terms) -> structure: parameter "ontology_dictionary_ref"
            of String, parameter "term_ids" of list of String
         :returns: instance of type "GetOntologyTermsOut" -> structure:
-           parameter "term_info" of mapping from String to list of String
+           parameter "term_info" of mapping from String to type "termInfo" ->
+           structure: parameter "id" of String, parameter "name" of String,
+           parameter "def" of list of String, parameter "synonym" of list of
+           String, parameter "xref" of list of String, parameter
+           "property_value" of list of String, parameter "is_a" of list of
+           String
         """
         return self._client.call_method(
             'sdk_ontology_jmc.get_ontology_terms',

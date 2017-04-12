@@ -44,19 +44,21 @@ output_genome => "shew_uniprot_ec2go"
 
 my $list_ontology_terms_test = {
     workspace => "KBaseOntology",
-    ontology_dictionary_ref => "6308/9/2"
+    ontology_dictionary_ref => "14956/36/12" # 6308/9/2"
     # ontology_dictionary_ref => "605/6/1"
 };
 
 my $ontology_overview_test ={
-    ontology_dictionary_ref => ["6308/9/2","6308/8/1"]
+    ontology_dictionary_ref => ["6308/9/2","6308/8/1","14956/36/12"]
     # ontology_dictionary_ref => ["605/5/1", "605/6/1"]
 };
 
 my $get_ontology_terms_test = {
-    term_ids => ["SSO:000008325","SSO:000005093","SSO:000007691","SSO:000005610"],
-    ontology_dictionary_ref => "6308/8/1"
+    #term_ids => ["SSO:000008325","SSO:000005093","SSO:000007691","SSO:000005610"],
+    #ontology_dictionary_ref => "6308/8/1"
     # ontology_dictionary_ref => "605/6/1"
+    term_ids => ["DA:0000026"],
+    ontology_dictionary_ref => "14956/36/12"
 };
 my $get_eq_terms_test = {
     term_ids => ["SSO:000005862","SSO:000000019","SSO:000002940","SSO:000002499"],

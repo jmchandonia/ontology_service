@@ -7,34 +7,26 @@ module sdk_ontology_jmc {
     /*
         workspace - the name of the workspace for input/output
         ontology_dictionary - reference to ontology dictionary
-
-
     */
     typedef structure {
-
         string ontology_dictionary_ref;
-
     } ListOntologyTermsParams;
 
     typedef structure {
         string ontology;
         string namespace;
         list <string> term_id;
-    }OntologyTermsOut;
-
+    } OntologyTermsOut;
 
     funcdef list_ontology_terms (ListOntologyTermsParams params) returns (OntologyTermsOut output) authentication required;
 
 
     /*
         Ontology overview
-
-
     */
 
     typedef structure {
         list <string> ontology_dictionary_ref;
-
     } OntologyOverviewParams;
 
     typedef structure {
@@ -44,15 +36,15 @@ module sdk_ontology_jmc {
         string format_version;
         int number_of_terms;
         string dictionary_ref;
-    }overViewInfo;
+	list <string> namespace_id_rule;
+    } overViewInfo;
 
     typedef structure{
-
         list <overViewInfo> dictionaries_meta;
-    }OntologyOverviewOut;
-
+    } OntologyOverviewOut;
 
     funcdef ontology_overview (OntologyOverviewParams params) returns (OntologyOverviewOut output) authentication required;
+
 
     /*
         List public ontologies
@@ -61,6 +53,20 @@ module sdk_ontology_jmc {
     typedef list <string> public_ontologies;
 
     funcdef list_public_ontologies () returns (public_ontologies) authentication required;
+
+
+    /*
+        List all ontologies in one or more workspaces
+    */
+
+    typedef structure {
+        list <string> workspace_names;
+    } ListOntologiesParams;
+
+    typedef list <string> ontologies;
+
+    funcdef list_ontologies (ListOntologiesParams params) returns (ontologies) authentication required;
+
 
     /*
         List public translations
@@ -74,24 +80,24 @@ module sdk_ontology_jmc {
         get ontology terms
     */
 
-    typedef structure{
+    typedef structure {
         string ontology_dictionary_ref;
         list <string> term_ids;
-
-    }GetOntologyTermsParams;
-
+    } GetOntologyTermsParams;
 
     typedef structure{
-        string name;
         string id;
-    }term_info;
-
+        string name;
+	list<string> def;
+        list<string> synonym;
+        list<string> xref;
+        list<string> property_value;
+        list<string> is_a;
+    } termInfo;
 
     typedef structure {
-
-        mapping <string, list<string>> term_info;
-
-    }GetOntologyTermsOut;
+        mapping <string, termInfo> term_info;
+    } GetOntologyTermsOut;
 
     funcdef get_ontology_terms (GetOntologyTermsParams params) returns (GetOntologyTermsOut output) authentication required;
 

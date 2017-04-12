@@ -26,7 +26,7 @@ sdk_ontology_jmc::sdk_ontology_jmcClient
 =head1 DESCRIPTION
 
 
-A KBase module: sdk_ontology_dk
+A KBase module: sdk_ontology_jmc
 
 
 =cut
@@ -226,6 +226,7 @@ overViewInfo is a reference to a hash where the following keys are defined:
 	format_version has a value which is a string
 	number_of_terms has a value which is an int
 	dictionary_ref has a value which is a string
+	namespace_id_rule has a value which is a reference to a list where each element is a string
 
 </pre>
 
@@ -246,6 +247,7 @@ overViewInfo is a reference to a hash where the following keys are defined:
 	format_version has a value which is a string
 	number_of_terms has a value which is an int
 	dictionary_ref has a value which is a string
+	namespace_id_rule has a value which is a reference to a list where each element is a string
 
 
 =end text
@@ -377,6 +379,94 @@ public_ontologies is a reference to a list where each element is a string
  
 
 
+=head2 list_ontologies
+
+  $return = $obj->list_ontologies($params)
+
+=over 4
+
+=item Parameter and return types
+
+=begin html
+
+<pre>
+$params is a sdk_ontology_jmc.ListOntologiesParams
+$return is a sdk_ontology_jmc.ontologies
+ListOntologiesParams is a reference to a hash where the following keys are defined:
+	workspace_names has a value which is a reference to a list where each element is a string
+ontologies is a reference to a list where each element is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+$params is a sdk_ontology_jmc.ListOntologiesParams
+$return is a sdk_ontology_jmc.ontologies
+ListOntologiesParams is a reference to a hash where the following keys are defined:
+	workspace_names has a value which is a reference to a list where each element is a string
+ontologies is a reference to a list where each element is a string
+
+
+=end text
+
+=item Description
+
+
+
+=back
+
+=cut
+
+ sub list_ontologies
+{
+    my($self, @args) = @_;
+
+# Authentication: required
+
+    if ((my $n = @args) != 1)
+    {
+	Bio::KBase::Exceptions::ArgumentValidationError->throw(error =>
+							       "Invalid argument count for function list_ontologies (received $n, expecting 1)");
+    }
+    {
+	my($params) = @args;
+
+	my @_bad_arguments;
+        (ref($params) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument 1 \"params\" (value was \"$params\")");
+        if (@_bad_arguments) {
+	    my $msg = "Invalid arguments passed to list_ontologies:\n" . join("", map { "\t$_\n" } @_bad_arguments);
+	    Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
+								   method_name => 'list_ontologies');
+	}
+    }
+
+    my $url = $self->{url};
+    my $result = $self->{client}->call($url, $self->{headers}, {
+	    method => "sdk_ontology_jmc.list_ontologies",
+	    params => \@args,
+    });
+    if ($result) {
+	if ($result->is_error) {
+	    Bio::KBase::Exceptions::JSONRPC->throw(error => $result->error_message,
+					       code => $result->content->{error}->{code},
+					       method_name => 'list_ontologies',
+					       data => $result->content->{error}->{error} # JSON::RPC::ReturnObject only supports JSONRPC 1.1 or 1.O
+					      );
+	} else {
+	    return wantarray ? @{$result->result} : $result->result->[0];
+	}
+    } else {
+        Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method list_ontologies",
+					    status_line => $self->{client}->status_line,
+					    method_name => 'list_ontologies',
+				       );
+    }
+}
+ 
+
+
 =head2 list_public_translations
 
   $return = $obj->list_public_translations()
@@ -465,7 +555,15 @@ GetOntologyTermsParams is a reference to a hash where the following keys are def
 	ontology_dictionary_ref has a value which is a string
 	term_ids has a value which is a reference to a list where each element is a string
 GetOntologyTermsOut is a reference to a hash where the following keys are defined:
-	term_info has a value which is a reference to a hash where the key is a string and the value is a reference to a list where each element is a string
+	term_info has a value which is a reference to a hash where the key is a string and the value is a sdk_ontology_jmc.termInfo
+termInfo is a reference to a hash where the following keys are defined:
+	id has a value which is a string
+	name has a value which is a string
+	def has a value which is a reference to a list where each element is a string
+	synonym has a value which is a reference to a list where each element is a string
+	xref has a value which is a reference to a list where each element is a string
+	property_value has a value which is a reference to a list where each element is a string
+	is_a has a value which is a reference to a list where each element is a string
 
 </pre>
 
@@ -479,7 +577,15 @@ GetOntologyTermsParams is a reference to a hash where the following keys are def
 	ontology_dictionary_ref has a value which is a string
 	term_ids has a value which is a reference to a list where each element is a string
 GetOntologyTermsOut is a reference to a hash where the following keys are defined:
-	term_info has a value which is a reference to a hash where the key is a string and the value is a reference to a list where each element is a string
+	term_info has a value which is a reference to a hash where the key is a string and the value is a sdk_ontology_jmc.termInfo
+termInfo is a reference to a hash where the following keys are defined:
+	id has a value which is a string
+	name has a value which is a string
+	def has a value which is a reference to a list where each element is a string
+	synonym has a value which is a reference to a list where each element is a string
+	xref has a value which is a reference to a list where each element is a string
+	property_value has a value which is a reference to a list where each element is a string
+	is_a has a value which is a reference to a list where each element is a string
 
 
 =end text
@@ -952,6 +1058,7 @@ data_version has a value which is a string
 format_version has a value which is a string
 number_of_terms has a value which is an int
 dictionary_ref has a value which is a string
+namespace_id_rule has a value which is a reference to a list where each element is a string
 
 </pre>
 
@@ -966,6 +1073,7 @@ data_version has a value which is a string
 format_version has a value which is a string
 number_of_terms has a value which is an int
 dictionary_ref has a value which is a string
+namespace_id_rule has a value which is a reference to a list where each element is a string
 
 
 =end text
@@ -1013,6 +1121,67 @@ dictionaries_meta has a value which is a reference to a list where each element 
 =item Description
 
 List public ontologies
+
+
+=item Definition
+
+=begin html
+
+<pre>
+a reference to a list where each element is a string
+</pre>
+
+=end html
+
+=begin text
+
+a reference to a list where each element is a string
+
+=end text
+
+=back
+
+
+
+=head2 ListOntologiesParams
+
+=over 4
+
+
+
+=item Description
+
+List all ontologies in one or more workspaces
+
+
+=item Definition
+
+=begin html
+
+<pre>
+a reference to a hash where the following keys are defined:
+workspace_names has a value which is a reference to a list where each element is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+a reference to a hash where the following keys are defined:
+workspace_names has a value which is a reference to a list where each element is a string
+
+
+=end text
+
+=back
+
+
+
+=head2 ontologies
+
+=over 4
+
 
 
 =item Definition
@@ -1103,7 +1272,7 @@ term_ids has a value which is a reference to a list where each element is a stri
 
 
 
-=head2 term_info
+=head2 termInfo
 
 =over 4
 
@@ -1115,8 +1284,13 @@ term_ids has a value which is a reference to a list where each element is a stri
 
 <pre>
 a reference to a hash where the following keys are defined:
-name has a value which is a string
 id has a value which is a string
+name has a value which is a string
+def has a value which is a reference to a list where each element is a string
+synonym has a value which is a reference to a list where each element is a string
+xref has a value which is a reference to a list where each element is a string
+property_value has a value which is a reference to a list where each element is a string
+is_a has a value which is a reference to a list where each element is a string
 
 </pre>
 
@@ -1125,8 +1299,13 @@ id has a value which is a string
 =begin text
 
 a reference to a hash where the following keys are defined:
-name has a value which is a string
 id has a value which is a string
+name has a value which is a string
+def has a value which is a reference to a list where each element is a string
+synonym has a value which is a reference to a list where each element is a string
+xref has a value which is a reference to a list where each element is a string
+property_value has a value which is a reference to a list where each element is a string
+is_a has a value which is a reference to a list where each element is a string
 
 
 =end text
@@ -1147,7 +1326,7 @@ id has a value which is a string
 
 <pre>
 a reference to a hash where the following keys are defined:
-term_info has a value which is a reference to a hash where the key is a string and the value is a reference to a list where each element is a string
+term_info has a value which is a reference to a hash where the key is a string and the value is a sdk_ontology_jmc.termInfo
 
 </pre>
 
@@ -1156,7 +1335,7 @@ term_info has a value which is a reference to a hash where the key is a string a
 =begin text
 
 a reference to a hash where the following keys are defined:
-term_info has a value which is a reference to a hash where the key is a string and the value is a reference to a list where each element is a string
+term_info has a value which is a reference to a hash where the key is a string and the value is a sdk_ontology_jmc.termInfo
 
 
 =end text
