@@ -43,7 +43,6 @@ output_genome => "shew_uniprot_ec2go"
 };
 
 my $list_ontology_terms_test = {
-    workspace => "KBaseOntology",
     ontology_dictionary_ref => "14956/36/12" # 6308/9/2"
     # ontology_dictionary_ref => "605/6/1"
 };
@@ -71,6 +70,7 @@ eval {
     my $ret =$impl->list_ontology_terms($list_ontology_terms_test);
     print ("list_ontology_terms test\n");
     print Dumper($ret);
+    $get_ontology_terms_test->{term_ids} = $ret->{term_id};
     my $ret =$impl->ontology_overview($ontology_overview_test);
     print ("ontology_overview test\n");
     print Dumper($ret);
