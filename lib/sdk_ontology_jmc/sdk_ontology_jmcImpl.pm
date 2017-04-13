@@ -698,7 +698,7 @@ sub list_ontology_terms
     $output->{namespace} = $ont_dic->{default_namespace};
     $output->{term_id} = \@term_ids;
 
-    print &Dumper ($output);
+    # print &Dumper ($output);
 
     #END list_ontology_terms
     my @_bad_returns;
