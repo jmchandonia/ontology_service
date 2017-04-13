@@ -1164,18 +1164,15 @@ sub get_ontology_terms
     my $ont_dic=undef;
     my $dict_list = [];
 
-
     if (!exists $params->{'ontology_dictionary_ref'}) {
         die "Parameter ontology_dictionary_ref is not set in input arguments";
     }
     my $ont_dic_ref=$params->{'ontology_dictionary_ref'};
 
-
     if (!exists $params->{'term_ids'}) {
         die "Parameter term_ids is not set in input arguments";
     }
     my $term_ids=$params->{'term_ids'};
-
 
     eval {
         $ont_dic=$wsClient->get_objects([{ref=>$ont_dic_ref}])->[0]{data}{term_hash};
@@ -1212,8 +1209,8 @@ sub get_ontology_terms
         }
         #push (@{$term_info->{$t}}, $term_info_id);
     }
-    $output = $term_info;
     #print &Dumper ($term_info);
+    $output->{term_info} = $term_info;
 
     #END get_ontology_terms
     my @_bad_returns;
