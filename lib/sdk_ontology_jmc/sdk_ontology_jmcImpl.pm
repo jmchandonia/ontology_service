@@ -5,7 +5,7 @@ use Bio::KBase::Exceptions;
 # http://semver.org 
 our $VERSION = '0.0.1';
 our $GIT_URL = 'git@github.com:jmchandonia/ontology_service.git';
-our $GIT_COMMIT_HASH = '2886517f0458afe43a6d37abd77d93567d039bbf';
+our $GIT_COMMIT_HASH = '326c0ce8cda2764727c6c662ad4eb9cdb1bd4a02';
 
 =head1 NAME
 
